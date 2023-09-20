@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>cloud.tteams</groupId>
+	<artifactId>cloud</artifactId>
+	<packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>TTeams</name>
+	<description>Task management app for agile teams</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+		<module>src/cloudservices/config</module>
+		<module>src/cloudservices/registry</module>
+		<module>src/cloudservices/gateway</module>
+		<module>src/microservices/identity</module>
+		<module>src/microservices/schedule</module>
+		<module>src/microservices/procedure</module>
+		<module>src/microservices/services</module>
+		<module>src/microservices/document</module>
+		<module>src/microservices/residential_registration</module>
+		<module>src/microservices/soap_nui</module>
+		<module>src/microservices/marriage</module>
+		<module>src/microservices/change_name</module>
+		<module>src/microservices/digital_signature</module>
+		<module>src/microservices/citizenship</module>
+		<module>src/microservices/personal_data_validator</module>
+		<module>src/microservices/share</module>
+		<module>src/microservices/middleware_mail</module>
+		<module>src/microservices/duplicate_identitycard</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

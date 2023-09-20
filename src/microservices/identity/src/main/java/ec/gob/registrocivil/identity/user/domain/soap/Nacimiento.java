@@ -1,0 +1,31 @@
+package ec.gob.registrocivil.identity.user.domain.soap;
+
+public record Nacimiento(
+                String codigoLugarNacimiento,
+                String lugarNacimiento,
+                String tomo,
+                String clase,
+                String pagina,
+                String acta,
+                String codigoParroquiaNacimiento,
+                String codigoCantonNacimiento,
+                String codigoProvinciaNacimiento,
+                String codigoPaisNacimiento,
+                String parroquiaNacimiento,
+                String cantonNacimiento,
+                String provinciaNacimiento,
+                String paisNacimiento,
+                String codigoLugarInscripcion,
+                String lugarInscripcion,
+                String anioInscripcion,
+                String codigoParroquiaInscripcion,
+                String codigoCantonInscripcion,
+                String codigoProvinciaInscripcion,
+                String codigoPaisInscripcion,
+                String parroquiaInscripcion,
+                String cantonInscripcion,
+                String provinciaInscripcion,
+                String paisInscripcion,
+                String fechaInscripcionNacimiento,
+                String anioInscripcionNacimiento) {
+}

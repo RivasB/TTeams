@@ -1,0 +1,21 @@
+package ec.gob.registrocivil.identity.access.domain.rules;
+
+import ec.gob.registrocivil.identity.access.domain.AccessCode;
+import ec.gob.registrocivil.share.core.domain.exception.DomainErrorMessage;
+import ec.gob.registrocivil.share.core.domain.rules.BusinessRule;
+
+public class AccessCodeMustBeRequiredRule extends BusinessRule {
+
+    private AccessCode code;
+
+    public AccessCodeMustBeRequiredRule(AccessCode code) {
+        super(DomainErrorMessage.ACCESS_CODE_REQUIRED, "Access code is required!");
+
+        this.code = code;
+    }
+
+    @Override
+    public boolean isBroken() {
+        return null == code;
+    }
+}

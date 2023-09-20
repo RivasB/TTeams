@@ -1,0 +1,162 @@
+version: '3.7'
+services:
+  #Cloudservices
+  #Spring Cloud Config
+  config-service:
+    build:
+      context: src/cloudservices/config
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-config:v1
+    container_name: config
+    restart: unless-stopped
+    networks:
+      - rc_internal
+    ports:
+      - "8081:8081"
+  # Netflix Eureka Server
+  registry-service:
+    build:
+      context: src/cloudservices/registry
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-registry:v1
+    container_name: registry
+    restart: unless-stopped
+    depends_on:
+      - config-service
+    networks:
+      - rc_internal
+    ports:
+      - "8099:8099"
+  # Spring Cloud Gateway
+  gateway-service:
+    build:
+      context: src/cloudservices/gateway
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-gateway:v1
+    container_name: gateway
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+    networks:
+      - rc_internal
+      - rc_bridge
+    ports:
+      - "8091:8091"
+  # Microservices
+  # Identity
+  identity-service:
+    build:
+      context: src/microservices/identity
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-identity:v1
+    container_name: identity
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8083:8083"
+  # Document
+  document-service:
+    build:
+      context: src/microservices/document
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-document:v1
+    container_name: document
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8086:8086"
+  # Procedure
+  procedure-service:
+    build:
+      context: src/microservices/procedure
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-procedure:v1
+    container_name: procedure
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8084:8084"
+  # Schedule
+  schedule-service:
+    build:
+      context: src/microservices/schedule
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-schedule:v1
+    container_name: schedule
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8085:8085"
+  # Services
+  services-service:
+    build:
+      context: src/microservices/services
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-services:v1
+    container_name: services
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8087:8087"
+  # Soap nui Middleware Service
+  middleware-service:
+    build:
+      context: src/microservices/soap_nui
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-middleware:v1
+    container_name: middleware
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8088:8088"
+  # Residential registration Service
+  residentialregistration-service:
+    build:
+      context: src/microservices/residential_registration
+      dockerfile: Dockerfile
+    image: kmontes2020/registro-civil-residentialregistration:v1
+    container_name: residentialregistration
+    restart: unless-stopped
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - rc_internal
+    ports:
+      - "8089:8089"
+networks:
+  rc_internal:
+  rc_bridge:
+    driver: bridge
