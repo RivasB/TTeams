@@ -36,20 +36,7 @@
 		<module>src/cloudservices/registry</module>
 		<module>src/cloudservices/gateway</module>
 		<module>src/microservices/identity</module>
-		<module>src/microservices/schedule</module>
-		<module>src/microservices/procedure</module>
-		<module>src/microservices/services</module>
-		<module>src/microservices/document</module>
-		<module>src/microservices/residential_registration</module>
-		<module>src/microservices/soap_nui</module>
-		<module>src/microservices/marriage</module>
-		<module>src/microservices/change_name</module>
-		<module>src/microservices/digital_signature</module>
-		<module>src/microservices/citizenship</module>
-		<module>src/microservices/personal_data_validator</module>
 		<module>src/microservices/share</module>
-		<module>src/microservices/middleware_mail</module>
-		<module>src/microservices/duplicate_identitycard</module>
 	</modules>
 
 	<build>
