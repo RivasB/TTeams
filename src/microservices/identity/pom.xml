@@ -9,7 +9,7 @@
         <version>3.0.2</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ec.gob.registrocivil</groupId>
+    <groupId>cloud.tteams</groupId>
     <artifactId>identity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>identity</name>
@@ -19,7 +19,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>ec.gob.registrocivil</groupId>
+            <groupId>cloud.tteams</groupId>
             <artifactId>share</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
@@ -115,6 +115,12 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20190722</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.tteams</groupId>
+            <artifactId>share</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <!--<dependency>
                 <groupId>org.flywaydb</groupId>

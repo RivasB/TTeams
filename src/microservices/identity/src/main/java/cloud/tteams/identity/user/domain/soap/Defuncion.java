@@ -1,0 +1,30 @@
+package cloud.tteams.identity.user.domain.soap;
+
+public record Defuncion(
+                String codigoLugarDefuncion,
+                String lugarDefuncion,
+                String fechaInscripcionDefuncion,
+                String tomoDefuncion,
+                String claseDefuncion,
+                String paginaDefuncion,
+                String actaDefuncion,
+                String codigoParroquiaInscripcionDefuncion,
+                String codigoCantonInscripcionDefuncion,
+                String codigoProvinciaInscripcionDefuncion,
+                String codigoPaisInscripcionDefuncion,
+                String parroquiaInscripcionDefuncion,
+                String cantonInscripcionDefuncion,
+                String provinciaInscripcionDefuncion,
+                String paisInscripcionDefuncion,
+                String codigoLugarFallecimiento,
+                String lugarFallecimiento,
+                String fechaFallecimiento,
+                String codigoParroquiaFallecimiento,
+                String codigoCantonFallecimiento,
+                String codigoProvinciaFallecimiento,
+                String codigoPaisFallecimiento,
+                String parroquiaFallecimiento,
+                String cantonFallecimiento,
+                String provinciaFallecimiento,
+                String paisFallecimiento) {
+}

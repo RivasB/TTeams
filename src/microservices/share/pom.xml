@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>share</name>
     <packaging>jar</packaging>
-    <description>Share module for TTeams</description>
+    <description>Share module for Civil Registry</description>
 
     <properties>
         <java.version>17</java.version>
