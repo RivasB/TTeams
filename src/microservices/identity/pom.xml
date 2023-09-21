@@ -13,7 +13,7 @@
     <artifactId>identity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>identity</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Identity and Security module for TTeams</description>
     <properties>
         <java.version>17</java.version>
     </properties>
