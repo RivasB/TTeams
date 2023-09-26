@@ -1,18 +1,6 @@
 package cloud.tteams.identity.user.infrastructure.port;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import cloud.tteams.identity.security.domain.service.JwtTokenManager;
-import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordCommand;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordMessage;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordRequest;
@@ -27,15 +15,14 @@ import cloud.tteams.identity.user.application.command.update.UpdateUserMessage;
 import cloud.tteams.identity.user.application.command.update.UpdateUserRequest;
 import cloud.tteams.identity.user.application.query.getbyidentification.FindUserByIdentificationQuery;
 import cloud.tteams.identity.user.application.query.getbyidentification.FindUserByIdentificationResponse;
-import cloud.tteams.identity.user.application.query.validatenui.ValidateCitizenNuiQuery;
-import cloud.tteams.identity.user.application.query.validatenui.ValidateCitizenNuiRequest;
-import cloud.tteams.identity.user.application.query.validatenui.ValidateCitizenNuiResponse;
-import cloud.tteams.identity.user.application.query.validatenuirelationship.ValidateCitizenNuiRelationShipQuery;
-import cloud.tteams.identity.user.application.query.validatenuirelationship.ValidateCitizenNuiRelationShipRequest;
-import cloud.tteams.identity.user.application.query.validatenuirelationship.ValidateCitizenNuiRelationShipResponse;
 import cloud.tteams.identity.user.domain.UserIdentification;
+import cloud.tteams.share.core.application.ApiResponse2xx;
+import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -50,28 +37,6 @@ public class UserController {
     public UserController(IMediator mediator, JwtTokenManager jwTokenManager) {
         this.mediator = mediator;
         this.jwTokenManager = jwTokenManager;
-    }
-
-    // User registration process (STEP 1)
-    @PostMapping("/validate/relationship")
-    public ResponseEntity<ApiResponse2xx<ValidateCitizenNuiRelationShipResponse>> registerUserCheckRelaionShipByNui(
-            @RequestBody ValidateCitizenNuiRelationShipRequest request) {
-
-        ValidateCitizenNuiRelationShipQuery query = ValidateCitizenNuiRelationShipQuery.fromRequest(request);
-        ValidateCitizenNuiRelationShipResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(new ApiResponse2xx<ValidateCitizenNuiRelationShipResponse>(response, HttpStatus.OK));
-    }
-
-    // User registration process (STEP 1)
-    @PostMapping("/validate/citizen")
-    public ResponseEntity<ApiResponse2xx<ValidateCitizenNuiResponse>> registerUserCheckNui(
-            @RequestBody ValidateCitizenNuiRequest request) {
-
-        ValidateCitizenNuiQuery query = ValidateCitizenNuiQuery.fromRequest(request);
-        ValidateCitizenNuiResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(new ApiResponse2xx<ValidateCitizenNuiResponse>(response, HttpStatus.OK));
     }
 
     // User registration process (STEP 2)

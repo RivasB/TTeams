@@ -1,5 +1,6 @@
-package cloud.tteams.identity.access.infrastructure.repository.hibernate;
+package cloud.tteams.station.station.infrastructure.repository.hibernate;
 
+import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class AccessSpecs {

@@ -1,11 +1,10 @@
-package cloud.tteams.identity.access.infrastructure.repository.hibernate;
+package cloud.tteams.station.station.infrastructure.repository.hibernate;
 
 import cloud.tteams.identity.access.domain.Access;
 import cloud.tteams.identity.access.domain.AccessCode;
 import cloud.tteams.identity.access.domain.AccessDescription;
 import cloud.tteams.identity.access.domain.AccessId;
 import cloud.tteams.identity.access.domain.AccessResourceCode;
-import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +13,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity

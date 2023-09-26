@@ -1,12 +1,12 @@
 package cloud.tteams.identity.agency.infrastructure.repository.hibernate;
 
 import cloud.tteams.identity.agency.domain.AgencyState;
-import cloud.tteams.identity.geographiclocation.infrastructure.repository.hibernate.GeographicLocationDto;
+import cloud.tteams.identity.geographiclocation.infrastructure.repository.hibernate.GeographicLocationDto_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class AgencySpecs {
     public static Specification<AgencyDto> getNameContainingIgnoreCase(String name){
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(AgencyDto), "%" + name + "%"));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(AgencyDto_.NAME), "%" + name + "%"));
     }
 
     public static Specification<AgencyDto> getProvinceContainingIgnoreCase(String province){
@@ -14,7 +14,8 @@ public class AgencySpecs {
     }
 
     public static Specification<AgencyDto> getCantonContainingIgnoreCase(String canton){
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(AgencyDto_.CANTON).get(GeographicLocationDto_.NAME), "%" + canton + "%"));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(AgencyDto_.CANTON).get(GeographicLocationDto_.NAME),
+                "%" + canton + "%"));
     }
 
     public static Specification<AgencyDto> getDescriptionContainingIgnoreCase(String description){
