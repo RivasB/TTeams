@@ -1,22 +1,21 @@
-package cloud.tteams.identity.access.domain.repository;
+package cloud.tteams.station.station.domain.repository;
 
-import cloud.tteams.identity.access.domain.Access;
-import cloud.tteams.identity.access.domain.AccessId;
+import cloud.tteams.identity.access.domain.Station;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IAccessQueryRepository {
+public interface IStationQueryRepository {
 
-    Optional<Access> findById(AccessId id);
+    Optional<Station> findById(AccessId id);
 
     MessagePaginatedResponse allAccessWithOutFilter(Pageable pageable);
 
     MessagePaginatedResponse allAccessWithFilter(Pageable pageable, String filter);
 
-    Optional<Access> findByCode(String code);
+    Optional<Station> findByCode(String code);
 
     Long countByIdIsNotAndCode(UUID id, String code);
     

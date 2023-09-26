@@ -1,28 +1,28 @@
 package cloud.tteams.identity.access.infrastructure.service;
 
-import cloud.tteams.identity.access.domain.Access;
+import cloud.tteams.identity.access.domain.Station;
 import cloud.tteams.identity.access.domain.AccessCode;
 import cloud.tteams.identity.access.domain.AccessId;
-import cloud.tteams.identity.access.domain.repository.IAccessQueryRepository;
-import cloud.tteams.identity.access.domain.service.IAccessService;
+import cloud.tteams.identity.access.domain.repository.IStationQueryRepository;
+import cloud.tteams.identity.access.domain.service.IStationService;
 import cloud.tteams.identity.access.infrastructure.exception.AccessNotFoundException;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 
-public class DomainAccessService implements IAccessService {
+public class DomainAccessService implements IStationService {
 
-    private final IAccessQueryRepository queryRepository;
+    private final IStationQueryRepository queryRepository;
 
     @Value("${kafka.messenger.access:false}")
     private boolean messengerIsActive;
 
-    public DomainAccessService(IAccessQueryRepository queryRepository) {
+    public DomainAccessService(IStationQueryRepository queryRepository) {
         this.queryRepository = queryRepository;
     }
 
     @Override
-    public Access findById(AccessId id) {
+    public Station findById(AccessId id) {
         return queryRepository.findById(id)
                 .orElseThrow(AccessNotFoundException::new);
     }
@@ -46,7 +46,7 @@ public class DomainAccessService implements IAccessService {
     }
 
     @Override
-    public Access findByCode(AccessCode code) {
+    public Station findByCode(AccessCode code) {
         return queryRepository.findByCode(code.value())
                 .orElseThrow(AccessNotFoundException::new);
     }

@@ -3,10 +3,10 @@ package cloud.tteams.identity.access.infrastructure.adapter.query;
 import cloud.tteams.identity.access.infrastructure.exception.AccessNotFoundException;
 import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto;
 import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessSpecs;
-import cloud.tteams.identity.access.application.AccessResponse;
-import cloud.tteams.identity.access.domain.Access;
+import cloud.tteams.identity.access.application.StationResponse;
+import cloud.tteams.identity.access.domain.Station;
 import cloud.tteams.identity.access.domain.AccessId;
-import cloud.tteams.identity.access.domain.repository.IAccessQueryRepository;
+import cloud.tteams.identity.access.domain.repository.IStationQueryRepository;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 @Component
 @Primary
-public class PostgresDBAccessQueryRepository implements IAccessQueryRepository {
+public class PostgresDBAccessQueryRepository implements IStationQueryRepository {
     private final ISpringAccessReadDataJPARepository accessRepository;
 
     public PostgresDBAccessQueryRepository(final ISpringAccessReadDataJPARepository accessRepository) {
@@ -30,7 +30,7 @@ public class PostgresDBAccessQueryRepository implements IAccessQueryRepository {
     }
 
     @Override
-    public Optional<Access> findById(AccessId id) {
+    public Optional<Station> findById(AccessId id) {
         AccessDto accessEntity = accessRepository.findById(id.value()).orElseThrow(AccessNotFoundException::new);
 
         return Optional.of(accessEntity.toAggregate());
@@ -52,7 +52,7 @@ public class PostgresDBAccessQueryRepository implements IAccessQueryRepository {
     }
 
     @Override
-    public Optional<Access> findByCode(String code) {
+    public Optional<Station> findByCode(String code) {
         AccessDto accessEntity = accessRepository.findByCode(code);
 
         return Optional.of(accessEntity.toAggregate());
@@ -62,10 +62,10 @@ public class PostgresDBAccessQueryRepository implements IAccessQueryRepository {
      * Usado por los metodos: allAccessWithOutFilter y allAccessWithFilter
      */
     private MessagePaginatedResponse result(Page<AccessDto> accessDtoPage) {
-        List<AccessResponse> responses = new ArrayList<>();
+        List<StationResponse> responses = new ArrayList<>();
 
         accessDtoPage.forEach(
-                v -> responses.add(new AccessResponse(v.getId(), v.getCode(), v.getDescription(), v.getResourceCode())));
+                v -> responses.add(new StationResponse(v.getId(), v.getCode(), v.getDescription(), v.getResourceCode())));
 
         return new MessagePaginatedResponse("OK", responses, accessDtoPage.getTotalPages(),
                 accessDtoPage.getNumberOfElements(), accessDtoPage.getTotalElements(), accessDtoPage.getSize(),
@@ -94,9 +94,9 @@ public class PostgresDBAccessQueryRepository implements IAccessQueryRepository {
         }
         
         Page<AccessDto> accessDtos = accessRepository.findAll(Specification.allOf(specs_and), pageable);
-        List<AccessResponse> access = new ArrayList<>();
+        List<StationResponse> access = new ArrayList<>();
         
-        accessDtos.forEach(item -> access.add(new AccessResponse(item.toAggregate())));
+        accessDtos.forEach(item -> access.add(new StationResponse(item.toAggregate())));
         return new MessagePaginatedResponse("OK", access, accessDtos.getTotalPages(),
                 accessDtos.getNumberOfElements(), accessDtos.getTotalElements(), accessDtos.getSize(),
                 accessDtos.getNumber());

@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import cloud.tteams.identity.access.domain.Access;
-import cloud.tteams.identity.access.domain.event.AccessCreatedEvent;
-import cloud.tteams.identity.access.domain.event.AccessDeletedEvent;
-import cloud.tteams.identity.access.domain.event.AccessUpdatedEvent;
+import cloud.tteams.identity.access.domain.Station;
+import cloud.tteams.identity.access.domain.event.StationCreatedEvent;
+import cloud.tteams.identity.access.domain.event.StationDeletedEvent;
+import cloud.tteams.identity.access.domain.event.StationUpdatedEvent;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.service.IEventService;
 
 @Component
-public class AccessEventService implements IEventService<Access> {
+public class AccessEventService implements IEventService<Station> {
     private final KafkaTemplate<String, Event<?>> producer;
 
     public AccessEventService(KafkaTemplate<String, Event<?>> producer) {
@@ -23,20 +23,20 @@ public class AccessEventService implements IEventService<Access> {
     private String topic;
 
     @Override
-    public void create(Access access) {
-        AccessCreatedEvent create = new AccessCreatedEvent(access);
+    public void create(Station access) {
+        StationCreatedEvent create = new StationCreatedEvent(access);
         this.producer.send(topic, create);
     }
 
     @Override
-    public void update(Access access) {
-        AccessUpdatedEvent update = new AccessUpdatedEvent(access);
+    public void update(Station access) {
+        StationUpdatedEvent update = new StationUpdatedEvent(access);
         this.producer.send(topic, update);
     }
 
     @Override
-    public void delete(Access access) {
-        AccessDeletedEvent delete = new AccessDeletedEvent(access);
+    public void delete(Station access) {
+        StationDeletedEvent delete = new StationDeletedEvent(access);
         this.producer.send(topic, delete);
     }
 }

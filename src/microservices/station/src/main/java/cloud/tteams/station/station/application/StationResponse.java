@@ -1,10 +1,10 @@
 package cloud.tteams.identity.access.application;
 
-import cloud.tteams.identity.access.domain.Access;
+import cloud.tteams.identity.access.domain.Station;
 
 import java.util.UUID;
 
-public class AccessResponse {
+public class StationResponse {
 
     private final UUID id;
 
@@ -14,7 +14,7 @@ public class AccessResponse {
 
     private final String resourceCode;
 
-    public AccessResponse(UUID id, String code, String description, String resourceCode) {
+    public StationResponse(UUID id, String code, String description, String resourceCode) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -22,7 +22,7 @@ public class AccessResponse {
     }
 
 
-    public AccessResponse(Access access) {
+    public StationResponse(Station access) {
         this.id = access.id().value();
         this.code = access.code().value();
         this.description = access.description().value();

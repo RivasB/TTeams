@@ -1,6 +1,6 @@
 package cloud.tteams.station.station.infrastructure.repository.hibernate;
 
-import cloud.tteams.identity.access.domain.Access;
+import cloud.tteams.identity.access.domain.Station;
 import cloud.tteams.identity.access.domain.AccessCode;
 import cloud.tteams.identity.access.domain.AccessDescription;
 import cloud.tteams.identity.access.domain.AccessId;
@@ -38,19 +38,19 @@ public class AccessDto {
     public AccessDto() {
     }
 
-    public AccessDto(Access access) {
+    public AccessDto(Station access) {
         this.id = access.id().value();
         this.code = access.code().value();
         this.resourceCode = access.resourceCode().value();
         this.description = access.description().value();
     }
 
-    public Access toAggregate() {
+    public Station toAggregate() {
         AccessId accessId = new AccessId(id);
         AccessCode accessCode = new AccessCode(code);
         AccessDescription accessDescription = new AccessDescription(description);
         AccessResourceCode accessResourceCode = new AccessResourceCode(resourceCode);
-        return new Access(accessId, accessCode, accessDescription, accessResourceCode);
+        return new Station(accessId, accessCode, accessDescription, accessResourceCode);
     }
 
     public UUID getId() {

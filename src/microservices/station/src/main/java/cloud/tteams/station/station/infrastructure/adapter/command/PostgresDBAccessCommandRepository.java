@@ -4,12 +4,12 @@ import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDt
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import cloud.tteams.identity.access.domain.Access;
-import cloud.tteams.identity.access.domain.repository.IAccessCommandRepository;
+import cloud.tteams.identity.access.domain.Station;
+import cloud.tteams.identity.access.domain.repository.IStationCommandRepository;
 
 @Component
 @Primary
-public class PostgresDBAccessCommandRepository implements IAccessCommandRepository {
+public class PostgresDBAccessCommandRepository implements IStationCommandRepository {
 
     private final ISpringAccessWriteDataJPARepository accessRespository;
 
@@ -18,17 +18,17 @@ public class PostgresDBAccessCommandRepository implements IAccessCommandReposito
     }
 
     @Override
-    public void create(Access access) {
+    public void create(Station access) {
         accessRespository.save(new AccessDto(access));
     }
 
     @Override
-    public void update(Access access) {
+    public void update(Station access) {
         accessRespository.save(new AccessDto(access));
     }
 
     @Override
-    public void delete(Access access) {
+    public void delete(Station access) {
         accessRespository.delete(new AccessDto(access));
     }
 }
