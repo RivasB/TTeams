@@ -1,5 +1,9 @@
-package cloud.tteams.identity.access.domain;
+package cloud.tteams.station.station.domain;
 
-public record Station(AccessId id, AccessCode code, AccessDescription description, AccessResourceCode resourceCode) {
+
+import cloud.tteams.station.location.domain.Location;
+
+public record Station(StationId id, Location location, StationChargerType chargerType, StationChargingPoints chargingPoints,
+                      StationStatus status) {
 
 }

@@ -1,12 +1,13 @@
 package cloud.tteams.station.station.domain.repository;
 
-import cloud.tteams.identity.access.domain.Station;
+
+import cloud.tteams.station.station.domain.Station;
 
 public interface IStationCommandRepository {
 
-    void create(Station access);
+    void create(Station station);
 
-    void update(Station access);
+    void update(Station station);
 
-    void delete(Station access);
+    void delete(Station station);
 }

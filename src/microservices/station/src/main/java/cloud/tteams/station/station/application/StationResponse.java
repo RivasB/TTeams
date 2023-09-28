@@ -1,47 +1,60 @@
-package cloud.tteams.identity.access.application;
+package cloud.tteams.station.station.application;
 
-import cloud.tteams.identity.access.domain.Station;
 
+import cloud.tteams.share.core.domain.bus.query.IResponse;
+import cloud.tteams.station.chargingpoint.application.ChargingPointResponse;
+import cloud.tteams.station.location.application.LocationResponse;
+import cloud.tteams.station.station.domain.Station;
+import cloud.tteams.station.station.domain.StationChargerType;
+import cloud.tteams.station.station.domain.StationStatus;
+
+import java.util.Collection;
 import java.util.UUID;
 
-public class StationResponse {
+public class StationResponse implements IResponse {
 
     private final UUID id;
+    private final LocationResponse location;
+    private final StationChargerType chargerType;
+    private final Collection<ChargingPointResponse> chargingPoints;
+    private final StationStatus status;
 
-    private final String code;
-
-    private final String description;
-
-    private final String resourceCode;
-
-    public StationResponse(UUID id, String code, String description, String resourceCode) {
+    public StationResponse(UUID id, LocationResponse location, StationChargerType chargerType,
+                           Collection<ChargingPointResponse> chargingPoints, StationStatus status) {
         this.id = id;
-        this.code = code;
-        this.description = description;
-        this.resourceCode = resourceCode;
+        this.location = location;
+        this.chargerType = chargerType;
+        this.chargingPoints = chargingPoints;
+        this.status = status;
     }
 
+    public StationResponse(Station station){
+        this.id = station.id().getValue();
+        this.location = new LocationResponse(station.location());
+        this.chargerType = station.chargerType();
+        this.chargingPoints = station.chargingPoints()
+                .getValue().stream().map(ChargingPointResponse::new).toList();
+        this.status = station.status();
 
-    public StationResponse(Station access) {
-        this.id = access.id().value();
-        this.code = access.code().value();
-        this.description = access.description().value();
-        this.resourceCode = access.resourceCode().value();
     }
 
     public UUID getId() {
         return id;
     }
 
-    public String getCode() {
-        return code;
+    public LocationResponse getLocation() {
+        return location;
     }
 
-    public String getDescription() {
-        return description;
+    public StationChargerType getChargerType() {
+        return chargerType;
     }
 
-    public String getResourceCode() {
-        return resourceCode;
+    public Collection<ChargingPointResponse> getChargingPoints() {
+        return chargingPoints;
+    }
+
+    public StationStatus getStatus() {
+        return status;
     }
 }

@@ -1,25 +1,25 @@
-package cloud.tteams.identity.access.infrastructure.service;
+package cloud.tteams.station.station.infrastructure.service;
 
+import cloud.tteams.share.core.domain.service.IEventService;
+import cloud.tteams.station.station.domain.Station;
+import cloud.tteams.station.station.domain.event.StationCreatedEvent;
+import cloud.tteams.station.station.domain.event.StationDeletedEvent;
+import cloud.tteams.station.station.domain.event.StationUpdatedEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import cloud.tteams.identity.access.domain.Station;
-import cloud.tteams.identity.access.domain.event.StationCreatedEvent;
-import cloud.tteams.identity.access.domain.event.StationDeletedEvent;
-import cloud.tteams.identity.access.domain.event.StationUpdatedEvent;
 import cloud.tteams.share.core.domain.event.Event;
-import cloud.tteams.share.core.domain.service.IEventService;
 
 @Component
-public class AccessEventService implements IEventService<Station> {
+public class StationEventService implements IEventService<Station> {
     private final KafkaTemplate<String, Event<?>> producer;
 
-    public AccessEventService(KafkaTemplate<String, Event<?>> producer) {
+    public StationEventService(KafkaTemplate<String, Event<?>> producer) {
         this.producer = producer;
     }
 
-    @Value("${topic.user.name:access}")
+    @Value("${topic.user.name:station}")
     private String topic;
 
     @Override

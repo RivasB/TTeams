@@ -1,4 +1,4 @@
-package cloud.tteams.identity.access.infrastructure.adapter.command;
+package cloud.tteams.station.station.infrastructure.adapter.command;
 
 import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto;
 import org.springframework.context.annotation.Primary;
@@ -9,11 +9,11 @@ import cloud.tteams.identity.access.domain.repository.IStationCommandRepository;
 
 @Component
 @Primary
-public class PostgresDBAccessCommandRepository implements IStationCommandRepository {
+public class MysqlDBStationCommandRepository implements IStationCommandRepository {
 
     private final ISpringAccessWriteDataJPARepository accessRespository;
 
-    public PostgresDBAccessCommandRepository(final ISpringAccessWriteDataJPARepository accessRespository) {
+    public MysqlDBStationCommandRepository(final ISpringAccessWriteDataJPARepository accessRespository) {
         this.accessRespository = accessRespository;
     }
 

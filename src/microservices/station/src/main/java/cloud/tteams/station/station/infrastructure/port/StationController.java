@@ -27,11 +27,11 @@ import java.util.UUID;
 @RequestMapping("/api/access")
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Access", description = "The Access API. Contains all the operations that can be performed on a access.")
-public class AccessController {
+public class StationController {
 
     private final IMediator mediator;
 
-    public AccessController(IMediator mediator) {
+    public StationController(IMediator mediator) {
         this.mediator = mediator;
     }
 

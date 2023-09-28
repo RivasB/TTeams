@@ -1,6 +1,6 @@
 package cloud.tteams.identity.access.infrastructure.adapter.query;
 
-import cloud.tteams.identity.access.infrastructure.exception.AccessNotFoundException;
+import cloud.tteams.identity.access.infrastructure.exception.StationNotFoundException;
 import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto;
 import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessSpecs;
 import cloud.tteams.identity.access.application.StationResponse;
@@ -22,16 +22,16 @@ import org.springframework.data.jpa.domain.Specification;
 
 @Component
 @Primary
-public class PostgresDBAccessQueryRepository implements IStationQueryRepository {
-    private final ISpringAccessReadDataJPARepository accessRepository;
+public class MysqlDBStationQueryRepository implements IStationQueryRepository {
+    private final ISpringStationReadDataJPARepository accessRepository;
 
-    public PostgresDBAccessQueryRepository(final ISpringAccessReadDataJPARepository accessRepository) {
+    public MysqlDBStationQueryRepository(final ISpringStationReadDataJPARepository accessRepository) {
         this.accessRepository = accessRepository;
     }
 
     @Override
     public Optional<Station> findById(AccessId id) {
-        AccessDto accessEntity = accessRepository.findById(id.value()).orElseThrow(AccessNotFoundException::new);
+        AccessDto accessEntity = accessRepository.findById(id.value()).orElseThrow(StationNotFoundException::new);
 
         return Optional.of(accessEntity.toAggregate());
     }
