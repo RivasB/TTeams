@@ -1,17 +1,14 @@
 package cloud.tteams.station.station.infrastructure.repository.hibernate;
 
-import cloud.tteams.station.station.domain.Station;
-import cloud.tteams.station.station.domain.StationChargerType;
-import cloud.tteams.station.station.domain.StationId;
-import cloud.tteams.station.station.domain.StationStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import cloud.tteams.station.chargingpoint.domain.ChargingPoint;
+import cloud.tteams.station.chargingpoint.infrastructure.repository.hibernate.ChargingPointDto;
+import cloud.tteams.station.location.domain.Location;
+import cloud.tteams.station.location.infrastructure.repository.hibernate.LocationDto;
+import cloud.tteams.station.station.domain.*;
+import jakarta.persistence.*;
 
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -22,8 +19,15 @@ public class StationDto {
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_pk_location", referencedColumnName = "id")
+    private LocationDto location;
+
     @Column(name = "charger_type")
     private StationChargerType chargerType;
+
+    @OneToMany(mappedBy="station")
+    private List<ChargingPointDto> chargingPoints;
 
     @Column(name = "status")
     private StationStatus status;
@@ -33,15 +37,22 @@ public class StationDto {
 
     public StationDto(Station station) {
         this.id = station.id().value();
+        this.location = new LocationDto(station.location());
         this.chargerType = station.chargerType();
+        this.chargingPoints = station.chargingPoints().getValue()
+                .stream().map(ChargingPointDto::new).toList();
         this.status = station.status();
     }
 
     public Station toAggregate() {
         StationId id = new StationId(this.id);
+        Location location = this.location.toAggregate();
         StationChargerType chargerType = this.chargerType;
+        StationChargingPoints chargingPoints = new StationChargingPoints(
+                this.chargingPoints.stream().map(ChargingPointDto::toAggregate).toList()
+        );
         StationStatus status = this.status;
-        return new Station(id,chargerType,status);
+        return new Station(id,location, chargerType,chargingPoints, status);
     }
 
     public UUID getId() {
@@ -54,5 +65,12 @@ public class StationDto {
 
     public StationStatus getStatus() {
         return status;
+    }
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public List<ChargingPointDto> getChargingPoints() {
+        return chargingPoints;
     }
 }

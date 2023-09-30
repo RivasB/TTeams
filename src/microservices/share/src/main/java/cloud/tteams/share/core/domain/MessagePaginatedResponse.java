@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 public class MessagePaginatedResponse implements IResponse {
 
@@ -52,6 +53,19 @@ public class MessagePaginatedResponse implements IResponse {
         this.pageElements = pageElements;
         this.pageLimit = pageLimit;
         this.pageNumber = pageNumber;
+    }
+    public MessagePaginatedResponse(List<?> data, Page<?> page) {
+
+        this.timestamp = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss '['z']'")
+                .format(ZonedDateTime.now(ZoneId.of("UTC")));
+        this.message = "OK";
+        this.errors = null;
+        this.data = data;
+        this.totalPages = page.getTotalPages();
+        this.totalElements = page.getTotalElements();
+        this.pageElements = page.getNumberOfElements();
+        this.pageLimit = page.getSize();
+        this.pageNumber = page.getNumber();
     }
 
     public String getTimestamp() {

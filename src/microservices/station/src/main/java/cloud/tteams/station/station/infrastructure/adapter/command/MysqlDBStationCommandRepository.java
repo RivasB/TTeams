@@ -1,34 +1,33 @@
 package cloud.tteams.station.station.infrastructure.adapter.command;
 
-import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto;
+import cloud.tteams.station.station.domain.Station;
+import cloud.tteams.station.station.domain.repository.IStationCommandRepository;
+import cloud.tteams.station.station.infrastructure.repository.hibernate.StationDto;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-
-import cloud.tteams.identity.access.domain.Station;
-import cloud.tteams.identity.access.domain.repository.IStationCommandRepository;
 
 @Component
 @Primary
 public class MysqlDBStationCommandRepository implements IStationCommandRepository {
 
-    private final ISpringAccessWriteDataJPARepository accessRespository;
+    private final ISpringStationWriteDataJPARepository jpaRepository;
 
-    public MysqlDBStationCommandRepository(final ISpringAccessWriteDataJPARepository accessRespository) {
-        this.accessRespository = accessRespository;
+    public MysqlDBStationCommandRepository(final ISpringStationWriteDataJPARepository jpaRepository) {
+        this.jpaRepository = jpaRepository;
     }
 
     @Override
-    public void create(Station access) {
-        accessRespository.save(new AccessDto(access));
+    public void create(Station station) {
+        jpaRepository.save(new StationDto(station));
     }
 
     @Override
-    public void update(Station access) {
-        accessRespository.save(new AccessDto(access));
+    public void update(Station station) {
+        jpaRepository.save(new StationDto(station));
     }
 
     @Override
-    public void delete(Station access) {
-        accessRespository.delete(new AccessDto(access));
+    public void delete(Station station) {
+        jpaRepository.delete(new StationDto(station));
     }
 }

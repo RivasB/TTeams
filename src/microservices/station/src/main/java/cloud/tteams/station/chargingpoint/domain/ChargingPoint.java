@@ -1,4 +1,6 @@
 package cloud.tteams.station.chargingpoint.domain;
 
-public record ChargingPoint(ChargingPointId id, ChargingPointPowerLevel powerLevel) {
+import cloud.tteams.station.station.domain.Station;
+
+public record ChargingPoint(ChargingPointId id, ChargingPointPowerLevel powerLevel, Station station) {
 }

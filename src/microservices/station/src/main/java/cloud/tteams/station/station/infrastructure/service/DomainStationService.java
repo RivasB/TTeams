@@ -14,7 +14,7 @@ public class DomainStationService implements IStationService {
 
     private final IStationQueryRepository queryRepository;
 
-    @Value("${kafka.messenger.access:false}")
+    @Value("${kafka.messenger.station:false}")
     private boolean messengerIsActive;
 
     public DomainStationService(IStationQueryRepository queryRepository) {
@@ -23,13 +23,12 @@ public class DomainStationService implements IStationService {
 
     @Override
     public Station findById(StationId id) {
-        return queryRepository.findById(id)
-                .orElseThrow(StationNotFoundException::new);
+        return queryRepository.findById(id);
     }
 
     @Override
-    public MessagePaginatedResponse getPaginatedAccess(Pageable pageable, String description, String code, String resource) {
-        return queryRepository.findAll(pageable, description, code, resource);
+    public MessagePaginatedResponse findAll(Pageable pageable) {
+        return queryRepository.findAll(pageable);
     }
 
     private boolean isValid(String str) {

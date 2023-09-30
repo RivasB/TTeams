@@ -9,6 +9,6 @@ public interface IStationService {
 
     Station findById(StationId id);
 
-    MessagePaginatedResponse getPaginatedAccess(Pageable pageable, String description, String code, String resource);
+    MessagePaginatedResponse findAll(Pageable pageable);
 
 }
