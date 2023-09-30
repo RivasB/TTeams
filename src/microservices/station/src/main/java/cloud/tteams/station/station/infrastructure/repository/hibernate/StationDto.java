@@ -1,6 +1,5 @@
 package cloud.tteams.station.station.infrastructure.repository.hibernate;
 
-import cloud.tteams.station.chargingpoint.domain.ChargingPoint;
 import cloud.tteams.station.chargingpoint.infrastructure.repository.hibernate.ChargingPointDto;
 import cloud.tteams.station.location.domain.Location;
 import cloud.tteams.station.location.infrastructure.repository.hibernate.LocationDto;
@@ -8,7 +7,6 @@ import cloud.tteams.station.station.domain.*;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
