@@ -19,24 +19,24 @@ public class StationEventService implements IEventService<Station> {
         this.producer = producer;
     }
 
-    @Value("${topic.user.name:station}")
+    @Value("${topic.station.name:station}")
     private String topic;
 
     @Override
-    public void create(Station access) {
-        StationCreatedEvent create = new StationCreatedEvent(access);
+    public void create(Station station) {
+        StationCreatedEvent create = new StationCreatedEvent(station);
         this.producer.send(topic, create);
     }
 
     @Override
-    public void update(Station access) {
-        StationUpdatedEvent update = new StationUpdatedEvent(access);
+    public void update(Station station) {
+        StationUpdatedEvent update = new StationUpdatedEvent(station);
         this.producer.send(topic, update);
     }
 
     @Override
-    public void delete(Station access) {
-        StationDeletedEvent delete = new StationDeletedEvent(access);
+    public void delete(Station station) {
+        StationDeletedEvent delete = new StationDeletedEvent(station);
         this.producer.send(topic, delete);
     }
 }
