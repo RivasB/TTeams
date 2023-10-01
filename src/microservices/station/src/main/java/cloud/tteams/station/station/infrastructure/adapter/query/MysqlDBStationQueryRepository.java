@@ -28,24 +28,22 @@ public class MysqlDBStationQueryRepository implements IStationQueryRepository {
 
     @Override
     public Station findById(StationId id) {
-        StationDto stationDto = jpaRepository.findById(id.value()).orElseThrow(StationNotFoundException::new);
+        StationDto stationDto = jpaRepository.findById(id.value())
+                .orElseThrow(StationNotFoundException::new);
         return stationDto.toAggregate();
     }
 
     @Override
     public MessagePaginatedResponse findAll(Pageable pageable) {
-        Page<StationDto> stationDtoPage = jpaRepository.findAll(pageable);
-        return this.result(stationDtoPage);
+        Page<StationDto> page = jpaRepository.findAll(pageable);
+        return this.result(page);
     }
 
-    /*
-     * Usado por los metodos: findAll
-     */
-    private MessagePaginatedResponse result(Page<StationDto> stationDtoPage) {
-        List<StationResponse> responses = stationDtoPage.stream().map(item -> {
-            return new StationResponse(item.toAggregate());
-        }).toList();
-        return new MessagePaginatedResponse(responses, stationDtoPage);
+
+    private MessagePaginatedResponse result(Page<StationDto> page) {
+        List<StationResponse> response = page.stream()
+                .map(item -> new StationResponse(item.toAggregate())).toList();
+        return new MessagePaginatedResponse(response, page);
     }
 
 }

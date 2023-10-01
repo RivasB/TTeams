@@ -3,10 +3,7 @@ package cloud.tteams.station.station.infrastructure.exception;
 public class StationNotFoundException extends RuntimeException {
 
     public StationNotFoundException() {
-        super("Access not found!");
+        super("Station not found!");
     }
 
-    public StationNotFoundException(String message) {
-        super(message);
-    }
 }
