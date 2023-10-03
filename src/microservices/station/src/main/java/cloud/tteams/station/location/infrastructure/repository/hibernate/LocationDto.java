@@ -1,6 +1,7 @@
 package cloud.tteams.station.location.infrastructure.repository.hibernate;
 
 import cloud.tteams.station.location.domain.*;
+import cloud.tteams.station.station.domain.Station;
 import cloud.tteams.station.station.infrastructure.repository.hibernate.StationDto;
 import jakarta.persistence.*;
 
@@ -30,10 +31,11 @@ public class LocationDto {
     }
 
     public LocationDto(Location location){
-        this.id = location.id().getValue();
-        this.address = location.address().getValue();
-        this.latitude = location.latitude().getValue();
-        this.longitude = location.longitude().getValue();
+        this.id = location.getId().getValue();
+        this.address = location.getAddress().getValue();
+        this.latitude = location.getLatitude().getValue();
+        this.longitude = location.getLongitude().getValue();
+        this.station = new StationDto(location.getStation());
     }
 
     public Location toAggregate(){
@@ -41,7 +43,8 @@ public class LocationDto {
         LocationAddress address = new LocationAddress(this.address);
         LocationLatitude latitude = new LocationLatitude(this.latitude);
         LocationLongitude longitude = new LocationLongitude(this.longitude);
-        return new Location(id,address,latitude,longitude);
+        Station station = this.station.toAggregate();
+        return new Location(id,address,latitude,longitude,station);
     }
 
     public UUID getId() {

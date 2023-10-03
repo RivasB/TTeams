@@ -34,7 +34,7 @@ public class DomainLocationService implements ILocationService {
 
     @Override
     public void update(Location location) {
-        Location toUpdateLocation = findById(location.id());
+        Location toUpdateLocation = findById(location.getId());
         Field[] fields = location.getClass().getDeclaredFields();
         try  {
             for (Field attrib : fields) {
