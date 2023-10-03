@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 public interface IStationQueryRepository {
 
     Station findById(StationId id);
+
     MessagePaginatedResponse findAll(Pageable pageable);
 
 }

@@ -6,25 +6,70 @@ import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.station.station.domain.Station;
 import cloud.tteams.station.station.domain.StationId;
+import cloud.tteams.station.station.domain.repository.IStationCommandRepository;
 import cloud.tteams.station.station.domain.repository.IStationQueryRepository;
 import cloud.tteams.station.station.domain.service.IStationService;
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
+
 @Component
 public class DomainStationService implements IStationService {
+
+    private final IStationCommandRepository commandRepository;
 
     private final IStationQueryRepository queryRepository;
 
     private final IEventService<Station> eventService;
 
+    private final Log logger;
+
     @Value("${kafka.messenger.station:false}")
     private boolean messengerIsActive;
 
-    public DomainStationService(IStationQueryRepository queryRepository, IEventService<Station> eventService) {
+    public DomainStationService(IStationCommandRepository commandRepository, IStationQueryRepository queryRepository,
+                                IEventService<Station> eventService, Log logger) {
+        this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.eventService = eventService;
+        this.logger = logger;
+    }
+
+    @Override
+    public void create(Station station) {
+        commandRepository.create(station);
+        publishEvent(station, EventType.CREATED);
+    }
+
+    @Override
+    public void update(Station station) {
+        Station toUpdateStation = findById(station.id());
+        Field[] fields = station.getClass().getDeclaredFields();
+        try  {
+            for (Field attrib : fields) {
+                attrib.setAccessible(true);
+                Object valueStation = attrib.get(station);
+                Object valueToUpdateStation = attrib.get(toUpdateStation);
+                if (valueStation != null && !valueStation.equals(valueToUpdateStation)
+                        && attrib.getType().isAssignableFrom(valueStation.getClass())) {
+                    attrib.set(toUpdateStation, valueStation);
+                }
+            }
+        } catch (IllegalAccessException e){
+            logger.error(e.getMessage());
+        }
+        commandRepository.update(toUpdateStation);
+        publishEvent(toUpdateStation, EventType.UPDATED);
+    }
+
+    @Override
+    public void delete(StationId stationId) {
+        Station station = this.findById(stationId);
+        commandRepository.delete(station);
+        publishEvent(station, EventType.DELETED);
     }
 
     @Override
@@ -37,11 +82,7 @@ public class DomainStationService implements IStationService {
         return queryRepository.findAll(pageable);
     }
 
-    private boolean isValid(String str) {
-        return str == null || str.isEmpty() || str.isBlank();
-    }
-
-    private void dispatch(Station data, EventType type){
+    private void publishEvent(Station data, EventType type){
         if (messengerIsActive){
             switch(type) {
                 case CREATED:

@@ -1,9 +1,6 @@
-package cloud.tteams.identity.access.infrastructure.port;
+package cloud.tteams.station.station.infrastructure.port;
 
-import cloud.tteams.identity.access.application.query.getall.FindAccessWithFilterQuery;
-import cloud.tteams.identity.access.application.query.getbyid.FindAccessByIdQuery;
-import cloud.tteams.identity.access.application.query.getbyid.FindAccessByIdResponse;
-import cloud.tteams.share.core.application.ApiResponse2xx;
+
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
