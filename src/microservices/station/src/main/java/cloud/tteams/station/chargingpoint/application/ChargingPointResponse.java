@@ -15,8 +15,8 @@ public class ChargingPointResponse implements IResponse {
     }
 
     public ChargingPointResponse(ChargingPoint chargingPoint) {
-        this.id = chargingPoint.id().getValue();
-        this.powerLevel = chargingPoint.powerLevel().getValue();
+        this.id = chargingPoint.getId().getValue();
+        this.powerLevel = chargingPoint.getPowerLevel().getValue();
     }
 
     public UUID getId() {

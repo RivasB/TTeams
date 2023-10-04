@@ -19,10 +19,10 @@ public class LocationResponse implements IResponse {
     }
 
     public LocationResponse(Location location){
-        this.id = location.id().getValue();
-        this.address = location.address().getValue();
-        this.latitude = location.latitude().getValue();
-        this.longitude = location.longitude().getValue();
+        this.id = location.getId().getValue();
+        this.address = location.getAddress().getValue();
+        this.latitude = location.getLatitude().getValue();
+        this.longitude = location.getLongitude().getValue();
     }
 
     public UUID getId() {

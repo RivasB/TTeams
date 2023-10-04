@@ -17,8 +17,7 @@ public class StationDto {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_pk_location", referencedColumnName = "id")
+    @OneToOne(mappedBy = "station")
     private LocationDto location;
 
     @Column(name = "charger_type")

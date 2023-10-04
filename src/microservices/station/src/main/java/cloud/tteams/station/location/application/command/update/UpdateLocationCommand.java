@@ -21,12 +21,11 @@ public class UpdateLocationCommand implements ICommand {
         this.longitude = longitude;
     }
 
-    public UpdateLocationCommand fromRequest(UpdateLocationRequest request){
+    public UpdateLocationCommand(UpdateLocationRequest request){
         this.id = request.getId();
         this.address = request.getAddress();
         this.latitude = request.getLatitude();
         this.longitude = request.getLongitude();
-        return new UpdateLocationCommand(id,address,latitude,longitude);
     }
 
     @Override

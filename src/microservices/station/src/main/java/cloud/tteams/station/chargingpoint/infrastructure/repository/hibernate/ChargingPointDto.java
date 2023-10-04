@@ -20,7 +20,7 @@ public class ChargingPointDto {
     @Column(name = "power_level", nullable = false)
     private int powerLevel;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="fk_pk_station", nullable=false)
     private StationDto station;
 
@@ -28,9 +28,9 @@ public class ChargingPointDto {
     }
 
     public ChargingPointDto(ChargingPoint chargingPoint) {
-        this.id = chargingPoint.id().getValue();
-        this.powerLevel = chargingPoint.powerLevel().getValue();
-        this.station = new StationDto(chargingPoint.station());
+        this.id = chargingPoint.getId().getValue();
+        this.powerLevel = chargingPoint.getPowerLevel().getValue();
+        this.station = new StationDto(chargingPoint.getStation());
     }
 
     public ChargingPoint toAggregate(){

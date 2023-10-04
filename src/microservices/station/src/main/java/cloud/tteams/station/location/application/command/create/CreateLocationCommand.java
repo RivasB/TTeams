@@ -25,12 +25,12 @@ public class CreateLocationCommand implements ICommand {
         this.station = station;
     }
 
-    public CreateLocationCommand fromRequest(CreateLocationRequest request){
+    public CreateLocationCommand(CreateLocationRequest request){
+        this.id = UUID.randomUUID();
         this.address = request.getAddress();
         this.latitude = request.getLatitude();
         this.longitude = request.getLongitude();
         this.station = request.getStation();
-        return new CreateLocationCommand(address,latitude,longitude,station);
     }
 
     @Override
