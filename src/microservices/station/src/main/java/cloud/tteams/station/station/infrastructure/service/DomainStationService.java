@@ -46,7 +46,7 @@ public class DomainStationService implements IStationService {
 
     @Override
     public void update(Station station) {
-        Station toUpdateStation = findById(station.id());
+        Station toUpdateStation = findById(station.getId());
         Field[] fields = station.getClass().getDeclaredFields();
         try  {
             for (Field attrib : fields) {

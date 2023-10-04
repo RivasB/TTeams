@@ -5,6 +5,7 @@ import cloud.tteams.station.location.domain.*;
 import cloud.tteams.station.location.domain.service.ILocationService;
 import cloud.tteams.station.station.domain.Station;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateLocationCommandHandler implements ICommandHandler<UpdateLocationCommand> {
@@ -15,6 +16,7 @@ public class UpdateLocationCommandHandler implements ICommandHandler<UpdateLocat
         this.locationService = locationService;
     }
 
+    @Transactional
     @Override
     public void handle(UpdateLocationCommand command) {
         LocationId id = new LocationId(command.getId());

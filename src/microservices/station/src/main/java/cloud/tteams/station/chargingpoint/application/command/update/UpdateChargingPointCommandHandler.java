@@ -9,6 +9,7 @@ import cloud.tteams.station.station.domain.Station;
 import cloud.tteams.station.station.domain.StationId;
 import cloud.tteams.station.station.domain.service.IStationService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateChargingPointCommandHandler implements ICommandHandler<UpdateChargingPointCommand> {
@@ -22,6 +23,7 @@ public class UpdateChargingPointCommandHandler implements ICommandHandler<Update
         this.chargingPointService = chargingPointService;
     }
 
+    @Transactional
     @Override
     public void handle(UpdateChargingPointCommand command) {
         StationId stationId = new StationId(command.getStation());

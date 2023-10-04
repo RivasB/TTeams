@@ -33,12 +33,12 @@ public class StationDto {
     }
 
     public StationDto(Station station) {
-        this.id = station.id().value();
-        this.location = new LocationDto(station.location());
-        this.chargerType = station.chargerType();
-        this.chargingPoints = station.chargingPoints().getValue()
+        this.id = station.getId().value();
+        this.location = new LocationDto(station.getLocation());
+        this.chargerType = station.getChargerType();
+        this.chargingPoints = station.getChargingPoints().getValue()
                 .stream().map(ChargingPointDto::new).toList();
-        this.status = station.status();
+        this.status = station.getStatus();
     }
 
     public Station toAggregate() {
