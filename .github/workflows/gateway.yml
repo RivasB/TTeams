@@ -2,22 +2,22 @@ name: ci-gateway
 
 env:
   KUBECONFIG: ./kubeconfig.yaml
-  SERVICE_PATH: 'src/cloudservices/gateway'
+  SERVICE_PATH: 'src/microservices/gateway'
   SERVICE_NAME: 'gateway'
 
 on:
   push:
     branches:
-      - 'test'
+      - 'main'
     paths:
       - .github/workflows/gateway.yml
-      - 'src/cloudservices/gateway/**'
+      - 'src/microservices/gateway/**'
 
 jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:
-      - 
+      -
         name: Checkout
         uses: actions/checkout@v3
       -
@@ -40,21 +40,4 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{  secrets.RANCHER_NAMESPACE }}-${{ env.SERVICE_NAME }}:v1
-      - 
-        name: Install Rancher CLI
-        run: |
-          curl -LO https://github.com/rancher/cli/releases/download/v2.7.0/rancher-linux-amd64-v2.7.0.tar.gz
-          tar -xzvf rancher-linux-amd64-v2.7.0.tar.gz
-          sudo mv rancher-v2.7.0/rancher /usr/local/bin/
-          
-      - name: Configure kubectl
-        run: |
-          rancher login ${{ secrets.RANCHER_SERVER_URL }} --skip-verify --token ${{ secrets.RANCHER_ACCESS_KEY }}:${{ secrets.RANCHER_SECRET_KEY }} --context c-m-jhhmfvcc:p-zx5tp
-          rancher kubectl config view --raw > ${{ env.KUBECONFIG }}
-          rancher kubectl config use-context ${{ secrets.RANCHER_CLUSTER_CONTEXT }}
-          rancher kubectl config set-context --current --namespace ${{  secrets.RANCHER_NAMESPACE }}
-      
-      - name: Deploy
-        run: |
-          kubectl patch deployment rc-${{  env.SERVICE_NAME }} -n ${{  secrets.RANCHER_NAMESPACE }} -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.HUB_NAMESPACE }}-${{ env.SERVICE_NAME }}:v1

@@ -6,11 +6,12 @@ services:
     build:
       context: src/cloudservices/config
       dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-config:v1
+    image: rivasb/tteams-config:v1
     container_name: config
     restart: unless-stopped
+    hostname: config
     networks:
-      - rc_internal
+      - tteams_internal
     ports:
       - "8081:8081"
   # Netflix Eureka Server
@@ -18,13 +19,14 @@ services:
     build:
       context: src/cloudservices/registry
       dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-registry:v1
+    image: rivasb/tteams-registry:v1
     container_name: registry
     restart: unless-stopped
+    hostname: registry
     depends_on:
       - config-service
     networks:
-      - rc_internal
+      - tteams_internal
     ports:
       - "8099:8099"
   # Spring Cloud Gateway
@@ -32,15 +34,16 @@ services:
     build:
       context: src/cloudservices/gateway
       dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-gateway:v1
+    image: rivasb/tteams-gateway:v1
     container_name: gateway
     restart: unless-stopped
+    hostname: gateway
     depends_on:
       - config-service
       - registry-service
     networks:
-      - rc_internal
-      - rc_bridge
+      - tteams_internal
+      - ev_bridge
     ports:
       - "8091:8091"
   # Microservices
@@ -49,114 +52,106 @@ services:
     build:
       context: src/microservices/identity
       dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-identity:v1
+    image: rivasb/tteams-identity:v1
     container_name: identity
     restart: unless-stopped
+    hostname: identity
     depends_on:
       - config-service
       - registry-service
       - gateway-service
+      - postgres-db
     networks:
-      - rc_internal
+      - tteams_internal
     ports:
       - "8083:8083"
-  # Document
-  document-service:
+  # Station
+  station-service:
     build:
-      context: src/microservices/document
+      context: src/microservices/station
       dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-document:v1
-    container_name: document
+    image: rivasb/tteams-station:v1
+    container_name: station
     restart: unless-stopped
+    hostname: station
     depends_on:
       - config-service
       - registry-service
       - gateway-service
+      - postgres-db
     networks:
-      - rc_internal
-    ports:
-      - "8086:8086"
-  # Procedure
-  procedure-service:
-    build:
-      context: src/microservices/procedure
-      dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-procedure:v1
-    container_name: procedure
-    restart: unless-stopped
-    depends_on:
-      - config-service
-      - registry-service
-      - gateway-service
-    networks:
-      - rc_internal
+      - tteams_internal
     ports:
       - "8084:8084"
-  # Schedule
-  schedule-service:
-    build:
-      context: src/microservices/schedule
-      dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-schedule:v1
-    container_name: schedule
+  # Postgres
+  postgres-db:
+    image: postgres:14-alpine
+    container_name: postgres-db
     restart: unless-stopped
-    depends_on:
-      - config-service
-      - registry-service
-      - gateway-service
+    hostname: postgres-db
     networks:
-      - rc_internal
+      - tteams_internal
+      - ev_bridge
     ports:
-      - "8085:8085"
-  # Services
-  services-service:
-    build:
-      context: src/microservices/services
-      dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-services:v1
-    container_name: services
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=S3cr3tp4sword
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=ev-identity
+  # Mysql
+  mysql-db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql-db
     restart: unless-stopped
-    depends_on:
-      - config-service
-      - registry-service
-      - gateway-service
+    hostname: mysql-db
     networks:
-      - rc_internal
+      - tteams_internal
+      - ev_bridge
+    environment:
+      MYSQL_ROOT_PASSWORD: S3cr3tp4sword
+      MYSQL_DATABASE: ev-station
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: S3cr3tp4sword
     ports:
-      - "8087:8087"
-  # Soap nui Middleware Service
-  middleware-service:
-    build:
-      context: src/microservices/soap_nui
-      dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-middleware:v1
-    container_name: middleware
+      - 3306:3306
+  # Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     restart: unless-stopped
-    depends_on:
-      - config-service
-      - registry-service
-      - gateway-service
+    hostname: zookeeper
     networks:
-      - rc_internal
+      - tteams_internal
+      - ev_bridge
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "8088:8088"
-  # Residential registration Service
-  residentialregistration-service:
-    build:
-      context: src/microservices/residential_registration
-      dockerfile: Dockerfile
-    image: kmontes2020/registro-civil-residentialregistration:v1
-    container_name: residentialregistration
-    restart: unless-stopped
-    depends_on:
-      - config-service
-      - registry-service
-      - gateway-service
-    networks:
-      - rc_internal
-    ports:
-      - "8089:8089"
+      - 22181:2181
+  # Kafka
+  kafka:
+      image: confluentinc/cp-kafka:latest
+      container_name: kafka
+      restart: unless-stopped
+      hostname: kafka
+      networks:
+        - tteams_internal
+        - ev_bridge
+      depends_on:
+        - zookeeper
+      ports:
+        - 29092:29092
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 networks:
-  rc_internal:
-  rc_bridge:
+  tteams_internal:
+  ev_bridge:
     driver: bridge

@@ -13,8 +13,8 @@ RUN microdnf update \
 # 1) https://github.com/carlossg/docker-maven/blob/925e49a1d0986070208e3c06a11c41f8f2cada82/openjdk-17/Dockerfile
 # 2) https://maven.apache.org/download.cgi
 ARG USER_HOME_DIR="/root"
-ARG SHA=d3be5956712d1c2cf7a6e4c3a2db1841aa971c6097c7a67f59493a5873ccf8c8b889cf988e4e9801390a2b1ae5a0669de07673acb090a083232dbd3faf82f3e3
-ARG MAVEN_DOWNLOAD_URL=https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.tar.gz
+ARG SHA=deaa39e16b2cf20f8cd7d232a1306344f04020e1f0fb28d35492606f647a60fe729cc40d3cba33e093a17aed41bd161fe1240556d0f1b80e773abd408686217e
+ARG MAVEN_DOWNLOAD_URL=https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
     && curl -fsSL -o /tmp/apache-maven.tar.gz ${MAVEN_DOWNLOAD_URL} \
@@ -52,5 +52,5 @@ EXPOSE 8083
 
 # Copy the native executable into the containers
 WORKDIR /app
-COPY --from=builder /build/target/identity-0.0.1-SNAPSHOT.jar .
-ENTRYPOINT [ "java", "-jar", "/app/identity-0.0.1-SNAPSHOT.jar" ]
+COPY --from=builder /build/target/station-0.0.1-SNAPSHOT.jar .
+ENTRYPOINT [ "java", "-jar", "/app/station-0.0.1-SNAPSHOT.jar" ]
