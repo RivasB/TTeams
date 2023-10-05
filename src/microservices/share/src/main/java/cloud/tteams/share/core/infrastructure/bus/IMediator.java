@@ -4,7 +4,9 @@ import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.domain.bus.query.IQuery;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface IMediator {
     <M extends ICommandMessage> M send(ICommand command);
 
