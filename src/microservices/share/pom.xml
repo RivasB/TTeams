@@ -54,7 +54,7 @@
         <repository>
             <id>github</id>
             <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/kmontes198910/registro-civil-backend</url>
+            <url>https://maven.pkg.github.com/RivasB/TTeams</url>
         </repository>
     </distributionManagement>
 </project>
