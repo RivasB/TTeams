@@ -18,6 +18,17 @@ public class Station {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Station{" +
+                "id=" + id +
+                ", location=" + location +
+                ", chargerType=" + chargerType +
+                ", chargingPoints=" + chargingPoints +
+                ", status=" + status +
+                '}';
+    }
+
     public StationId getId() {
         return id;
     }

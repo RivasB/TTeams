@@ -35,7 +35,7 @@ public class DomainChargingPointService implements IChargingPointService {
 
     @Override
     public void update(ChargingPoint chargingPoint) {
-        ChargingPoint toUpdateChargingPoint = findById(chargingPoint.id());
+        ChargingPoint toUpdateChargingPoint = findById(chargingPoint.getId());
         Field[] fields = chargingPoint.getClass().getDeclaredFields();
         try  {
             for (Field attrib : fields) {

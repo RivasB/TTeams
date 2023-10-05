@@ -16,6 +16,15 @@ public class ChargingPoint {
         this.station = station;
     }
 
+    @Override
+    public String toString() {
+        return "ChargingPoint{" +
+                "id=" + id +
+                ", powerLevel=" + powerLevel +
+                ", station=" + station +
+                '}';
+    }
+
     public ChargingPointId getId() {
         return id;
     }

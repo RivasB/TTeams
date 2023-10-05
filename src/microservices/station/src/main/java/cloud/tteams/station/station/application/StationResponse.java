@@ -29,12 +29,12 @@ public class StationResponse implements IResponse {
     }
 
     public StationResponse(Station station){
-        this.id = station.id().getValue();
-        this.location = new LocationResponse(station.location());
-        this.chargerType = station.chargerType();
-        this.chargingPoints = station.chargingPoints()
+        this.id = station.getId().getValue();
+        this.location = new LocationResponse(station.getLocation());
+        this.chargerType = station.getChargerType();
+        this.chargingPoints = station.getChargingPoints()
                 .getValue().stream().map(ChargingPointResponse::new).toList();
-        this.status = station.status();
+        this.status = station.getStatus();
 
     }
 
