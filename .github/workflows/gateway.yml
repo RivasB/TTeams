@@ -2,7 +2,7 @@ name: ci-gateway
 
 env:
   KUBECONFIG: ./kubeconfig.yaml
-  SERVICE_PATH: 'src/microservices/gateway'
+  SERVICE_PATH: 'src/cloudservices/gateway'
   SERVICE_NAME: 'gateway'
 
 on:
@@ -11,7 +11,7 @@ on:
       - 'main'
     paths:
       - .github/workflows/gateway.yml
-      - 'src/microservices/gateway/**'
+      - 'src/cloudservices/gateway/**'
 
 jobs:
   build-push:

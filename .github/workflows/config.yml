@@ -2,7 +2,7 @@ name: ci-config
 
 env:
   KUBECONFIG: ./kubeconfig.yaml
-  SERVICE_PATH: 'src/microservices/config'
+  SERVICE_PATH: 'src/cloudservices/config'
   SERVICE_NAME: 'config'
 
 on:
@@ -11,7 +11,7 @@ on:
       - 'main'
     paths:
       - .github/workflows/config.yml
-      - 'src/microservices/config/**'
+      - 'src/cloudservices/config/**'
 
 jobs:
   build-push:

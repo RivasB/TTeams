@@ -2,7 +2,7 @@ name: ci-registry
 
 env:
   KUBECONFIG: ./kubeconfig.yaml
-  SERVICE_PATH: 'src/microservices/registry'
+  SERVICE_PATH: 'src/cloudservices/registry'
   SERVICE_NAME: 'registry'
 
 on:
@@ -11,7 +11,7 @@ on:
       - 'main'
     paths:
       - .github/workflows/registry.yml
-      - 'src/microservices/registry/**'
+      - 'src/cloudservices/registry/**'
 
 jobs:
   build-push:
