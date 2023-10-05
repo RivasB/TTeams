@@ -3,7 +3,7 @@ name: ci-share
 on:
   push:
     branches:
-      - 'dev'
+      - 'main'
     paths:
       - .github/workflows/share.yml
       - src/microservices/share/**
