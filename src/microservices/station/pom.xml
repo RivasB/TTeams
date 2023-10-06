@@ -116,21 +116,10 @@
             <version>20190722</version>
         </dependency>
         <dependency>
-            <groupId>cloud.tteams</groupId>
-            <artifactId>share</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-core</artifactId>
-                <version>6.5.7</version>
-        </dependency>-->
     </dependencies>
 
     <build>

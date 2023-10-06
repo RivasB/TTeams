@@ -1,4 +1,4 @@
-package cloud.tteams.identity;
+package cloud.tteams.station;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
