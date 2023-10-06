@@ -59,7 +59,7 @@ public class DomainStationServiceTest {
     public void delete_shouldCallCommandRepositoryDelete() {
         when(domainStationService.findById(existingStation.getId())).thenReturn(existingStation);
         domainStationService.delete(existingStation.getId());
-        verify(commandRepository, times(1)).delete(existingStation);
+        verify(commandRepository, times(1)).delete(existingStation.getId());
     }
 
     @Test

@@ -62,7 +62,7 @@ public class DomainChargingPointServiceTest {
     public void delete_shouldCallCommandRepositoryDelete() {
         when(domainChargingPointService.findById(existingChargingPoint.getId())).thenReturn(existingChargingPoint);
         domainChargingPointService.delete(existingChargingPoint.getId());
-        verify(commandRepository, times(1)).delete(existingChargingPoint);
+        verify(commandRepository, times(1)).delete(existingChargingPoint.getId());
     }
 
     @Test
