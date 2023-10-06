@@ -47,6 +47,9 @@ RUN mvn --no-transfer-progress clean package -DskipTests
 # FROM docker.io/oraclelinux:9-slim
 FROM bellsoft/liberica-openjdk-alpine:17.0.6
 
+ARG PACKAGE_TOKEN
+ENV PACKAGE_TOKEN ${PACKAGE_TOKEN}
+
 EXPOSE 8081
 
 # Copy the native executable into the containers
