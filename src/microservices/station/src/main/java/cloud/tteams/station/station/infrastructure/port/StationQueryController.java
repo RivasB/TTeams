@@ -27,8 +27,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/station")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "EV-Station", description = " Query EV-Station API. Contains the query operations that can be performed " +
-        "on a EV-Station.")
+@Tag(name = "Query-EV-Station-Station", description = " Query EV-Station API. Contains the query operations that can " +
+        "be performed on a EV-Station.")
 public class StationQueryController {
 
     private final IMediator mediator;

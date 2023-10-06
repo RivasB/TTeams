@@ -27,6 +27,12 @@ public class ChargingPointDto {
     public ChargingPointDto() {
     }
 
+    public ChargingPointDto(UUID id, int powerLevel, StationDto station) {
+        this.id = id;
+        this.powerLevel = powerLevel;
+        this.station = station;
+    }
+
     public ChargingPointDto(ChargingPoint chargingPoint) {
         this.id = chargingPoint.getId().getValue();
         this.powerLevel = chargingPoint.getPowerLevel().getValue();
@@ -36,8 +42,7 @@ public class ChargingPointDto {
     public ChargingPoint toAggregate(){
         ChargingPointId id = new ChargingPointId(this.id);
         ChargingPointPowerLevel powerLevel = new ChargingPointPowerLevel(this.powerLevel);
-        Station station = this.station.toAggregate();
-        return new ChargingPoint(id, powerLevel,station);
+        return new ChargingPoint(id, powerLevel,null);
     }
 
     public UUID getId() {

@@ -23,7 +23,7 @@ public class StationDto {
     @Column(name = "charger_type")
     private StationChargerType chargerType;
 
-    @OneToMany(mappedBy="station")
+    @OneToMany(mappedBy="station",fetch = FetchType.EAGER)
     private List<ChargingPointDto> chargingPoints;
 
     @Column(name = "status")
@@ -34,7 +34,7 @@ public class StationDto {
 
     public StationDto(Station station) {
         this.id = station.getId().value();
-        this.location = new LocationDto(station.getLocation());
+        this.location = station.getLocation() != null ? new LocationDto(station.getLocation()) : null;
         this.chargerType = station.getChargerType();
         this.chargingPoints = station.getChargingPoints().getValue()
                 .stream().map(ChargingPointDto::new).toList();
@@ -50,6 +50,16 @@ public class StationDto {
         );
         StationStatus status = this.status;
         return new Station(id,location, chargerType,chargingPoints, status);
+    }
+
+    public Station toAggregateReference() {
+        StationId id = new StationId(this.id);
+        StationChargerType chargerType = this.chargerType;
+        StationChargingPoints chargingPoints = new StationChargingPoints(
+                this.chargingPoints.stream().map(ChargingPointDto::toAggregate).toList()
+        );
+        StationStatus status = this.status;
+        return new Station(id,null, chargerType,chargingPoints, status);
     }
 
     public UUID getId() {

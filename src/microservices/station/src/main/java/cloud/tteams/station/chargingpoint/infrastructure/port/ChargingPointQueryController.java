@@ -23,8 +23,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/chargingpoint")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "EV-Station-ChargingPoint", description = " Command EV-Station-ChargingPoint API. Contains the command operations that can " +
-        "be performed on a EV-Station-ChargingPoint.")
+@Tag(name = "Query-EV-Station-ChargingPoint", description = " Command EV-Station-ChargingPoint API. Contains the " +
+        "command operations that can be performed on a EV-Station-ChargingPoint.")
 public class ChargingPointQueryController {
 
     private final IMediator mediator;

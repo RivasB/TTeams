@@ -23,8 +23,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/station")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "EV-Station", description = " Command EV-Station API. Contains the command operations that can be " +
-        "performed on a EV-Station.")
+@Tag(name = "Command-EV-Station-Station", description = " Command EV-Station API. Contains the command operations " +
+        "that can be performed on a EV-Station.")
 public class StationCommandController {
 
     private final IMediator mediator;

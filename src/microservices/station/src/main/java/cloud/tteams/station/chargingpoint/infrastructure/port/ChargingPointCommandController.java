@@ -23,7 +23,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/location")
 @SecurityRequirement(name = "Bearer Authentication")
-@Tag(name = "EV-Station-Location", description = " Command EV-Station-Location API. Contains the command operations that can " +
+@Tag(name = "Command-EV-Station-Location", description = " Command EV-Station-Location API. Contains the command operations that can " +
         "be performed on a EV-Station-Location.")
 public class ChargingPointCommandController {
 

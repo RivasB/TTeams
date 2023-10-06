@@ -44,7 +44,7 @@ public class LocationDto {
         LocationAddress address = new LocationAddress(this.address);
         LocationLatitude latitude = new LocationLatitude(this.latitude);
         LocationLongitude longitude = new LocationLongitude(this.longitude);
-        Station station = this.station.toAggregate();
+        Station station = this.station.toAggregateReference();
         return new Location(id,address,latitude,longitude,station);
     }
 
