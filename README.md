@@ -2,5 +2,5 @@
 
 ### Estructura del proyecto ###
 
-<img src="/home/david/Imágenes/Capturas/Captura de 2023-10-06 01:45:05.png"/>
+<img src="https://github.com/RivasB/TTeams/blob/main/project.png"/>
 
