@@ -20,7 +20,7 @@ public class ChargingPointDto {
     @Column(name = "power_level", nullable = false)
     private int powerLevel;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="fk_pk_station", nullable=false)
     private StationDto station;
 

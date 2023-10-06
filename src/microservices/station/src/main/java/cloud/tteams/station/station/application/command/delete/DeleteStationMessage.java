@@ -8,7 +8,7 @@ public class DeleteStationMessage implements ICommandMessage {
 
     private final UUID id;
 
-    private final String command = "CREATED";
+    private final String command = "DELETED";
 
     public DeleteStationMessage(UUID id) {
         this.id = id;

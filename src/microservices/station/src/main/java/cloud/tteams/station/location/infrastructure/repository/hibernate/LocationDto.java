@@ -24,7 +24,7 @@ public class LocationDto {
     @Column(name = "longitude")
     private String longitude;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fk_pk_station", referencedColumnName = "id", nullable=false)
     private StationDto station;
 

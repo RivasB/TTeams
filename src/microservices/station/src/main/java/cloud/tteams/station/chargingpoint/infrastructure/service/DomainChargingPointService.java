@@ -55,8 +55,7 @@ public class DomainChargingPointService implements IChargingPointService {
 
     @Override
     public void delete(ChargingPointId chargingPointId) {
-        ChargingPoint chargingPoint = this.findById(chargingPointId);
-        commandRepository.delete(chargingPoint);
+        commandRepository.delete(chargingPointId);
     }
 
     @Override

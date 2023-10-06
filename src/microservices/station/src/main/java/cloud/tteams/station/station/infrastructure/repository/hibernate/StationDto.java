@@ -17,13 +17,13 @@ public class StationDto {
     @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(mappedBy = "station")
+    @OneToOne(mappedBy = "station", cascade = CascadeType.ALL)
     private LocationDto location;
 
     @Column(name = "charger_type")
     private StationChargerType chargerType;
 
-    @OneToMany(mappedBy="station",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="station",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ChargingPointDto> chargingPoints;
 
     @Column(name = "status")

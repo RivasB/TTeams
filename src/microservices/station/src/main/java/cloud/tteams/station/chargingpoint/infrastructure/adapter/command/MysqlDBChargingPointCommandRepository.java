@@ -1,8 +1,10 @@
 package cloud.tteams.station.chargingpoint.infrastructure.adapter.command;
 
 import cloud.tteams.station.chargingpoint.domain.ChargingPoint;
+import cloud.tteams.station.chargingpoint.domain.ChargingPointId;
 import cloud.tteams.station.chargingpoint.domain.repository.IChargingPointCommandRepository;
 import cloud.tteams.station.chargingpoint.infrastructure.adapter.query.ISpringChargingPointReadDataJPARepository;
+import cloud.tteams.station.chargingpoint.infrastructure.exception.ChargingPointNotFound;
 import cloud.tteams.station.chargingpoint.infrastructure.repository.hibernate.ChargingPointDto;
 import cloud.tteams.station.station.infrastructure.adapter.query.ISpringStationReadDataJPARepository;
 import cloud.tteams.station.station.infrastructure.exception.StationNotFoundException;
@@ -16,10 +18,13 @@ public class MysqlDBChargingPointCommandRepository implements IChargingPointComm
 
     private final ISpringChargingPointWriteDataJPARepository jpaRepository;
 
+    private final ISpringChargingPointReadDataJPARepository chargingPointReadDataJPARepository;
+
     private final ISpringStationReadDataJPARepository readDataJPARepository;
 
-    public MysqlDBChargingPointCommandRepository(ISpringChargingPointWriteDataJPARepository jpaRepository, ISpringStationReadDataJPARepository readDataJPARepository) {
+    public MysqlDBChargingPointCommandRepository(ISpringChargingPointWriteDataJPARepository jpaRepository, ISpringChargingPointReadDataJPARepository chargingPointReadDataJPARepository, ISpringStationReadDataJPARepository readDataJPARepository) {
         this.jpaRepository = jpaRepository;
+        this.chargingPointReadDataJPARepository = chargingPointReadDataJPARepository;
         this.readDataJPARepository = readDataJPARepository;
     }
 
@@ -39,7 +44,9 @@ public class MysqlDBChargingPointCommandRepository implements IChargingPointComm
     }
 
     @Override
-    public void delete(ChargingPoint chargingPoint) {
-        jpaRepository.delete(new ChargingPointDto(chargingPoint));
+    public void delete(ChargingPointId chargingPointId) {
+        ChargingPointDto toDelete = chargingPointReadDataJPARepository.findById(chargingPointId.getValue())
+                        .orElseThrow(ChargingPointNotFound::new);
+        jpaRepository.delete(toDelete);
     }
 }

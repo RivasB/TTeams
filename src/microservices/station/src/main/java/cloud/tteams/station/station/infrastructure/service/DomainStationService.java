@@ -68,7 +68,7 @@ public class DomainStationService implements IStationService {
     @Override
     public void delete(StationId stationId) {
         Station station = this.findById(stationId);
-        commandRepository.delete(station);
+        commandRepository.delete(stationId);
         publishEvent(station, EventType.DELETED);
     }
 
