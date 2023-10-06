@@ -47,7 +47,7 @@ public class StationQueryController {
     public ResponseEntity<MessagePaginatedResponse> getAllStation(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "address") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortType) {
         Sort sort = (sortType.equals("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
