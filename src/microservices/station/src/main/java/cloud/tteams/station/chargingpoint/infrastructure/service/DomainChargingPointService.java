@@ -7,6 +7,7 @@ import cloud.tteams.station.chargingpoint.domain.repository.IChargingPointComman
 import cloud.tteams.station.chargingpoint.domain.repository.IChargingPointQueryRepository;
 import cloud.tteams.station.chargingpoint.domain.service.IChargingPointService;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,12 @@ public class DomainChargingPointService implements IChargingPointService {
 
     private final IChargingPointQueryRepository queryRepository;
 
-    private final Log logger;
+    private final Log logger = LogFactory.getLog(this.getClass());
 
     public DomainChargingPointService(IChargingPointCommandRepository commandRepository,
-                                      IChargingPointQueryRepository queryRepository, Log logger) {
+                                      IChargingPointQueryRepository queryRepository) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
-        this.logger = logger;
     }
 
     @Override

@@ -7,6 +7,7 @@ import cloud.tteams.station.location.domain.repository.ILocationCommandRepositor
 import cloud.tteams.station.location.domain.repository.ILocationQueryRepository;
 import cloud.tteams.station.location.domain.service.ILocationService;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,11 @@ public class DomainLocationService implements ILocationService {
 
     private final ILocationQueryRepository queryRepository;
 
-    private final Log logger;
+    private final Log logger = LogFactory.getLog(this.getClass());
 
-    public DomainLocationService(ILocationCommandRepository commandRepository, ILocationQueryRepository queryRepository, Log logger) {
+    public DomainLocationService(ILocationCommandRepository commandRepository, ILocationQueryRepository queryRepository) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
-        this.logger = logger;
     }
 
     @Override

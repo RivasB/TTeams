@@ -10,6 +10,7 @@ import cloud.tteams.station.station.domain.repository.IStationCommandRepository;
 import cloud.tteams.station.station.domain.repository.IStationQueryRepository;
 import cloud.tteams.station.station.domain.service.IStationService;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -25,17 +26,16 @@ public class DomainStationService implements IStationService {
 
     private final IEventService<Station> eventService;
 
-    private final Log logger;
+    private final Log logger = LogFactory.getLog(this.getClass());
 
     @Value("${kafka.messenger.station:false}")
     private boolean messengerIsActive;
 
     public DomainStationService(IStationCommandRepository commandRepository, IStationQueryRepository queryRepository,
-                                IEventService<Station> eventService, Log logger) {
+                                IEventService<Station> eventService) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.eventService = eventService;
-        this.logger = logger;
     }
 
     @Override

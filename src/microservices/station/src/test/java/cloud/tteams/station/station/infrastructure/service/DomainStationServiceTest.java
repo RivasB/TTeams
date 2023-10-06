@@ -30,8 +30,7 @@ public class DomainStationServiceTest {
         queryRepository = mock(IStationQueryRepository.class);
         commandRepository = mock(IStationCommandRepository.class);
         StationEventService eventPublisher = mock(StationEventService.class);
-        Log logger = mock(Log.class);
-        domainStationService = new DomainStationService(commandRepository, queryRepository, eventPublisher, logger);
+        domainStationService = new DomainStationService(commandRepository, queryRepository, eventPublisher);
         existingStation = new Station(new StationId(UUID.randomUUID()), null, StationChargerType.AC,
                 new StationChargingPoints(new ArrayList<>()), StationStatus.IN_USE);
         commandRepository.create(existingStation);

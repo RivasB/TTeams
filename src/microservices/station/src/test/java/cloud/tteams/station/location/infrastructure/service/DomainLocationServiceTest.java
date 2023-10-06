@@ -32,8 +32,7 @@ public class DomainLocationServiceTest {
     public void setup(){
         queryRepository = mock(ILocationQueryRepository.class);
         commandRepository = mock(ILocationCommandRepository.class);
-        Log logger = mock(Log.class);
-        domainLocationService = new DomainLocationService(commandRepository, queryRepository, logger);
+        domainLocationService = new DomainLocationService(commandRepository, queryRepository);
         existingLocation = new Location(new LocationId(UUID.randomUUID()), new LocationAddress("Address1"),
                 new LocationLatitude("00.000"), new LocationLongitude("00.000"), null);
         commandRepository.create(existingLocation);

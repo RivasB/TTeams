@@ -34,8 +34,7 @@ public class DomainChargingPointServiceTest {
     public void setup(){
         queryRepository = mock(IChargingPointQueryRepository.class);
         commandRepository = mock(IChargingPointCommandRepository.class);
-        Log logger = mock(Log.class);
-        domainChargingPointService = new DomainChargingPointService(commandRepository,queryRepository,logger);
+        domainChargingPointService = new DomainChargingPointService(commandRepository,queryRepository);
         existingChargingPoint = new ChargingPoint(new ChargingPointId(UUID.randomUUID()),
                 new ChargingPointPowerLevel(100),null);
         commandRepository.create(existingChargingPoint);
