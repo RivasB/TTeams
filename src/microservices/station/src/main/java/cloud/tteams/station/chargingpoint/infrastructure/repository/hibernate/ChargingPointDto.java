@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ChargingPointDto {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(name = "power_level", nullable = false)

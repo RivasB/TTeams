@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -18,42 +17,38 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
-        "cloud.tteams.station.chargingpoint.infrastructure.adapter.command",
-        "cloud.tteams.station.location.infrastructure.adapter.command",
-        "cloud.tteams.station.station.infrastructure.adapter.command" })
-public class PostgresDBWriteConfiguration {
+@EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
+        "cloud.tteams.station.chargingpoint.infrastructure.adapter.query",
+        "cloud.tteams.station.location.infrastructure.adapter.query",
+        "cloud.tteams.station.station.infrastructure.adapter.query" })
+public class MysqlDBReadConfiguration {
 
-    @Primary
-    @Bean(name = "writeDataSourceProperties")
-    @ConfigurationProperties("spring.datasource")
+    @Bean(name = "readDataSourceProperties")
+    @ConfigurationProperties(value = "spring.read-datasource")
     public DataSourceProperties dataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Primary
-    @Bean(name = "writeDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource datasource(@Qualifier("writeDataSourceProperties") DataSourceProperties properties) {
+    @Bean(name = "readDataSource")
+    @ConfigurationProperties(prefix = "spring.read-datasource")
+    public DataSource datasource(@Qualifier("readDataSourceProperties") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 
-    @Primary
-    @Bean(name = "writeEntityManagerFactory")
+    @Bean(name = "readEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
-            @Qualifier("writeDataSource") DataSource dataSource) {
+            @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
                 .packages("cloud.tteams.station.chargingpoint.infrastructure.repository.hibernate",
                         "cloud.tteams.station.location.infrastructure.repository.hibernate",
                         "cloud.tteams.station.station.infrastructure.repository.hibernate")
-                .persistenceUnit("WriteDB").build();
+                .persistenceUnit("ReadDB").build();
     }
 
-    @Primary
-    @Bean(name = "writeTransactionManager")
+    @Bean(name = "readTransactionManager")
     @ConfigurationProperties("spring.jpa")
     public PlatformTransactionManager transactionManager(
-            @Qualifier("writeEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+            @Qualifier("readEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

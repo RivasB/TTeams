@@ -14,7 +14,7 @@ import java.util.UUID;
 public class StationDto {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
     @OneToOne(mappedBy = "station")
