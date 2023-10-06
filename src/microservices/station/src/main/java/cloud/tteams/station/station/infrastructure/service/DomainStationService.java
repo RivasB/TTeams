@@ -4,7 +4,10 @@ package cloud.tteams.station.station.infrastructure.service;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.service.IEventService;
+import cloud.tteams.station.location.domain.LocationLatitude;
+import cloud.tteams.station.location.domain.LocationLongitude;
 import cloud.tteams.station.station.domain.Station;
+import cloud.tteams.station.station.domain.StationChargerType;
 import cloud.tteams.station.station.domain.StationId;
 import cloud.tteams.station.station.domain.repository.IStationCommandRepository;
 import cloud.tteams.station.station.domain.repository.IStationQueryRepository;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.Set;
 
 @Component
 public class DomainStationService implements IStationService {
@@ -80,6 +84,11 @@ public class DomainStationService implements IStationService {
     @Override
     public MessagePaginatedResponse findAll(Pageable pageable) {
         return queryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Station findByProximity(LocationLatitude latitude, LocationLongitude longitude, StationChargerType vehicleChargerType) {
+        return queryRepository.findByProximity(latitude, longitude, vehicleChargerType);
     }
 
     private void publishEvent(Station data, EventType type){

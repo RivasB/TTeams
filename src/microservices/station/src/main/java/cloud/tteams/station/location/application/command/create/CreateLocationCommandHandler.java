@@ -6,6 +6,7 @@ import cloud.tteams.station.location.domain.service.ILocationService;
 import cloud.tteams.station.station.domain.Station;
 import cloud.tteams.station.station.domain.StationId;
 import cloud.tteams.station.station.domain.service.IStationService;
+import cloud.tteams.station.station.infrastructure.util.ValidationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ public class CreateLocationCommandHandler implements ICommandHandler<CreateLocat
     @Transactional
     @Override
     public void handle(CreateLocationCommand command) {
+        ValidationUtils.isValidLongitude(command.getLongitude());
+        ValidationUtils.isValidLatitude(command.getLatitude());
         StationId stationId = new StationId(command.getStation());
         Station station = stationService.findById(stationId);
         LocationId id = new LocationId(command.getId());
