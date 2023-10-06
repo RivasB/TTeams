@@ -1,2 +1,2 @@
-# Task management app for agile teams - TTeams
+# DDD, CleanArch and CQRS microservice cloud - TTeams
 

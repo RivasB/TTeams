@@ -9,7 +9,9 @@ import cloud.tteams.identity.access.infrastructure.exception.AccessNotFoundExcep
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DomainAccessService implements IAccessService {
 
     private final IAccessQueryRepository queryRepository;

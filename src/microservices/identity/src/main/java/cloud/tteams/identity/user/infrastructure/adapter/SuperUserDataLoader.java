@@ -31,7 +31,7 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
     }
 
     @Transactional
-    private void createSuperUserIfNotExist() {
+    public void createSuperUserIfNotExist() {
         UserId id = new UserId(UUID.randomUUID());
         UserFirstName firstName = new UserFirstName("Super Administrador");
         UserLastName lastName = new UserLastName("del Sistema");
