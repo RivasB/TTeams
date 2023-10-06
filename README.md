@@ -13,10 +13,14 @@ docker-compose up -d
 ```
 API runs under http://localhost:8091
 
+Check the Postman collection provided.
+
 The default credentials are:
 ```
-identification: 0000000000
-password: Password*777
+{
+  identification: 0000000000,
+  password: Password*777
+}
 ```
 
 OpenApi Documentation runs under http://localhost:8084/swagger-ui/index.html (auth free)
