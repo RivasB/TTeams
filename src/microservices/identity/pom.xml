@@ -109,7 +109,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>4.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
