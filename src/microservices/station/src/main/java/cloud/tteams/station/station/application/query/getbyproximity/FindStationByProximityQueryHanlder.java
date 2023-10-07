@@ -1,4 +1,4 @@
-package cloud.tteams.station.station.application.query.getByProximity;
+package cloud.tteams.station.station.application.query.getbyproximity;
 
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 import cloud.tteams.station.location.domain.LocationLatitude;

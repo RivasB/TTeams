@@ -1,4 +1,4 @@
-package cloud.tteams.station.station.application.query.getByProximity;
+package cloud.tteams.station.station.application.query.getbyproximity;
 
 import cloud.tteams.station.station.domain.StationChargerType;
 
