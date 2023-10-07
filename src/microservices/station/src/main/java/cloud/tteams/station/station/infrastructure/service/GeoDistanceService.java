@@ -3,24 +3,18 @@ package cloud.tteams.station.station.infrastructure.service;
 import cloud.tteams.station.station.infrastructure.repository.hibernate.StationDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Set;
 
 @Service
 public class GeoDistanceService {
 
     public StationDto findClosestObject(Set<StationDto> stationDtos, double targetLatitude, double targetLongitude) {
-        StationDto closestObject = null;
-        double closestDistance = Double.MAX_VALUE;
-        for (StationDto obj : stationDtos) {
-            double objLatitude = Double.parseDouble(obj.getLocation().getLatitude());
-            double objLongitude = Double.parseDouble(obj.getLocation().getLongitude());
-            double distance = calculateDistance(targetLatitude, targetLongitude, objLatitude, objLongitude);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestObject = obj;
-            }
-        }
-        return closestObject;
+        return stationDtos.stream()
+                .min(Comparator.comparingDouble(obj -> calculateDistance(targetLatitude, targetLongitude,
+                        Double.parseDouble(obj.getLocation().getLatitude()),
+                        Double.parseDouble(obj.getLocation().getLongitude()))))
+                .orElse(null);
     }
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
