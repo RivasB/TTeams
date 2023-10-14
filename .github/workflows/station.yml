@@ -1,17 +1,17 @@
-name: ci-station
+name: ci-project_management
 
 env:
   KUBECONFIG: ./kubeconfig.yaml
-  SERVICE_PATH: 'src/microservices/station'
-  SERVICE_NAME: 'station'
+  SERVICE_PATH: 'src/microservices/project_management'
+  SERVICE_NAME: 'project_management'
 
 on:
   push:
     branches:
       - 'main'
     paths:
-      - .github/workflows/station.yml
-      - 'src/microservices/station/**'
+      - .github/workflows/project_management.yml
+      - 'src/microservices/project_management/**'
 
 jobs:
   build-push:

@@ -37,7 +37,7 @@
 		<module>src/cloudservices/gateway</module>
 		<module>src/microservices/identity</module>
 		<module>src/microservices/share</module>
-		<module>src/microservices/station</module>
+		<module>src/microservices/project_management</module>
 	</modules>
 
 	<build>
