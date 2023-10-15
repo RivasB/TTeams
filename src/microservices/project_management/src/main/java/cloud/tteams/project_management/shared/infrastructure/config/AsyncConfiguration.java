@@ -12,7 +12,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync(proxyTargetClass = true)
-public class AsyncConfig extends AbstractAsyncConfiguration {
+public class AsyncConfiguration extends AbstractAsyncConfiguration {
 
     @Bean(name = "asyncExecutor")
     public Executor asyncExecutor() {

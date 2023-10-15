@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,34 +18,38 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
-        "cloud.tteams.project_management.project.infrastructure.adapter.query"})
-public class MysqlDBReadConfiguration {
+@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
+        "cloud.tteams.project_management.project.infrastructure.adapter.command"})
+public class DatabaseWriteConfiguration {
 
-    @Bean(name = "readDataSourceProperties")
-    @ConfigurationProperties(value = "spring.read-datasource")
+    @Primary
+    @Bean(name = "writeDataSourceProperties")
+    @ConfigurationProperties("spring.datasource")
     public DataSourceProperties dataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Bean(name = "readDataSource")
-    @ConfigurationProperties(prefix = "spring.read-datasource")
-    public DataSource datasource(@Qualifier("readDataSourceProperties") DataSourceProperties properties) {
+    @Primary
+    @Bean(name = "writeDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSource datasource(@Qualifier("writeDataSourceProperties") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 
-    @Bean(name = "readEntityManagerFactory")
+    @Primary
+    @Bean(name = "writeEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
-            @Qualifier("readDataSource") DataSource dataSource) {
+            @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("cloud.tteams.project_management.project.infrastructure.repository.hibernate")
-                .persistenceUnit("ReadDB").build();
+                .packages("cloud.tteams.project_management.project_management.infrastructure.repository.hibernate")
+                .persistenceUnit("WriteDB").build();
     }
 
-    @Bean(name = "readTransactionManager")
+    @Primary
+    @Bean(name = "writeTransactionManager")
     @ConfigurationProperties("spring.jpa")
     public PlatformTransactionManager transactionManager(
-            @Qualifier("readEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+            @Qualifier("writeEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }
