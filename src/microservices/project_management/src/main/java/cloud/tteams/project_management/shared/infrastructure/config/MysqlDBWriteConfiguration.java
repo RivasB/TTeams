@@ -19,8 +19,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
-        "cloud.tteams.project_management.chargingpoint.infrastructure.adapter.command",
-        "cloud.tteams.project_management.location.infrastructure.adapter.command",
         "cloud.tteams.project_management.project.infrastructure.adapter.command"})
 public class MysqlDBWriteConfiguration {
 
@@ -43,9 +41,7 @@ public class MysqlDBWriteConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("cloud.tteams.project_management.chargingpoint.infrastructure.repository.hibernate",
-                        "cloud.tteams.project_management.location.infrastructure.repository.hibernate",
-                        "cloud.tteams.project_management.project_management.infrastructure.repository.hibernate")
+                .packages("cloud.tteams.project_management.project_management.infrastructure.repository.hibernate")
                 .persistenceUnit("WriteDB").build();
     }
 

@@ -18,8 +18,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
-        "cloud.tteams.project_management.chargingpoint.infrastructure.adapter.query",
-        "cloud.tteams.project_management.location.infrastructure.adapter.query",
         "cloud.tteams.project_management.project.infrastructure.adapter.query"})
 public class MysqlDBReadConfiguration {
 
@@ -39,9 +37,7 @@ public class MysqlDBReadConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("cloud.tteams.project_management.chargingpoint.infrastructure.repository.hibernate",
-                        "cloud.tteams.project_management.location.infrastructure.repository.hibernate",
-                        "cloud.tteams.project_management.project_management.infrastructure.repository.hibernate")
+                .packages("cloud.tteams.project_management.project.infrastructure.repository.hibernate")
                 .persistenceUnit("ReadDB").build();
     }
 
