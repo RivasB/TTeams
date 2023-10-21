@@ -9,7 +9,7 @@ import java.util.UUID;
 public class ProjectEntity {
 
     @Id
-    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", nullable = false)
     private UUID id;
 
     @Column(name = "status")
