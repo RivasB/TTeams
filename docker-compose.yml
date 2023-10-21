@@ -68,12 +68,12 @@ services:
   # Station
   station-service:
     build:
-      context: src/microservices/project_management
+      context: src/microservices/project
       dockerfile: Dockerfile
     image: rivasb/tteams-station:v1
-    container_name: project_management
+    container_name: project
     restart: unless-stopped
-    hostname: project_management
+    hostname: project
     depends_on:
       - config-service
       - registry-service
@@ -112,7 +112,7 @@ services:
       - ev_bridge
     environment:
       MYSQL_ROOT_PASSWORD: S3cr3tp4sword
-      MYSQL_DATABASE: ev-project_management
+      MYSQL_DATABASE: ev-project
       MYSQL_USER: db_user
       MYSQL_PASSWORD: S3cr3tp4sword
     ports:

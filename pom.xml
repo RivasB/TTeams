@@ -36,8 +36,11 @@
 		<module>src/cloudservices/registry</module>
 		<module>src/cloudservices/gateway</module>
 		<module>src/microservices/identity</module>
-		<module>src/microservices/share</module>
-		<module>src/microservices/project_management</module>
+		<module>src/microservices/project</module>
+		<module>src/microservices/comment</module>
+		<module>src/microservices/share_log</module>
+		<module>src/packages/share</module>
+
 	</modules>
 
 	<build>
