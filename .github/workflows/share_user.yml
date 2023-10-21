@@ -18,6 +18,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package
-        run: cd src/packages/share_user && mvn --batch-mode deploy
+        run: cd src/packages/share_user && mvn --batch-mode deploy -s tteams-settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
