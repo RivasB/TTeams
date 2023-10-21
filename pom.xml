@@ -40,6 +40,7 @@
 		<module>src/microservices/comment</module>
 		<module>src/microservices/share_log</module>
 		<module>src/packages/share</module>
+		<module>src/packages/share_user</module>
 
 	</modules>
 

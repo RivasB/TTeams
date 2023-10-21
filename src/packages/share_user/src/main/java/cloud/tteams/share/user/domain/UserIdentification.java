@@ -1,0 +1,18 @@
+package cloud.tteams.share.user.domain;
+
+
+import cloud.tteams.share.core.domain.StringValueObject;
+
+public class UserIdentification extends StringValueObject {
+    private String value;
+
+    public UserIdentification(String value) {
+        super(value);
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+}
