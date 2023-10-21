@@ -18,9 +18,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package
-        with:
-          build-args: |
-            "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
         run: cd src/packages/share_user && mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+          PACKAGE_TOKEN: ${{secrets:PACKAGE_TOKEN}}
