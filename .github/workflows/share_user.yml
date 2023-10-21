@@ -1,4 +1,4 @@
-name: ci-share
+name: ci-share_user
 
 on:
   push:
