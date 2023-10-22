@@ -1,5 +1,7 @@
 package cloud.tteams.share.user.application;
 
+import cloud.tteams.share.user.domain.User;
+
 import java.util.UUID;
 
 public class UserResponse {
@@ -17,6 +19,15 @@ public class UserResponse {
         this.identification = identification;
         this.email = email;
         this.phone = phone;
+    }
+
+    public UserResponse(User user) {
+        this.id = user.getId().value();
+        this.firstName = user.getFirstName().value();
+        this.lastName = user.getLastName().value();
+        this.identification = user.getIdentification().value();
+        this.email = user.getEmail().value();
+        this.phone = user.getPhone().value();
     }
 
     public UUID getId() {

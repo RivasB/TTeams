@@ -1,5 +1,9 @@
 package cloud.tteams.comment.shared.infrastructure.config;
 
+import cloud.tteams.comment.comment.infrastructure.adapter.command.CommentCommandRepositoryImplementation;
+import cloud.tteams.comment.comment.infrastructure.repository.hibernate.CommentEntity;
+import cloud.tteams.share.user.infrastructure.adapter.command.PostgresDBUserCommandRepository;
+import cloud.tteams.share.user.infrastructure.repository.hibernate.UserDto;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -18,8 +22,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
-        "cloud.tteams.project.project.infrastructure.adapter.command"})
+@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef =
+        "writeTransactionManager", basePackageClasses = {CommentCommandRepositoryImplementation.class,
+        PostgresDBUserCommandRepository.class})
 public class DatabaseWriteConfiguration {
 
     @Primary
@@ -41,7 +46,7 @@ public class DatabaseWriteConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("cloud.tteams.project.project.infrastructure.repository.hibernate")
+                .packages(CommentEntity.class, UserDto.class)
                 .persistenceUnit("WriteDB").build();
     }
 

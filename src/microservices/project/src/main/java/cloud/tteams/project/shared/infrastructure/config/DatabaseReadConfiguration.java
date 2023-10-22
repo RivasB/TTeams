@@ -1,5 +1,9 @@
 package cloud.tteams.project.shared.infrastructure.config;
 
+import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
+import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
+import cloud.tteams.project.project.infrastructure.adapter.query.ProjectQueryRepositoryImplementation;
+import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -17,8 +21,8 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
-        "cloud.tteams.project.project.infrastructure.adapter.query"})
+@EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef =
+        "readTransactionManager", basePackageClasses = {ProjectQueryRepositoryImplementation.class})
 public class DatabaseReadConfiguration {
 
     @Bean(name = "readDataSourceProperties")
@@ -37,7 +41,7 @@ public class DatabaseReadConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("cloud.tteams.project.project.infrastructure.repository.hibernate")
+                .packages(ProjectEntity.class)
                 .persistenceUnit("ReadDB").build();
     }
 

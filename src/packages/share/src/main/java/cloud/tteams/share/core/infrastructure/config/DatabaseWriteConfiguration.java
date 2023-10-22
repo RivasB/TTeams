@@ -1,7 +1,6 @@
-package cloud.tteams.project.shared.infrastructure.config;
+package cloud.tteams.share.core.infrastructure.config;
 
-import cloud.tteams.project.project.infrastructure.adapter.command.ProjectCommandRepositoryImplementation;
-import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
+import cloud.tteams.share.core.infrastructure.adapter.RepositoryMarker;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -20,9 +19,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef =
-        "writeTransactionManager", basePackageClasses = {ProjectCommandRepositoryImplementation.class})
-public class DatabaseWriteConfiguration {
+@EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory",
+        transactionManagerRef = "writeTransactionManager", basePackageClasses = RepositoryMarker.class)
+public abstract class DatabaseWriteConfiguration {
 
     @Primary
     @Bean(name = "writeDataSourceProperties")
@@ -43,7 +42,7 @@ public class DatabaseWriteConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages(ProjectEntity.class)
+                .packages(RepositoryMarker.class)
                 .persistenceUnit("WriteDB").build();
     }
 
