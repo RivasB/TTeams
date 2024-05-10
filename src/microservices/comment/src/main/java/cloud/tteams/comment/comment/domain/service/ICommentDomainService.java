@@ -3,17 +3,18 @@ package cloud.tteams.comment.comment.domain.service;
 
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.comment.comment.domain.CommentId;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface ICommentDomainService {
-    void create(Comment project);
+    void create(Comment comment);
 
-    void update(Comment project);
+    void update(Comment comment);
 
-    void delete(CommentId projectId);
+    void delete(UUID commentId);
 
-    Comment findById(CommentId id);
+    Comment findById(UUID commentId);
 
     MessagePaginatedResponse findAll(Pageable pageable);
 

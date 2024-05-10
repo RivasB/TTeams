@@ -3,7 +3,6 @@ package cloud.tteams.comment.comment.infrastructure.adapter.query;
 
 import cloud.tteams.comment.comment.application.CommentResponse;
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.comment.comment.domain.CommentId;
 import cloud.tteams.comment.comment.domain.repository.ICommentQueryRepository;
 import cloud.tteams.comment.comment.infrastructure.exception.CommentNotFoundException;
 import cloud.tteams.comment.comment.infrastructure.repository.hibernate.CommentEntity;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @Primary
@@ -25,8 +25,8 @@ public class CommentQueryRepositoryImplementation implements ICommentQueryReposi
     }
 
     @Override
-    public Comment findById(CommentId id) {
-        CommentEntity commentEntity = jpaRepository.findById(id.value())
+    public Comment findById(UUID id) {
+        CommentEntity commentEntity = jpaRepository.findById(id)
                 .orElseThrow(CommentNotFoundException::new);
         return commentEntity.toAggregate();
     }

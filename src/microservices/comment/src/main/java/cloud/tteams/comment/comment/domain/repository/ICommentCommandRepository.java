@@ -1,7 +1,8 @@
 package cloud.tteams.comment.comment.domain.repository;
 
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.comment.comment.domain.CommentId;
+
+import java.util.UUID;
 
 public interface ICommentCommandRepository {
 
@@ -9,5 +10,5 @@ public interface ICommentCommandRepository {
 
     void update(Comment project);
 
-    void delete(CommentId projectId);
+    void delete(UUID projectId);
 }

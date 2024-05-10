@@ -1,13 +1,14 @@
 package cloud.tteams.comment.comment.infrastructure.adapter.command;
 
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.comment.comment.domain.CommentId;
 import cloud.tteams.comment.comment.domain.repository.ICommentCommandRepository;
 import cloud.tteams.comment.comment.infrastructure.adapter.query.ICommentQueryJPARepository;
 import cloud.tteams.comment.comment.infrastructure.exception.CommentNotFoundException;
 import cloud.tteams.comment.comment.infrastructure.repository.hibernate.CommentEntity;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @Primary
@@ -33,9 +34,9 @@ public class CommentCommandRepositoryImplementation implements ICommentCommandRe
     }
 
     @Override
-    public void delete(CommentId commentId) {
+    public void delete(UUID commentId) {
         CommentEntity toDelete =
-                readDataJPARepository.findById(commentId.getValue()).orElseThrow(CommentNotFoundException::new);
+                readDataJPARepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
         jpaRepository.delete(toDelete);
     }
 }

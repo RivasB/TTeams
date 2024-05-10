@@ -1,4 +1,4 @@
-package cloud.tteams.comment.comment.domain;
+package cloud.tteams.share.comment.domain;
 
 public enum CommentAssociatedEntityType {
     PROJECT,TASK

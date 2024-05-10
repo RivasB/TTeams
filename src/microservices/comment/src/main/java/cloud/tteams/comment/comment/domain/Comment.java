@@ -1,64 +1,66 @@
 package cloud.tteams.comment.comment.domain;
 
-import cloud.tteams.share.user.domain.User;
+
+import cloud.tteams.comment.comment.domain.rules.AuthorValidation;
+import cloud.tteams.comment.comment.domain.rules.BodyMinAndMaxExtension;
+import cloud.tteams.share.core.domain.RulesChecker;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Comment {
-    private final CommentId id;
+    private final UUID id;
 
-    private final CommentAssociatedEntityId associatedEntityId;
+    private final String author;
 
-    private final CommentAssociatedEntityType associatedEntityType;
+    private String body;
 
-    private final User author;
+    private LocalDateTime createdAt;
 
-    private final CommentTextBody body;
+    private LocalDateTime updatedAt;
 
-    private final CommentCreatedAt createdAt;
-
-
-    public Comment(CommentId id, CommentAssociatedEntityId associatedEntityId,
-                   CommentAssociatedEntityType associatedEntityType, User author, CommentTextBody body, CommentCreatedAt createdAt) {
+    public Comment(UUID id, String author, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.associatedEntityId = associatedEntityId;
-        this.associatedEntityType = associatedEntityType;
         this.author = author;
         this.body = body;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public CommentId getId() {
+    public Comment(UUID id, String author, String body) {
+        this.id = id;
+        this.author = author;
+        this.body = body;
+    }
+
+    public void update(Comment comment){
+        Optional.ofNullable(comment.getAuthor()).ifPresent(valor ->
+                RulesChecker.checkRule(new AuthorValidation(this.author, valor)));
+        Optional.ofNullable(comment.getBody()).ifPresent(valor ->
+        {
+            RulesChecker.checkRule(new BodyMinAndMaxExtension(valor));
+            this.body = valor;
+        });
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public CommentAssociatedEntityId getAssociatedEntityId() {
-        return associatedEntityId;
-    }
-
-    public CommentAssociatedEntityType getAssociatedEntityType() {
-        return associatedEntityType;
-    }
-
-    public User getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public CommentTextBody getBody() {
+    public String getBody() {
         return body;
     }
 
-    public CommentCreatedAt getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", associatedEntityId=" + associatedEntityId +
-                ", associatedEntityType=" + associatedEntityType +
-                ", author=" + author +
-                ", body=" + body +
-                ", createdAt=" + createdAt +
-                '}';
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

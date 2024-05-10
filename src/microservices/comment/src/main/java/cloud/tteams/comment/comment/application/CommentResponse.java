@@ -1,56 +1,38 @@
 package cloud.tteams.comment.comment.application;
 
 import cloud.tteams.comment.comment.domain.*;
-import cloud.tteams.share.user.application.SimpleUserResponse;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CommentResponse {
-    private final UUID id;
 
-    private final UUID associatedEntityId;
+    private UUID id;
 
-    private final CommentAssociatedEntityType associatedEntityType;
+    private String author;
 
-    private final SimpleUserResponse author;
+    private LocalDateTime createdAt;
 
-    private final String body;
+    private LocalDateTime updatedAt;
 
-    private final LocalDate createdAt;
+    private String body;
 
-    public CommentResponse(UUID id, UUID associatedEntityId, CommentAssociatedEntityType associatedEntityType,
-                           SimpleUserResponse author, String body, LocalDate createdAt) {
-        this.id = id;
-        this.associatedEntityId = associatedEntityId;
-        this.associatedEntityType = associatedEntityType;
-        this.author = author;
-        this.body = body;
-        this.createdAt = createdAt;
+    public CommentResponse() {
     }
 
     public CommentResponse(Comment comment) {
-        this.id = comment.getId().value();
-        this.associatedEntityId = comment.getAssociatedEntityId().value();
-        this.associatedEntityType = comment.getAssociatedEntityType();
-        this.author = new SimpleUserResponse(comment.getAuthor());
-        this.body = comment.getBody().value();
-        this.createdAt = comment.getCreatedAt().value();
+        this.id = comment.getId();
+        this.author = comment.getAuthor();
+        this.body = comment.getBody();
+        this.createdAt = comment.getCreatedAt();
+        this.updatedAt = comment.getUpdatedAt();
     }
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getAssociatedEntityId() {
-        return associatedEntityId;
-    }
-
-    public CommentAssociatedEntityType getAssociatedEntityType() {
-        return associatedEntityType;
-    }
-
-    public SimpleUserResponse getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
@@ -58,7 +40,11 @@ public class CommentResponse {
         return body;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

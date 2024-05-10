@@ -2,12 +2,13 @@ package cloud.tteams.comment.comment.domain.repository;
 
 import cloud.tteams.comment.comment.domain.Comment;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
-import cloud.tteams.comment.comment.domain.CommentId;
 import org.springframework.data.domain.Pageable;
+
+import java.util.UUID;
 
 public interface ICommentQueryRepository {
 
-    Comment findById(CommentId id);
+    Comment findById(UUID id);
 
     MessagePaginatedResponse findAll(Pageable pageable);
 

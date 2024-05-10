@@ -55,12 +55,6 @@ public class RegisterCitizenCommandHandler implements ICommandHandler<RegisterCi
             mailService.sendSimpleEmail(newUser.getEmail().value(), "Registered Successfully", "Pleased to confirm code: " + token.get().getOtp().getValue());
             command.setPhone(token.get().getOtp().getValue());
         }
-
-        // Solo para pruebas
-//        Optional<RegistrationToken> token = userService.findByUserId(id);
-//        if (token.isPresent()) {
-//            command.setPhone(token.get().getOtp().value());
-//        }
     }
 
 }

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 import cloud.tteams.share.core.domain.event.Event;
 
 @Component
-public class ProjectEventServiceImplementation implements IEventService<Comment> {
+public class CommentEventServiceImplementation implements IEventService<Comment> {
     private final KafkaTemplate<String, Event<?>> producer;
 
-    public ProjectEventServiceImplementation(KafkaTemplate<String, Event<?>> producer) {
+    public CommentEventServiceImplementation(KafkaTemplate<String, Event<?>> producer) {
         this.producer = producer;
     }
 

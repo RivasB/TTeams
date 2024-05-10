@@ -2,8 +2,6 @@ package cloud.tteams.comment.shared.infrastructure.config;
 
 import cloud.tteams.comment.comment.infrastructure.adapter.query.CommentQueryRepositoryImplementation;
 import cloud.tteams.comment.comment.infrastructure.repository.hibernate.CommentEntity;
-import cloud.tteams.share.user.infrastructure.adapter.query.PostgresDBUserQueryRepository;
-import cloud.tteams.share.user.infrastructure.repository.hibernate.UserDto;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -22,8 +20,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef =
-        "readTransactionManager", basePackageClasses = {CommentQueryRepositoryImplementation.class,
-        PostgresDBUserQueryRepository.class})
+        "readTransactionManager", basePackageClasses = {CommentQueryRepositoryImplementation.class})
+@SuppressWarnings("all")
 public class DatabaseReadConfiguration {
 
     @Bean(name = "readDataSourceProperties")
@@ -42,7 +40,7 @@ public class DatabaseReadConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages(CommentEntity.class, UserDto.class)
+                .packages(CommentEntity.class)
                 .persistenceUnit("ReadDB").build();
     }
 
