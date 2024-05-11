@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/agency")
+@RequestMapping("/api/organization")
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Organization", description = "The Organization Command API. Contains all the command operations that can" +
         " be performed on a organization.")
