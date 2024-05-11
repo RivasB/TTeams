@@ -10,7 +10,7 @@ public class ProfileAgencyRequiredRule extends BusinessRule {
     private UUID agency;
 
     public ProfileAgencyRequiredRule(UUID agency) {
-        super(DomainErrorMessage.PROFILE_AGENCY_REQUIRED, "Profile agency is required!");
+        super(DomainErrorMessage.PROFILE_AGENCY_REQUIRED, "Profile organization is required!");
         this.agency = agency;
     }
 

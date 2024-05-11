@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cloud.tteams.identity.security.domain.service.JwtTokenManager;
+import cloud.tteams.identity.security.infrastructure.service.utility.JavaWebTokenServiceImplementation;
 import cloud.tteams.share.core.application.ApiResponse2xx;
 import cloud.tteams.share.core.domain.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
@@ -50,9 +50,9 @@ public class UserBackOfficeController {
 
     private final IMediator mediator;
 
-    private final JwtTokenManager jwTokenManager;
+    private final JavaWebTokenServiceImplementation jwTokenManager;
 
-    public UserBackOfficeController(IMediator mediator, JwtTokenManager jwTokenManager) {
+    public UserBackOfficeController(IMediator mediator, JavaWebTokenServiceImplementation jwTokenManager) {
         this.mediator = mediator;
         this.jwTokenManager = jwTokenManager;
     }

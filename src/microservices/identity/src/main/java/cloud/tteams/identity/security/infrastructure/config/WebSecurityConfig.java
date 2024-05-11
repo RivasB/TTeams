@@ -12,20 +12,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import cloud.tteams.identity.security.domain.service.JwtAuthenticationEntryPoint;
-import cloud.tteams.identity.security.domain.service.JwtRequestFilter;
+import cloud.tteams.identity.security.infrastructure.filter.JavaWebTokenRequestFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private final JwtRequestFilter requestFilter;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final JavaWebTokenRequestFilter requestFilter;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public WebSecurityConfig(UserDetailsService userDetailsService,
-            JwtAuthenticationEntryPoint authenticationEntryPoint, JwtRequestFilter requestFilter,
-            BCryptPasswordEncoder passwordEncoder) {
+                             AuthenticationEntryPoint authenticationEntryPoint, JavaWebTokenRequestFilter requestFilter,
+                             BCryptPasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.requestFilter = requestFilter;

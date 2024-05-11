@@ -214,9 +214,9 @@ public enum DomainErrorMessage implements IDomainErrorMessage {
      */
     TYPE_SERVICE_NAME_REQUIRED(652, Series.DOMAIN_ERROR, "Type Service name Required"),
     /**
-     * {@code 653 Service agency Required}
+     * {@code 653 Service organization Required}
      */
-    SERVICE_AGENCY_REQUIRED(653, Series.DOMAIN_ERROR, "Service agency Required"),
+    SERVICE_AGENCY_REQUIRED(653, Series.DOMAIN_ERROR, "Service organization Required"),
     /**
      * {@code 654 Service city Required}
      */
@@ -554,9 +554,9 @@ public enum DomainErrorMessage implements IDomainErrorMessage {
 
     HOLIDAY_MUST_BE_UNIQUE(746, Series.DOMAIN_ERROR, "Only one holiday registry per day"),
 
-    NATIONAL_HOLIDAY_CAN_NOT_HAVE_AGENCY(747, Series.DOMAIN_ERROR,"A national holiday can not be associated with an specific agency"),
+    NATIONAL_HOLIDAY_CAN_NOT_HAVE_AGENCY(747, Series.DOMAIN_ERROR,"A national holiday can not be associated with an specific organization"),
 
-    LOCAL_HOLIDAY_MUST_HAVE_AGENCY(748, Series.DOMAIN_ERROR,"A local holiday must be associated with an agency"),
+    LOCAL_HOLIDAY_MUST_HAVE_AGENCY(748, Series.DOMAIN_ERROR,"A local holiday must be associated with an organization"),
 
     CATEGORY_MUST_BE_UNIQUE(749, Series.DOMAIN_ERROR,"The category mus be unique"),
 

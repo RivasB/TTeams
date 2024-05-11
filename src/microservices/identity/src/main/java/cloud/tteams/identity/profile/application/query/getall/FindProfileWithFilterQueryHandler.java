@@ -1,6 +1,6 @@
 package cloud.tteams.identity.profile.application.query.getall;
 
-import cloud.tteams.identity.agency.domain.AgencyId;
+import cloud.tteams.identity.organization.domain.AgencyId;
 import cloud.tteams.identity.profile.domain.ProfileDescription;
 import cloud.tteams.identity.profile.domain.ProfileName;
 import org.springframework.stereotype.Component;

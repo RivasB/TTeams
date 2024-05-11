@@ -1,6 +1,6 @@
 package cloud.tteams.identity.user.infrastructure.port;
 
-import cloud.tteams.identity.security.domain.service.JwtTokenManager;
+import cloud.tteams.identity.security.infrastructure.service.utility.JavaWebTokenServiceImplementation;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordCommand;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordMessage;
 import cloud.tteams.identity.user.application.command.changepassword.UserChangePasswordRequest;
@@ -32,9 +32,9 @@ public class UserController {
 
     private final IMediator mediator;
     
-    private final JwtTokenManager jwTokenManager;
+    private final JavaWebTokenServiceImplementation jwTokenManager;
 
-    public UserController(IMediator mediator, JwtTokenManager jwTokenManager) {
+    public UserController(IMediator mediator, JavaWebTokenServiceImplementation jwTokenManager) {
         this.mediator = mediator;
         this.jwTokenManager = jwTokenManager;
     }

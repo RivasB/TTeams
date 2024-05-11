@@ -6,7 +6,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ApiResponse2xx {
+public class ApiResponse2xx<T> {
 
     private final String timestamp;
 
@@ -16,9 +16,9 @@ public class ApiResponse2xx {
 
     private final String errors;
 
-    private final CommandMessage data;
+    private final T data;
 
-    public ApiResponse2xx(CommandMessage data, HttpStatus status) {
+    public ApiResponse2xx(T data, HttpStatus status) {
         this.timestamp = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss '['z']'")
                 .format(ZonedDateTime.now(ZoneId.of("UTC")));
         this.status = status.value();
@@ -43,7 +43,7 @@ public class ApiResponse2xx {
         return errors;
     }
 
-    public CommandMessage getData() {
+    public T getData() {
         return data;
     }
 

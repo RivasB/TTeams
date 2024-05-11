@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import cloud.tteams.identity.access.infrastructure.repository.hibernate.AccessDto;
-import cloud.tteams.identity.agency.domain.Agency;
+import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AccessDto;
+import cloud.tteams.identity.organization.domain.Agency;
 import cloud.tteams.identity.user.domain.User;
 import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserDto;
-import cloud.tteams.identity.agency.infrastructure.repository.hibernate.AgencyDto;
+import cloud.tteams.identity.organization.infrastructure.repository.hibernate.AgencyDto;
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.identity.profile.domain.ProfileAccessSet;
 import cloud.tteams.identity.profile.domain.ProfileDescription;

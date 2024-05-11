@@ -2,8 +2,8 @@ package cloud.tteams.identity.profile.application;
 
 import java.util.List;
 
-import cloud.tteams.identity.access.application.AccessResponse;
-import cloud.tteams.identity.agency.application.query.AgencyResponse;
+import cloud.tteams.identity.authorization.application.AccessResponse;
+import cloud.tteams.identity.organization.application.query.AgencyResponse;
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.identity.profile.domain.ProfileState;
 

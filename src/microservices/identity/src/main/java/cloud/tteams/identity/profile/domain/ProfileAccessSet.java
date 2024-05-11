@@ -2,7 +2,7 @@ package cloud.tteams.identity.profile.domain;
 
 import java.util.Collection;
 
-import cloud.tteams.identity.access.domain.Access;
+import cloud.tteams.identity.authorization.domain.Access;
 import cloud.tteams.share.core.domain.CollectionValueObject;
 
 public class ProfileAccessSet extends CollectionValueObject<Access> {

@@ -2,12 +2,12 @@ package cloud.tteams.identity.profile.application.command.update;
 
 import java.util.HashSet;
 
-import cloud.tteams.identity.access.domain.Access;
-import cloud.tteams.identity.access.domain.AccessId;
-import cloud.tteams.identity.access.domain.service.IAccessService;
-import cloud.tteams.identity.agency.domain.Agency;
-import cloud.tteams.identity.agency.domain.AgencyId;
-import cloud.tteams.identity.agency.domain.service.IAgencyService;
+import cloud.tteams.identity.authorization.domain.Access;
+import cloud.tteams.identity.authorization.domain.AccessId;
+import cloud.tteams.identity.authorization.domain.service.IAccessService;
+import cloud.tteams.identity.organization.domain.Agency;
+import cloud.tteams.identity.organization.domain.AgencyId;
+import cloud.tteams.identity.organization.domain.service.IAgencyService;
 import org.springframework.stereotype.Component;
 
 import cloud.tteams.identity.profile.domain.Profile;

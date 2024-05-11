@@ -19,10 +19,10 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
         "cloud.tteams.identity.user.infrastructure.adapter.query",
-        "cloud.tteams.identity.agency.infrastructure.adapter.query",
-        "cloud.tteams.identity.access.infrastructure.adapter.query",
+        "cloud.tteams.identity.organization.infrastructure.adapter.query",
+        "cloud.tteams.identity.authorization.infrastructure.adapter.query",
         "cloud.tteams.identity.profile.infrastructure.adapter.query",
-        "cloud.tteams.identity.aplication.infrastructure.adapter.query",
+        "cloud.tteams.identity.application.infrastructure.adapter.query",
         "cloud.tteams.identity.geographiclocation.infrastructure.adapter.query",
         "cloud.tteams.identity.telephone_operator.infrastructure.adapter.query",
         "cloud.tteams.identity.validation_mesh.infrastructure.adapter.query" })
@@ -45,10 +45,10 @@ public class PostgresDBReadConfiguration {
             @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
                 .packages("cloud.tteams.identity.user.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.agency.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.access.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.organization.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.authorization.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.profile.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.aplication.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.application.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.geographiclocation.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.telephone_operator.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.validation_mesh.infrastructure.repository.hibernate")

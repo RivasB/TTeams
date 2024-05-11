@@ -1,6 +1,6 @@
 package cloud.tteams.identity.profile.domain;
 
-import cloud.tteams.identity.agency.domain.Agency;
+import cloud.tteams.identity.organization.domain.Agency;
 import cloud.tteams.identity.user.domain.User;
 
 public class Profile {

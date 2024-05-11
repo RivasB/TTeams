@@ -173,11 +173,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessRuleValidationException.class)
     public ResponseEntity<Object> handleBusinessRuleValidationException(BusinessRuleValidationException ex) {
 
-        List<String> details = Collections.singletonList(ex.getDetails());
+        List<String> details = Collections.singletonList(ex.getMessage());
 
         ApiError err = new ApiError(
                 ZonedDateTime.now(ZoneId.of("UTC")),
-                ex.getStatus(),
+                HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
                 details);
 

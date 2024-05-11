@@ -1,0 +1,13 @@
+package cloud.tteams.identity.authorization.domain.event;
+
+import cloud.tteams.identity.authorization.domain.Access;
+import cloud.tteams.share.core.domain.event.Event;
+import cloud.tteams.share.core.domain.event.EventType;
+
+public class AccessUpdatedEvent extends Event<Access> {
+
+    public AccessUpdatedEvent(Access data) {
+        super(EventType.UPDATED, data);
+    }
+
+}

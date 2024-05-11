@@ -3,8 +3,8 @@ package cloud.tteams.identity.profile.application.query.getbyid;
 import java.util.Collection;
 import java.util.UUID;
 
-import cloud.tteams.identity.access.application.AccessResponse;
-import cloud.tteams.identity.agency.application.query.AgencyResponse;
+import cloud.tteams.identity.authorization.application.AccessResponse;
+import cloud.tteams.identity.organization.application.query.AgencyResponse;
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.share.core.domain.bus.query.IResponse;

@@ -38,8 +38,7 @@ public class CommentEntity extends Auditable {
                 this.author,
                 this.body,
                 fromDateToLocalDateTime(super.getCreatedDate()),
-                fromDateToLocalDateTime(super.getLastModifiedDate()),
-                attachments);
+                fromDateToLocalDateTime(super.getLastModifiedDate()));
     }
 
     private LocalDateTime fromDateToLocalDateTime(Date date){

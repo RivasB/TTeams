@@ -20,10 +20,10 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
         "cloud.tteams.identity.user.infrastructure.adapter.command",
-        "cloud.tteams.identity.agency.infrastructure.adapter.command",
-        "cloud.tteams.identity.access.infrastructure.adapter.command",
+        "cloud.tteams.identity.organization.infrastructure.adapter.command",
+        "cloud.tteams.identity.authorization.infrastructure.adapter.command",
         "cloud.tteams.identity.profile.infrastructure.adapter.command",
-        "cloud.tteams.identity.aplication.infrastructure.adapter.command",
+        "cloud.tteams.identity.application.infrastructure.adapter.command",
         "cloud.tteams.identity.geographiclocation.infrastructure.adapter.command",
         "cloud.tteams.identity.telephone_operator.infrastructure.adapter.command",
         "cloud.tteams.identity.validation_mesh.infrastructure.adapter.command" })
@@ -49,10 +49,10 @@ public class PostgresDBWriteConfiguration {
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
                 .packages("cloud.tteams.identity.user.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.agency.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.access.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.organization.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.authorization.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.profile.infrastructure.repository.hibernate",
-                        "cloud.tteams.identity.aplication.infrastructure.repository.hibernate",
+                        "cloud.tteams.identity.application.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.geographiclocation.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.telephone_operator.infrastructure.repository.hibernate",
                         "cloud.tteams.identity.validation_mesh.infrastructure.repository.hibernate")

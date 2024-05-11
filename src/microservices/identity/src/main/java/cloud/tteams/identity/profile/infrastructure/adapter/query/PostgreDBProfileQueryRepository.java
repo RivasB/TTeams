@@ -1,6 +1,6 @@
 package cloud.tteams.identity.profile.infrastructure.adapter.query;
 
-import cloud.tteams.identity.agency.domain.AgencyId;
+import cloud.tteams.identity.organization.domain.AgencyId;
 import cloud.tteams.identity.profile.infrastructure.exception.ProfileNotFoundException;
 import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileDto;
 import cloud.tteams.identity.profile.infrastructure.repository.jpa.ProfileSpecifications;

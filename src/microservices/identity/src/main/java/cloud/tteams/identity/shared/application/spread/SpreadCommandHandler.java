@@ -1,6 +1,6 @@
 package cloud.tteams.identity.shared.application.spread;
 
-import cloud.tteams.identity.agency.domain.service.IAgencyService;
+import cloud.tteams.identity.organization.domain.service.IAgencyService;
 import cloud.tteams.identity.geographiclocation.domain.service.IGeographicLocationService;
 import cloud.tteams.identity.user.domain.service.IUserService;
 import cloud.tteams.share.core.domain.bus.command.ICommandHandler;
