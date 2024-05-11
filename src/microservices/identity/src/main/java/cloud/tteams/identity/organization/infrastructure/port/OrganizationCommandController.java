@@ -47,9 +47,9 @@ public class OrganizationCommandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse2xx<DeleteAgencyMessage>> delete(@NotBlank @PathVariable("id") UUID id) {
-        DeleteOrganizationCommand deleteCommand = new DeleteOrganizationCommand(id);
-        DeleteAgencyMessage response = mediator.send(deleteCommand);
+    public ResponseEntity<ApiResponse2xx<CommandMessage>> delete(@NotBlank @PathVariable("id") UUID id) {
+        DeleteOrganizationCommand command = new DeleteOrganizationCommand(id);
+        CommandMessage response = mediator.send(command);
         return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 }
