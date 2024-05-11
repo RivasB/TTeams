@@ -30,8 +30,8 @@ public class OTPUtil {
         String numbers = "0123456789";
         String capitalCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCase = "abcdefghijklmnopqrstuvwxyz";
-        String simbols = "/*-+.,<>!@#$%^&*()_=";
-        String values = numbers + capitalCase + lowerCase + simbols;
+        String symbols = "/*-+.,<>!@#$%^&*()_=";
+        String values = numbers + capitalCase + lowerCase + symbols;
 
         Random random = new Random();
 
@@ -42,7 +42,7 @@ public class OTPUtil {
         otp[0] = numbers.charAt(random.nextInt(numbers.length()));
         otp[1] = capitalCase.charAt(random.nextInt(capitalCase.length()));
         otp[2] = lowerCase.charAt(random.nextInt(lowerCase.length()));
-        otp[3] = simbols.charAt(random.nextInt(simbols.length()));
+        otp[3] = symbols.charAt(random.nextInt(symbols.length()));
         for (int i = 4; i < len; i++) {
             otp[i] = values.charAt(random.nextInt(values.length()));
         }

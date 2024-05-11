@@ -40,7 +40,7 @@ public class SecurityServiceImplementation implements ISecurityService {
     public JavaWebTokenResponse validate(String token) throws UnauthorizedException {
         boolean isValid = javaWebTokenService.validateAuthToken(token);
         if (isValid){
-            return new JavaWebTokenResponse(token, 0L);
+            return new JavaWebTokenResponse(token, ttlMillis);
         }
         else {
             throw new UnauthorizedException("Provided token is not valid");

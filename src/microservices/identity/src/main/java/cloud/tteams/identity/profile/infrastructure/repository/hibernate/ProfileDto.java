@@ -5,10 +5,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AccessDto;
-import cloud.tteams.identity.organization.domain.Agency;
+import cloud.tteams.identity.organization.domain.Organization;
+import cloud.tteams.identity.organization.infrastructure.repository.hibernate.OrganizationEntity;
 import cloud.tteams.identity.user.domain.User;
 import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserDto;
-import cloud.tteams.identity.organization.infrastructure.repository.hibernate.AgencyDto;
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.identity.profile.domain.ProfileAccessSet;
 import cloud.tteams.identity.profile.domain.ProfileDescription;
@@ -37,7 +37,7 @@ public class ProfileDto {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_pk_agency", nullable = false)
-    private AgencyDto agency;
+    private OrganizationEntity agency;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_pk_user", nullable = true)
@@ -76,7 +76,7 @@ public class ProfileDto {
         this.name = profile.getName().getValue();
         this.description = profile.getDescription().getValue();
         this.state = profile.getState();
-        this.agency = profile.getAgency() != null ? new AgencyDto(profile.getAgency()) : null;
+        this.agency = profile.getAgency() != null ? new OrganizationEntity(profile.getAgency()) : null;
         this.user = profile.getUser() != null ? new UserDto(profile.getUser()) : null;
 
         this.access = new HashSet<>();
@@ -94,10 +94,10 @@ public class ProfileDto {
         if (this.access != null) {
             this.access.forEach(element -> pAccess.getValue().add(element.toAggregate()));
         }
-        Agency pAgency = this.agency != null ? this.agency.toAggregate() : null;
+        Organization pOrganization = this.agency != null ? this.agency.toAggregate() : null;
         User pUser = this.user != null ? this.user.toAggregate() : null;
 
-        return new Profile(pId, pName, pDescription, pState, pAgency, pUser, pAccess);
+        return new Profile(pId, pName, pDescription, pState, pOrganization, pUser, pAccess);
     }
 
     public UUID getId() {
@@ -116,7 +116,7 @@ public class ProfileDto {
         return state;
     }
 
-    public AgencyDto getAgency() {
+    public OrganizationEntity getAgency() {
         return agency;
     }
 

@@ -5,9 +5,8 @@ import java.util.HashSet;
 import cloud.tteams.identity.authorization.domain.Access;
 import cloud.tteams.identity.authorization.domain.AccessId;
 import cloud.tteams.identity.authorization.domain.service.IAccessService;
-import cloud.tteams.identity.organization.domain.Agency;
-import cloud.tteams.identity.organization.domain.AgencyId;
-import cloud.tteams.identity.organization.domain.service.IAgencyService;
+import cloud.tteams.identity.organization.domain.Organization;
+import cloud.tteams.identity.organization.domain.service.IOrganizationService;
 import org.springframework.stereotype.Component;
 
 import cloud.tteams.identity.profile.domain.Profile;
@@ -23,10 +22,10 @@ import cloud.tteams.share.core.domain.bus.command.ICommandHandler;
 public class CreateProfileCommandHandler implements ICommandHandler<CreateProfileCommand> {
 
     private final IProfileService profileService;
-    private final IAgencyService agencyService;
+    private final IOrganizationService agencyService;
     private final IAccessService accessService;
 
-    public CreateProfileCommandHandler(IProfileService profileService, IAgencyService agencyService,
+    public CreateProfileCommandHandler(IProfileService profileService, IOrganizationService agencyService,
             IAccessService accessService) {
         this.profileService = profileService;
         this.agencyService = agencyService;
@@ -38,7 +37,7 @@ public class CreateProfileCommandHandler implements ICommandHandler<CreateProfil
         ProfileId id = new ProfileId(command.getId());
         ProfileName name = new ProfileName(command.getName());
         ProfileDescription description = new ProfileDescription(command.getDescription());
-        Agency agency = agencyService.findById(new AgencyId(command.getAgency()));
+        Organization organization = agencyService.findById(new AgencyId(command.getAgency()));
         ProfileState state = command.getState();
         ProfileAccessSet access = new ProfileAccessSet(new HashSet<>());
         command.getAccess().stream().forEach(element -> {
@@ -46,7 +45,7 @@ public class CreateProfileCommandHandler implements ICommandHandler<CreateProfil
             access.getValue().add(toStore);
         });
 
-        Profile profile = new Profile(id, name, description, state, agency, null, access);
+        Profile profile = new Profile(id, name, description, state, organization, null, access);
 
         profileService.create(profile);
     }

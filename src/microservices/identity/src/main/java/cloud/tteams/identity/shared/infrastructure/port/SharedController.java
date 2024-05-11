@@ -28,7 +28,7 @@ public class SharedController {
     public ResponseEntity<ApiResponse2xx<SpreadMessage>> spreadUsers() {
         SpreadCommand command = new SpreadCommand();
         SpreadMessage response = mediator.send(command);
-        return ResponseEntity.ok(new ApiResponse2xx<SpreadMessage>(response, HttpStatus.OK));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
 }

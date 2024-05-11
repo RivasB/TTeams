@@ -1,6 +1,6 @@
 package cloud.tteams.identity.profile.domain;
 
-import cloud.tteams.identity.organization.domain.Agency;
+import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.identity.user.domain.User;
 
 public class Profile {
@@ -9,16 +9,16 @@ public class Profile {
     private ProfileDescription description;
     private ProfileState state;
     private ProfileAccessSet access;
-    private Agency agency;
+    private Organization organization;
     private User user;
 
     public Profile(ProfileId id, ProfileName name, ProfileDescription description, ProfileState state,
-            Agency agency, User user, ProfileAccessSet access) {
+                   Organization organization, User user, ProfileAccessSet access) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.state = state;
-        this.agency = agency;
+        this.organization = organization;
         this.user = user;
         this.access = access;
     }
@@ -39,8 +39,8 @@ public class Profile {
         return state;
     }
 
-    public Agency getAgency() {
-        return agency;
+    public Organization getAgency() {
+        return organization;
     }
 
     public User getUser() {
