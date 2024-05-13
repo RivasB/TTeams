@@ -1,5 +1,7 @@
 package cloud.tteams.comment.comment.infrastructure.repository.hibernate;
 import cloud.tteams.comment.comment.domain.Comment;
+import cloud.tteams.share.core.infrastructure.config.annotation.CommandRepository;
+import cloud.tteams.share.core.infrastructure.config.annotation.Persistent;
 import cloud.tteams.share.core.infrastructure.repository.hibernate.Auditable;
 import jakarta.persistence.*;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Persistent
 @Table(name = "tteams_comment")
 public class CommentEntity extends Auditable {
 

@@ -2,7 +2,7 @@ package cloud.tteams.identity.user.application.query.getall;
 
 import org.springframework.stereotype.Component;
 
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 import cloud.tteams.identity.user.domain.service.IUserService;
 

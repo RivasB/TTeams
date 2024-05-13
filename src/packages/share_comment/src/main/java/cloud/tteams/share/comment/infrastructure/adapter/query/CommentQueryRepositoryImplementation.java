@@ -7,7 +7,7 @@ import cloud.tteams.share.comment.domain.CommentId;
 import cloud.tteams.share.comment.domain.repository.ICommentQueryRepository;
 import cloud.tteams.share.comment.infrastructure.exception.CommentNotFoundException;
 import cloud.tteams.share.comment.infrastructure.repository.hibernate.CommentEntity;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

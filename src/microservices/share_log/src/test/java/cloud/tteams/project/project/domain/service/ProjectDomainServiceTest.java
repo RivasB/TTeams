@@ -6,7 +6,7 @@ import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundException;
 import cloud.tteams.project.project.infrastructure.service.ProjectDomainServiceImplementation;
 import cloud.tteams.project.project.infrastructure.service.ProjectEventServiceImplementation;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.domain.Page;

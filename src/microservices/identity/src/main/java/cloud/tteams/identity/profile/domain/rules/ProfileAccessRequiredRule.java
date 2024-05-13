@@ -2,21 +2,20 @@ package cloud.tteams.identity.profile.domain.rules;
 
 import java.util.Collection;
 
-import cloud.tteams.identity.authorization.domain.Access;
 import cloud.tteams.share.core.domain.exception.DomainErrorMessage;
 import cloud.tteams.share.core.domain.rules.BusinessRule;
 
 public class ProfileAccessRequiredRule extends BusinessRule {
 
-    private Collection<Access> access;
+    private Collection<Authorization> authorizations;
 
-    public ProfileAccessRequiredRule(Collection<Access> access) {
+    public ProfileAccessRequiredRule(Collection<Authorization> authorizations) {
         super(DomainErrorMessage.PROFILE_ACCESS_REQUIRED, "Profile must have at least one associated authorization!");
-        this.access = access;
+        this.authorizations = authorizations;
     }
 
     @Override
     public boolean isBroken() {
-        return null == access || access.isEmpty();
+        return null == authorizations || authorizations.isEmpty();
     }
 }

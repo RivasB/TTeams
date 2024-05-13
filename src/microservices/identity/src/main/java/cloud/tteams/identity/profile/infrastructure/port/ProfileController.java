@@ -2,7 +2,6 @@ package cloud.tteams.identity.profile.infrastructure.port;
 
 import java.util.UUID;
 
-import cloud.tteams.identity.profile.domain.ProfileState;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,7 +29,7 @@ import cloud.tteams.identity.profile.application.query.getall.FindProfileWithFil
 import cloud.tteams.identity.profile.application.query.getbyid.FindProfileByIdQuery;
 import cloud.tteams.identity.profile.application.query.getbyid.FindProfileByIdResponse;
 import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

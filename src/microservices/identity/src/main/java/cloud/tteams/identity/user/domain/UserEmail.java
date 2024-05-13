@@ -1,6 +1,6 @@
 package cloud.tteams.identity.user.domain;
 
-import cloud.tteams.share.core.domain.StringValueObject;
+import cloud.tteams.share.core.domain.valueobject.StringValueObject;
 
 public class UserEmail extends StringValueObject {
     private String value;

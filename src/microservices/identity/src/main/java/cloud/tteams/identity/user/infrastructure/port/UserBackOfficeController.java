@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cloud.tteams.identity.security.infrastructure.service.utility.JavaWebTokenServiceImplementation;
 import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import cloud.tteams.identity.user.application.command.create.CreateUserCommand;
 import cloud.tteams.identity.user.application.command.create.CreateUserMessage;

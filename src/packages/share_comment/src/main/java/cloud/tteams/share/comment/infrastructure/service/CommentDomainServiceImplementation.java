@@ -6,7 +6,7 @@ import cloud.tteams.share.comment.domain.CommentId;
 import cloud.tteams.share.comment.domain.repository.ICommentCommandRepository;
 import cloud.tteams.share.comment.domain.repository.ICommentQueryRepository;
 import cloud.tteams.share.comment.domain.service.ICommentDomainService;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Pageable;

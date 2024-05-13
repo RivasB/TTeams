@@ -3,13 +3,14 @@ package cloud.tteams.comment.comment.domain;
 
 import cloud.tteams.comment.comment.domain.rules.AuthorValidation;
 import cloud.tteams.comment.comment.domain.rules.BodyMinAndMaxExtension;
-import cloud.tteams.share.core.domain.RulesChecker;
+import cloud.tteams.share.core.domain.AggregateRoot;
+import cloud.tteams.share.core.domain.rules.RulesChecker;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Comment {
+public class Comment extends AggregateRoot<Comment> {
     private final UUID id;
 
     private final String author;
@@ -34,6 +35,7 @@ public class Comment {
         this.body = body;
     }
 
+    @Override
     public void update(Comment comment){
         Optional.ofNullable(comment.getAuthor()).ifPresent(valor ->
                 RulesChecker.checkRule(new AuthorValidation(this.author, valor)));

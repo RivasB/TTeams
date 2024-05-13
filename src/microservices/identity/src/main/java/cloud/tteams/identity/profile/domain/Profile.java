@@ -1,53 +1,55 @@
 package cloud.tteams.identity.profile.domain;
 
-import cloud.tteams.identity.organization.domain.Organization;
-import cloud.tteams.identity.user.domain.User;
+import cloud.tteams.identity.authorization.domain.Authorization;
+import cloud.tteams.share.core.domain.State;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Profile {
-    private ProfileId id;
-    private ProfileName name;
-    private ProfileDescription description;
-    private ProfileState state;
-    private ProfileAccessSet access;
-    private Organization organization;
-    private User user;
+    private final UUID id;
+    private String name;
+    private String description;
+    private State state;
+    private List<Authorization> authorizations;
 
-    public Profile(ProfileId id, ProfileName name, ProfileDescription description, ProfileState state,
-                   Organization organization, User user, ProfileAccessSet access) {
+    public Profile(UUID id, String name, String description, State state, List<Authorization> authorizations) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.state = state;
-        this.organization = organization;
-        this.user = user;
-        this.access = access;
+        this.authorizations = authorizations;
     }
 
-    public ProfileId getId() {
+    public void update(Profile profile){
+        Optional.ofNullable(profile.getName()).ifPresent(value ->
+                this.name = value );
+        Optional.ofNullable(profile.getDescription()).ifPresent(value ->
+                this.description = value );
+        Optional.ofNullable(profile.getState()).ifPresent(value ->
+                this.state = value );
+        Optional.ofNullable(profile.getAuthorizations()).ifPresent(value ->
+                this.authorizations = value );
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public ProfileName getName() {
+    public String getName() {
         return name;
     }
 
-    public ProfileDescription getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public ProfileState getState() {
+    public State getState() {
         return state;
     }
 
-    public Organization getAgency() {
-        return organization;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public ProfileAccessSet getAccess() {
-        return access;
+    public List<Authorization> getAuthorizations() {
+        return authorizations;
     }
 }

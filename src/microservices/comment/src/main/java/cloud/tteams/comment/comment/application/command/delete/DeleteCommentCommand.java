@@ -1,6 +1,6 @@
 package cloud.tteams.comment.comment.application.command.delete;
 
-import cloud.tteams.share.core.application.CommandMessage;
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.domain.event.EventType;

@@ -2,11 +2,13 @@ package cloud.tteams.identity.organization.infrastructure.repository.hibernate;
 
 import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.share.core.domain.State;
+import cloud.tteams.share.core.infrastructure.config.annotation.Persistent;
 import jakarta.persistence.*;
 
 import java.util.UUID;
 
 @Entity
+@Persistent
 @Table(name = "tteams_organization")
 public class OrganizationEntity {
 

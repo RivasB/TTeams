@@ -2,7 +2,7 @@ package cloud.tteams.project.project.infrastructure.service;
 
 
 import cloud.tteams.project.project.domain.Project;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.project.project.domain.ProjectId;

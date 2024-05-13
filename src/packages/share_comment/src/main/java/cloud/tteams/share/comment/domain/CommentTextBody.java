@@ -1,6 +1,6 @@
 package cloud.tteams.share.comment.domain;
 
-import cloud.tteams.share.core.domain.StringValueObject;
+import cloud.tteams.share.core.domain.valueobject.StringValueObject;
 
 public class CommentTextBody extends StringValueObject {
 

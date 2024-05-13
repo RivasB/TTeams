@@ -4,7 +4,7 @@ import cloud.tteams.identity.organization.application.query.OrganizationResponse
 import cloud.tteams.identity.organization.application.query.getall.GetAllOrganizationQuery;
 import cloud.tteams.identity.organization.application.query.getbyid.GetOrganizationByIdQuery;
 import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

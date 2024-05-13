@@ -1,11 +1,9 @@
 package cloud.tteams.identity.profile.application.query.getall;
 
-import cloud.tteams.identity.profile.domain.ProfileDescription;
-import cloud.tteams.identity.profile.domain.ProfileName;
 import org.springframework.stereotype.Component;
 
 import cloud.tteams.identity.profile.domain.service.IProfileService;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 
 @Component

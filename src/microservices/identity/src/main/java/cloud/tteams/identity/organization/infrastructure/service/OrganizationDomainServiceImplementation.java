@@ -4,7 +4,7 @@ import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.identity.organization.domain.repository.IOrganizationCommandRepository;
 import cloud.tteams.identity.organization.domain.repository.IOrganizationQueryRepository;
 import cloud.tteams.identity.organization.domain.service.IOrganizationService;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.service.IEventService;
 import org.springframework.beans.factory.annotation.Value;

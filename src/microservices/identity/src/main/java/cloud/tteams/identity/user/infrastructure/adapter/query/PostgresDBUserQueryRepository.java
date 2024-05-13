@@ -14,7 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.exceptions.ResourceNotFoundException;
 import cloud.tteams.identity.user.application.UserResponse;
 import cloud.tteams.identity.user.domain.User;

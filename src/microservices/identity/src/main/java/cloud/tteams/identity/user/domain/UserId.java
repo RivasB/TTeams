@@ -2,7 +2,7 @@ package cloud.tteams.identity.user.domain;
 
 import java.util.UUID;
 
-import cloud.tteams.share.core.domain.Identifier;
+import cloud.tteams.share.core.domain.valueobject.Identifier;
 
 public class UserId extends Identifier {
     private UUID value;

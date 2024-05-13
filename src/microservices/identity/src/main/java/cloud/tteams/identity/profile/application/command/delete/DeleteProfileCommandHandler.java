@@ -2,7 +2,6 @@ package cloud.tteams.identity.profile.application.command.delete;
 
 import org.springframework.stereotype.Component;
 
-import cloud.tteams.identity.profile.domain.ProfileId;
 import cloud.tteams.identity.profile.domain.service.IProfileService;
 import cloud.tteams.share.core.domain.bus.command.ICommandHandler;
 

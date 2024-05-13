@@ -3,8 +3,6 @@ package cloud.tteams.identity.profile.application.command.create;
 import java.util.Collection;
 import java.util.UUID;
 
-import cloud.tteams.identity.profile.domain.ProfileState;
-
 public class CreateProfileRequest {
 
     private String name;

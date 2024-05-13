@@ -1,6 +1,6 @@
 package cloud.tteams.share.comment.domain;
 
-import cloud.tteams.share.core.domain.Identifier;
+import cloud.tteams.share.core.domain.valueobject.Identifier;
 
 import java.util.UUID;
 

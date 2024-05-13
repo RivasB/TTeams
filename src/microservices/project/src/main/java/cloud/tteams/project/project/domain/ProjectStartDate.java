@@ -1,6 +1,6 @@
 package cloud.tteams.project.project.domain;
 
-import cloud.tteams.share.core.domain.DateValueObject;
+import cloud.tteams.share.core.domain.valueobject.DateValueObject;
 
 import java.time.LocalDate;
 

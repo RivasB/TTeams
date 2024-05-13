@@ -1,14 +1,10 @@
 package cloud.tteams.identity.profile.infrastructure.service;
 
-import cloud.tteams.identity.profile.domain.ProfileDescription;
-import cloud.tteams.identity.profile.domain.ProfileName;
-import cloud.tteams.identity.profile.domain.ProfileState;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.ProfileId;
 import cloud.tteams.identity.profile.domain.repository.IProfileCommandRepository;
 import cloud.tteams.identity.profile.domain.repository.IProfileQueryRepository;
 import cloud.tteams.identity.profile.domain.rules.ProfileAccessRequiredRule;
@@ -16,8 +12,8 @@ import cloud.tteams.identity.profile.domain.rules.ProfileAgencyRequiredRule;
 import cloud.tteams.identity.profile.domain.rules.ProfileNameRequiredRule;
 import cloud.tteams.identity.profile.domain.rules.ProfileStateRequiredRule;
 import cloud.tteams.identity.profile.domain.service.IProfileService;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
-import cloud.tteams.share.core.domain.RulesChecker;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
+import cloud.tteams.share.core.domain.rules.RulesChecker;
 import cloud.tteams.share.core.domain.service.IEventService;
 import org.springframework.transaction.annotation.Transactional;
 

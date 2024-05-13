@@ -3,7 +3,6 @@ package cloud.tteams.identity.profile.application.command.update;
 import java.util.Collection;
 import java.util.UUID;
 
-import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 

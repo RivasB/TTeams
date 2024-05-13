@@ -6,7 +6,7 @@ import cloud.tteams.identity.organization.application.command.delete.DeleteOrgan
 import cloud.tteams.identity.organization.application.command.update.UpdateOrganizationCommand;
 import cloud.tteams.identity.organization.application.command.update.UpdateOrganizationRequest;
 import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.application.CommandMessage;
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,6 +1,5 @@
 package cloud.tteams.identity.profile.domain.rules;
 
-import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.share.core.domain.exception.DomainErrorMessage;
 import cloud.tteams.share.core.domain.rules.BusinessRule;
 

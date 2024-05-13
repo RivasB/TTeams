@@ -1,7 +1,7 @@
 package cloud.tteams.comment.comment.domain.service;
 
 
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.comment.comment.domain.Comment;
 import org.springframework.data.domain.Pageable;
 

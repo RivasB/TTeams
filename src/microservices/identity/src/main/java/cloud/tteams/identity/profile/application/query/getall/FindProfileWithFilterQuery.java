@@ -1,6 +1,5 @@
 package cloud.tteams.identity.profile.application.query.getall;
 
-import cloud.tteams.identity.profile.domain.ProfileState;
 import org.springframework.data.domain.Pageable;
 
 import cloud.tteams.share.core.domain.bus.query.IQuery;

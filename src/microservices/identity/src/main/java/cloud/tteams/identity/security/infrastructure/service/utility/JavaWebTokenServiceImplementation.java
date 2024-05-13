@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import cloud.tteams.identity.security.domain.rules.TokenRefreshEligibility;
 import cloud.tteams.identity.security.domain.service.utility.IJavaWebTokenService;
-import cloud.tteams.share.core.domain.RulesChecker;
+import cloud.tteams.share.core.domain.rules.RulesChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;

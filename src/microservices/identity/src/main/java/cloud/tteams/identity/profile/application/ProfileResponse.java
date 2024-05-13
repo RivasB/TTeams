@@ -2,10 +2,9 @@ package cloud.tteams.identity.profile.application;
 
 import java.util.List;
 
-import cloud.tteams.identity.authorization.application.AccessResponse;
+import cloud.tteams.identity.authorization.application.AuthorizationResponse;
 import cloud.tteams.identity.organization.application.query.OrganizationResponse;
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.ProfileState;
 
 public class ProfileResponse {
 
@@ -14,7 +13,7 @@ public class ProfileResponse {
     private String description;
     private ProfileState state;
     private OrganizationResponse agency;
-    private List<AccessResponse> access;
+    private List<AuthorizationResponse> access;
 
     public ProfileResponse(Profile profile) {
         this.id = profile.getId().getValue().toString();
@@ -23,7 +22,7 @@ public class ProfileResponse {
         this.state = profile.getState();
         this.agency = new OrganizationResponse(profile.getAgency());
         this.access = profile.getAccess().getValue().stream().map(item -> {
-            return new AccessResponse(item);
+            return new AuthorizationResponse(item);
         }).toList();
     }
 
@@ -47,7 +46,7 @@ public class ProfileResponse {
         return agency;
     }
 
-    public List<AccessResponse> getAccess() {
+    public List<AuthorizationResponse> getAccess() {
         return access;
     }
 }

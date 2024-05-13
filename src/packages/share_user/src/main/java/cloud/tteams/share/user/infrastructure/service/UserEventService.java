@@ -22,7 +22,7 @@ public class UserEventService {
     }
 
     @KafkaListener(topics = "${topic.user.name:users}", containerFactory = "kafkaListenerContainerFactory", groupId =
-            "${spring.application.name}-shared-user-group")
+            "${spring.application.name}-common-user-group")
     public void consumer(String message) {
         JSONObject eventMessage = new JSONObject(message);
         try {

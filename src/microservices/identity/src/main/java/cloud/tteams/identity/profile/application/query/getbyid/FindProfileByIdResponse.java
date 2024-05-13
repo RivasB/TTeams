@@ -3,10 +3,9 @@ package cloud.tteams.identity.profile.application.query.getbyid;
 import java.util.Collection;
 import java.util.UUID;
 
-import cloud.tteams.identity.authorization.application.AccessResponse;
+import cloud.tteams.identity.authorization.application.AuthorizationResponse;
 import cloud.tteams.identity.organization.application.query.OrganizationResponse;
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
 
 public class FindProfileByIdResponse implements IResponse {
@@ -21,10 +20,10 @@ public class FindProfileByIdResponse implements IResponse {
 
     private OrganizationResponse agency;
 
-    private Collection<AccessResponse> access;
+    private Collection<AuthorizationResponse> access;
 
     public FindProfileByIdResponse(UUID id, String name, String description, ProfileState state, OrganizationResponse agency,
-            Collection<AccessResponse> access) {
+            Collection<AuthorizationResponse> access) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,7 +38,7 @@ public class FindProfileByIdResponse implements IResponse {
         this.description = profile.getDescription().value();
         this.state = profile.getState();
         this.agency = new OrganizationResponse(profile.getAgency());
-        this.access = profile.getAccess().getValue().stream().map(AccessResponse::new).toList();
+        this.access = profile.getAccess().getValue().stream().map(AuthorizationResponse::new).toList();
     }
 
     public UUID getId() {
@@ -62,7 +61,7 @@ public class FindProfileByIdResponse implements IResponse {
         return agency;
     }
 
-    public Collection<AccessResponse> getAccess() {
+    public Collection<AuthorizationResponse> getAccess() {
         return access;
     }
 

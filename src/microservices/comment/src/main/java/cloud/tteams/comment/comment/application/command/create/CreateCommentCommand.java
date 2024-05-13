@@ -1,7 +1,7 @@
 package cloud.tteams.comment.comment.application.command.create;
 
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.share.core.application.CommandMessage;
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.domain.event.EventType;

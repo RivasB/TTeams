@@ -1,10 +1,11 @@
 package cloud.tteams.identity.organization.domain;
+import cloud.tteams.share.core.domain.AggregateRoot;
 import cloud.tteams.share.core.domain.State;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public final class Organization {
+public final class Organization extends AggregateRoot<Organization> {
     private final UUID id;
     private String name;
     private String description;
@@ -19,6 +20,7 @@ public final class Organization {
         this.state = state;
     }
 
+    @Override
     public void update(Organization organization){
         Optional.ofNullable(organization.getName()).ifPresent(valor ->
                 this.name = valor);

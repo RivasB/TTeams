@@ -6,8 +6,7 @@ import cloud.tteams.comment.comment.application.command.delete.DeleteCommentComm
 import cloud.tteams.comment.comment.application.command.update.UpdateCommentCommand;
 import cloud.tteams.comment.comment.application.command.update.UpdateCommentRequest;
 import cloud.tteams.share.core.application.ApiResponse2xx;
-import cloud.tteams.share.core.application.CommandMessage;
-import cloud.tteams.share.core.domain.event.EventType;
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

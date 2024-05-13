@@ -1,10 +1,9 @@
 package cloud.tteams.identity.user.application.command.register.data;
 
-import cloud.tteams.identity.shared.infrastructure.utils.OTPUtil;
+import cloud.tteams.identity.common.infrastructure.utils.OTPUtil;
 import cloud.tteams.identity.telephone_operator.domain.TelephoneOperator;
 import cloud.tteams.identity.telephone_operator.domain.TelephoneOperatorId;
 import cloud.tteams.identity.telephone_operator.domain.service.ITelephoneOperatorService;
-import cloud.tteams.identity.user.domain.*;
 import cloud.tteams.identity.user.domain.*;
 import cloud.tteams.identity.user.domain.service.IUserService;
 import cloud.tteams.share.core.domain.bus.command.ICommandHandler;

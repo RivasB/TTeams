@@ -1,6 +1,6 @@
 package cloud.tteams.identity.user.domain;
 
-import cloud.tteams.share.core.domain.IntegerValueObject;
+import cloud.tteams.share.core.domain.valueobject.IntegerValueObject;
 
 public class RegistrationTokenAttempt extends IntegerValueObject {
 

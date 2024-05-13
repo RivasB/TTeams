@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
-        <action>
+        <authorizedAction>
             <actionName>run</actionName>
             <packagings>
                 <packaging>jar</packaging>
@@ -16,8 +16,8 @@
                 <exec.mainClass>cloud.tteams.identity.StationApplication</exec.mainClass>
                 <exec.executable>java</exec.executable>
             </properties>
-        </action>
-        <action>
+        </authorizedAction>
+        <authorizedAction>
             <actionName>debug</actionName>
             <packagings>
                 <packaging>jar</packaging>
@@ -34,8 +34,8 @@
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
-        </action>
-        <action>
+        </authorizedAction>
+        <authorizedAction>
             <actionName>profile</actionName>
             <packagings>
                 <packaging>jar</packaging>
@@ -51,5 +51,5 @@
                 <exec.executable>java</exec.executable>
                 <exec.appArgs></exec.appArgs>
             </properties>
-        </action>
+        </authorizedAction>
     </actions>

@@ -4,17 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AccessDto;
+import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AuthorizationEntity;
 import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.identity.organization.infrastructure.repository.hibernate.OrganizationEntity;
 import cloud.tteams.identity.user.domain.User;
 import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserDto;
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.ProfileAccessSet;
-import cloud.tteams.identity.profile.domain.ProfileDescription;
-import cloud.tteams.identity.profile.domain.ProfileId;
-import cloud.tteams.identity.profile.domain.ProfileName;
-import cloud.tteams.identity.profile.domain.ProfileState;
 import jakarta.persistence.*;
 
 @Entity
@@ -47,7 +42,7 @@ public class ProfileDto {
     @JoinTable(name = "jpa_mtm_profile_access",
             joinColumns = @JoinColumn(name = "fk_pk_profile"),
             inverseJoinColumns = @JoinColumn(name = "fk_pk_access"))
-    private Set<AccessDto> access;
+    private Set<AuthorizationEntity> access;
 
     @ManyToMany(mappedBy = "profiles", fetch = FetchType.LAZY)
     private Set<UserDto> users = new HashSet<>();
@@ -81,7 +76,7 @@ public class ProfileDto {
 
         this.access = new HashSet<>();
         if (profile.getAccess() != null) {
-            profile.getAccess().value().forEach(element -> access.add(new AccessDto(element)));
+            profile.getAccess().value().forEach(element -> access.add(new AuthorizationEntity(element)));
         }
     }
 
@@ -124,7 +119,7 @@ public class ProfileDto {
         return user;
     }
 
-    public Set<AccessDto> getAccess() {
+    public Set<AuthorizationEntity> getAccess() {
         return access;
     }
 

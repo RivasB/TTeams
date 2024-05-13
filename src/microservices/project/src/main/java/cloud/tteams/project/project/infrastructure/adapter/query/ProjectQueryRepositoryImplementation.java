@@ -3,7 +3,7 @@ package cloud.tteams.project.project.infrastructure.adapter.query;
 
 import cloud.tteams.project.project.application.ProjectResponse;
 import cloud.tteams.project.project.domain.Project;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.project.project.domain.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundException;

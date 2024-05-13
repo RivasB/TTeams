@@ -2,7 +2,6 @@ package cloud.tteams.identity.profile.infrastructure.repository.jpa;
 
 import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileDto;
 import cloud.tteams.identity.organization.infrastructure.repository.hibernate.AgencyDto_;
-import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileDto_;
 import org.springframework.data.jpa.domain.Specification;
 

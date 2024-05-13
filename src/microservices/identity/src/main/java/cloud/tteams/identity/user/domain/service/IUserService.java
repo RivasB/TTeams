@@ -5,7 +5,7 @@ import java.util.Optional;
 import cloud.tteams.identity.user.domain.*;
 import org.springframework.data.domain.Pageable;
 
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 
 public interface IUserService {
     public void createUser(User user);

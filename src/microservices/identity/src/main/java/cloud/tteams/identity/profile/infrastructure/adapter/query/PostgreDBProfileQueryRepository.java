@@ -5,12 +5,8 @@ import cloud.tteams.identity.profile.infrastructure.repository.hibernate.Profile
 import cloud.tteams.identity.profile.infrastructure.repository.jpa.ProfileSpecifications;
 import cloud.tteams.identity.profile.application.ProfileResponse;
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.ProfileDescription;
-import cloud.tteams.identity.profile.domain.ProfileId;
-import cloud.tteams.identity.profile.domain.ProfileName;
-import cloud.tteams.identity.profile.domain.ProfileState;
 import cloud.tteams.identity.profile.domain.repository.IProfileQueryRepository;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

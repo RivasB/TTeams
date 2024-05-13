@@ -2,7 +2,7 @@ package cloud.tteams.identity.organization.application.command.create;
 
 import java.util.UUID;
 
-import cloud.tteams.share.core.application.CommandMessage;
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;

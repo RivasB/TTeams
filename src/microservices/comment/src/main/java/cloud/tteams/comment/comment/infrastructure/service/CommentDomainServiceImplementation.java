@@ -2,9 +2,7 @@ package cloud.tteams.comment.comment.infrastructure.service;
 
 
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.comment.comment.domain.rules.AuthorValidation;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
-import cloud.tteams.share.core.domain.RulesChecker;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.comment.comment.domain.repository.ICommentCommandRepository;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Component

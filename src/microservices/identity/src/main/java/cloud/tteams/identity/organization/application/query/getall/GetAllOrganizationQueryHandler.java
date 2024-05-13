@@ -3,7 +3,7 @@ package cloud.tteams.identity.organization.application.query.getall;
 import org.springframework.stereotype.Component;
 
 import cloud.tteams.identity.organization.domain.service.IOrganizationService;
-import cloud.tteams.share.core.domain.MessagePaginatedResponse;
+import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 
 @Component
