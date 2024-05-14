@@ -53,7 +53,6 @@ public class AuthorizationQueryRepositoryImplementation implements IAuthorizatio
         }
         Page<AuthorizationEntity> authorizationEntities = repository.findAll(Specification.allOf(specs_and), pageable);
         List<AuthorizationResponse> authorizations = new ArrayList<>();
-        
         authorizationEntities.forEach(item -> authorizations.add(new AuthorizationResponse(item.toAggregate())));
         return new MessagePaginatedResponse("OK", authorizations, authorizationEntities.getTotalPages(),
                 authorizationEntities.getNumberOfElements(), authorizationEntities.getTotalElements(), authorizationEntities.getSize(),
