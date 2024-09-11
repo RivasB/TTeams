@@ -16,6 +16,6 @@ public class LoginQueryHandler implements IQueryHandler<LoginQuery, JavaWebToken
     }
     @Override
     public JavaWebTokenResponse handle(LoginQuery query) throws UnauthorizedException {
-        return service.login(query.getIdentification(), query.getPassword());
+        return service.login(query.getEmail(), query.getPassword());
     }
 }

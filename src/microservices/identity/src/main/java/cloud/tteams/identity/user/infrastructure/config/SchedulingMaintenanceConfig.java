@@ -14,8 +14,7 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.config.TriggerTask;
 
-import cloud.tteams.identity.user.domain.RegistrationTokenDateTime;
-import cloud.tteams.identity.user.domain.repository.IRegistrationTokenCommandRepository;
+import cloud.tteams.identity.user.domain.repository.otp.IRegistrationTokenCommandRepository;
 
 @Configuration
 @EnableScheduling
@@ -26,8 +25,7 @@ public class SchedulingMaintenanceConfig implements SchedulingConfigurer {
         public RegistrationTokenCleanTriggerTask() {
             super(() -> {
                 // Exec this task
-                RegistrationTokenDateTime current = new RegistrationTokenDateTime(
-                        LocalDateTime.now().minusMinutes(REGISTRATION_TOKEN_EXPIRE_THRESHOLD));
+                LocalDateTime current = LocalDateTime.now().minusMinutes(REGISTRATION_TOKEN_EXPIRE_THRESHOLD);
                 registrationCommandRepository.deleteAllByEndingDateTimeBefore(current);
             }, triggerContext -> {
                 // Triggered here

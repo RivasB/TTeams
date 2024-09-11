@@ -1,9 +1,12 @@
 package cloud.tteams.identity.profile.domain.service;
 
+import cloud.tteams.share.core.domain.State;
 import org.springframework.data.domain.Pageable;
 
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
+
+import java.util.UUID;
 
 public interface IProfileService {
 
@@ -11,12 +14,11 @@ public interface IProfileService {
 
     void update(Profile profile);
 
-    void delete(ProfileId id);
+    void delete(UUID id);
 
-    Profile findById(ProfileId id);
+    Profile findById(UUID id);
 
-    MessagePaginatedResponse getPaginatedProfiles(Pageable pageable, String filter, ProfileName name,
-                                                  ProfileDescription description, ProfileState state,
-                                                  AgencyId agencyId);
+    MessagePaginatedResponse getPaginatedProfiles(Pageable pageable, String filter, String name,
+                                                  String description, State state, UUID organization);
 
 }

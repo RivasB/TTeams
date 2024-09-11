@@ -1,40 +1,40 @@
 package cloud.tteams.identity.user.domain;
 
-import cloud.tteams.identity.telephone_operator.domain.TelephoneOperator;
+import cloud.tteams.identity.profile.domain.Profile;
+import cloud.tteams.share.core.domain.AggregateRoot;
 
-public final class User {
+import java.util.Optional;
+import java.util.UUID;
 
-    private final UserId id;
+public final class User extends AggregateRoot<User> {
 
-    private final UserFirstName firstName;
+    private final UUID id;
 
-    private final UserLastName lastName;
+    private String firstName;
 
-    private final UserIdentification identification;
+    private String lastName;
 
-    private final UserEmail email;
+    private String identification;
 
-    private final UserPassword password;
+    private String email;
 
-    private final UserType type;
+    private String password;
 
-    private final UserState state;
+    private UserType type;
 
-    private final UserProfileSet profiles;
+    private UserState state;
 
-    private final RegistrationTokenState registrationState;
+    private Profile profile;
 
-    private final UserPhone phone;
+    private RegistrationTokenState registrationState;
 
-    private final TelephoneOperator telephoneOperator;
+    private String phone;
 
-    private UserShouldChangePassword shouldChangePassword;
+    private Boolean shouldChangePassword;
 
-    private UserDeleted deleted;
+    private Boolean deleted;
 
-    public User(UserId id, UserFirstName firstName, UserLastName lastName, UserIdentification identification,
-                UserEmail email, UserPassword password, UserType type, UserState state, UserProfileSet profiles,
-                RegistrationTokenState registrationState, UserPhone phone, TelephoneOperator telephoneOperator) {
+    public User(UUID id, String firstName, String lastName, String identification, String email, String password, UserType type, UserState state, Profile profile, RegistrationTokenState registrationState, String phone, Boolean shouldChangePassword) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,54 +43,75 @@ public final class User {
         this.password = password;
         this.type = type;
         this.state = state;
-        this.profiles = profiles;
+        this.profile = profile;
         this.registrationState = registrationState;
         this.phone = phone;
-        this.telephoneOperator = telephoneOperator;
-        this.deleted = new UserDeleted(false);
-    }
-
-    public User(UserId id, UserFirstName firstName, UserLastName lastName, UserIdentification identification,
-                UserEmail email, UserPassword password, UserType type, UserState state, UserProfileSet profiles,
-                RegistrationTokenState registrationState, UserPhone phone, TelephoneOperator telephoneOperator,
-                UserShouldChangePassword shouldChangePassword) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.identification = identification;
-        this.email = email;
-        this.password = password;
-        this.type = type;
-        this.state = state;
-        this.profiles = profiles;
-        this.registrationState = registrationState;
-        this.phone = phone;
-        this.telephoneOperator = telephoneOperator;
         this.shouldChangePassword = shouldChangePassword;
-        this.deleted = new UserDeleted(false);
     }
 
-    public UserId getId() {
+    @Override
+    public void update(User user) {
+        Optional.ofNullable(user.getFirstName()).ifPresent(value ->
+                this.firstName = value);
+        Optional.ofNullable(user.getLastName()).ifPresent(value ->
+                this.lastName = value);
+        Optional.ofNullable(user.getIdentification()).ifPresent(value ->
+                this.identification = value);
+        Optional.ofNullable(user.getEmail()).ifPresent(value ->
+                this.email = value);
+        Optional.ofNullable(user.getPassword()).ifPresent(value ->
+                this.password = value);
+        Optional.ofNullable(user.getType()).ifPresent(value ->
+                this.type = value);
+        Optional.ofNullable(user.getState()).ifPresent(value ->
+                this.state = value);
+        Optional.ofNullable(user.getProfile()).ifPresent(value ->
+                this.profile = value);
+        Optional.ofNullable(user.getRegistrationState()).ifPresent(value ->
+                this.registrationState = value);
+        Optional.ofNullable(user.getPhone()).ifPresent(value ->
+                this.phone = value);
+        Optional.ofNullable(user.getShouldChangePassword()).ifPresent(value ->
+                this.shouldChangePassword = value);
+    }
+
+    public void blockUserByMaxTokenVerificationAttempts(){
+        this.registrationState = RegistrationTokenState.VERIFICATION_BLOCKED;
+    }
+
+    public void unBlockUserByMaxTokenVerificationAttempts(){
+        this.registrationState = RegistrationTokenState.VERIFICATION_ACCEPTED;
+    }
+
+    public void setFreshInstallTokenState() {
+        this.registrationState = RegistrationTokenState.VERIFICATION_NONE;
+    }
+
+    public void updatePassword(String newPassword){
+        this.password = newPassword;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public UserFirstName getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public UserLastName getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public UserIdentification getIdentification() {
+    public String getIdentification() {
         return identification;
     }
 
-    public UserEmail getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public UserPassword getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -102,32 +123,26 @@ public final class User {
         return state;
     }
 
-    public UserProfileSet getProfiles() {
-        return profiles;
+    public Profile getProfile() {
+        return profile;
     }
 
     public RegistrationTokenState getRegistrationState() {
         return registrationState;
     }
 
-    public UserPhone getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public TelephoneOperator getTelephoneOperator() {
-        return telephoneOperator;
-    }
-
-    public UserShouldChangePassword getShouldChangePassword() {
+    public Boolean getShouldChangePassword() {
         return shouldChangePassword;
     }
 
-    public UserDeleted getDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
-
-    public void delete() {
-        this.deleted = new UserDeleted(true);
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
-
 }

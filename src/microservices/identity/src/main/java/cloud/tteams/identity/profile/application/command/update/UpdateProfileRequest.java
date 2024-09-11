@@ -1,54 +1,27 @@
 package cloud.tteams.identity.profile.application.command.update;
 
+import cloud.tteams.share.core.domain.State;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Collection;
 import java.util.UUID;
 
-public class UpdateProfileRequest {
+public record UpdateProfileRequest(@NotNull UUID id, String name, String description, State state, UUID organization,
+                                   Collection<UUID> authorizations) {
 
-    private UUID id;
-
-    private String name;
-
-    private String description;
-
-    private ProfileState state;
-
-    private UUID agency;
-
-    private Collection<UUID> access;
-
-    public UpdateProfileRequest(UUID id, String name, String description, ProfileState state, UUID agency,
-            Collection<UUID> access) {
+    public UpdateProfileRequest(UUID id, String name, String description, State state, UUID organization,
+                                Collection<UUID> authorizations) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.state = state;
-        this.agency = agency;
-        this.access = access;
+        this.organization = organization;
+        this.authorizations = authorizations;
     }
 
-    public UUID getId() {
+    @Override
+    public UUID id() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProfileState getState() {
-        return state;
-    }
-
-    public UUID getAgency() {
-        return agency;
-    }
-
-    public Collection<UUID> getAccess() {
-        return access;
     }
 
 }

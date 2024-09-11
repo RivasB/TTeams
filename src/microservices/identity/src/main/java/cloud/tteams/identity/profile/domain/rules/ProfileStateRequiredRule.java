@@ -1,19 +1,21 @@
 package cloud.tteams.identity.profile.domain.rules;
 
-import cloud.tteams.share.core.domain.exception.DomainErrorMessage;
+import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.rules.BusinessRule;
+
+import java.util.Objects;
 
 public class ProfileStateRequiredRule extends BusinessRule {
 
-    private ProfileState state;
+    private final State state;
 
-    public ProfileStateRequiredRule(ProfileState state) {
-        super(DomainErrorMessage.PROFILE_STATE_REQUIRED, "Profile state is required!");
+    public ProfileStateRequiredRule(State state) {
+        super("Profile state is required!");
         this.state = state;
     }
 
     @Override
     public boolean isBroken() {
-        return null == state;
+        return Objects.isNull(state);
     }
 }

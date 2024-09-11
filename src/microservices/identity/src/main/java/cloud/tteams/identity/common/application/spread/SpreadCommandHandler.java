@@ -19,7 +19,7 @@ public class SpreadCommandHandler implements ICommandHandler<SpreadCommand> {
     @Override
     public void handle(SpreadCommand command) {
         userService.spreadUsers();
-        agencyService.spreadAgencys();
+        agencyService.spreadOrganizations();
     }
 
 }

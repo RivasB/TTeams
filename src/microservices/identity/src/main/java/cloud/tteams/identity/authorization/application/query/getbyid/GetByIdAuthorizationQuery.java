@@ -4,16 +4,6 @@ import java.util.UUID;
 
 import cloud.tteams.share.core.domain.bus.query.IQuery;
 
-public class GetByIdAuthorizationQuery implements IQuery {
-
-    private UUID id;
-
-    public GetByIdAuthorizationQuery(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
-    }
+public record GetByIdAuthorizationQuery(UUID id) implements IQuery {
 
 }

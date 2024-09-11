@@ -7,20 +7,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public class UpdateAuthorizationRequest {
-
-    @NotNull @NotBlank
-    private final UUID id;
-
-    @NotBlank
-    private final String name;
-
-    @NotBlank
-    private final String resource;
-
-    private final AuthorizedAction action;
-
-    private final State state;
+public record UpdateAuthorizationRequest(@NotNull @NotBlank UUID id, String name, String resource,
+                                         AuthorizedAction action, State state) {
 
     public UpdateAuthorizationRequest(UUID id, String name, String resource, AuthorizedAction action, State state) {
         this.id = id;
@@ -30,23 +18,8 @@ public class UpdateAuthorizationRequest {
         this.state = state;
     }
 
-    public UUID getId() {
+    @Override
+    public UUID id() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public AuthorizedAction getAction() {
-        return action;
-    }
-
-    public State getState() {
-        return state;
     }
 }

@@ -1,22 +1,23 @@
 package cloud.tteams.identity.user.domain;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public class RegistrationToken {
 
-    private final RegistrationTokenId id;
+    private final UUID id;
 
     private final User user;
 
-    private RegistrationTokenOTP otp;
+    private String otp;
 
-    private RegistrationTokenAttempt attempts;
+    private Integer attempts;
 
-    private RegistrationTokenDateTime initialDateTime;
+    private LocalDateTime initialDateTime;
 
-    private RegistrationTokenDateTime endingDateTime;
+    private LocalDateTime endingDateTime;
 
-    public RegistrationToken(RegistrationTokenId id, User user, RegistrationTokenOTP otp,
-            RegistrationTokenAttempt attempts, RegistrationTokenDateTime initialDateTime,
-            RegistrationTokenDateTime endingDateTime) {
+    public RegistrationToken(UUID id, User user, String otp, Integer attempts, LocalDateTime initialDateTime, LocalDateTime endingDateTime) {
         this.id = id;
         this.user = user;
         this.otp = otp;
@@ -25,7 +26,7 @@ public class RegistrationToken {
         this.endingDateTime = endingDateTime;
     }
 
-    public RegistrationTokenId getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -33,19 +34,35 @@ public class RegistrationToken {
         return user;
     }
 
-    public RegistrationTokenOTP getOtp() {
+    public String getOtp() {
         return otp;
     }
 
-    public RegistrationTokenAttempt getAttempts() {
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Integer getAttempts() {
         return attempts;
     }
 
-    public RegistrationTokenDateTime getInitialDateTime() {
+    public void setAttempts(Integer attempts) {
+        this.attempts = attempts;
+    }
+
+    public LocalDateTime getInitialDateTime() {
         return initialDateTime;
     }
 
-    public RegistrationTokenDateTime getEndingDateTime() {
+    public void setInitialDateTime(LocalDateTime initialDateTime) {
+        this.initialDateTime = initialDateTime;
+    }
+
+    public LocalDateTime getEndingDateTime() {
         return endingDateTime;
+    }
+
+    public void setEndingDateTime(LocalDateTime endingDateTime) {
+        this.endingDateTime = endingDateTime;
     }
 }

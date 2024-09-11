@@ -6,7 +6,7 @@ import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
 public class DeleteProfileMessage implements ICommandMessage {
 
-    private UUID id;
+    private final UUID id;
 
     private final String command;
 

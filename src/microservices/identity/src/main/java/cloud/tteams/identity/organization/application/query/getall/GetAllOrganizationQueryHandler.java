@@ -18,8 +18,8 @@ public class GetAllOrganizationQueryHandler
 
     @Override
     public MessagePaginatedResponse handle(GetAllOrganizationQuery query) {
-        return service.getAll(query.getPageable(), query.getName(), query.getDescription(), query.getContact(),
-                query.getState());
+        return service.getAll(query.pageable(), query.name(), query.description(), query.contact(),
+                query.state());
     }
 
 }

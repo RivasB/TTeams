@@ -3,41 +3,46 @@ package cloud.tteams.identity.profile.application.command.create;
 import java.util.Collection;
 import java.util.UUID;
 
+import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
 public class CreateProfileCommand implements ICommand {
 
-    private UUID id;
+    private final UUID id;
 
-    private String name;
+    private final String name;
 
-    private String description;
+    private final String description;
 
-    private ProfileState state;
+    private final State state;
 
-    private UUID agency;
+    private final UUID organization;
 
-    private Collection<UUID> access;
+    Collection<UUID> authorizations;
 
-    public CreateProfileCommand(String name, String description, ProfileState state, UUID agency,
-            Collection<UUID> access) {
+    public CreateProfileCommand(String name, String description, State state, UUID organization, Collection<UUID> authorizations) {
+        this.organization = organization;
+        this.authorizations = authorizations;
         this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.state = state;
-        this.agency = agency;
-        this.access = access;
     }
 
     public static CreateProfileCommand fromRequest(CreateProfileRequest request) {
 
         return new CreateProfileCommand(
-                request.getName(),
-                request.getDescription(),
-                request.getState(),
-                request.getAgency(),
-                request.getAccess());
+                request.name(),
+                request.description(),
+                request.state(),
+                request.organization(),
+                request.authorizations());
+    }
+
+    @Override
+    public ICommandMessage getMessage() {
+        return new CreateProfileMessage(id);
     }
 
     public UUID getId() {
@@ -52,21 +57,15 @@ public class CreateProfileCommand implements ICommand {
         return description;
     }
 
-    public ProfileState getState() {
+    public State getState() {
         return state;
     }
 
-    public UUID getAgency() {
-        return agency;
+    public UUID getOrganization() {
+        return organization;
     }
 
-    public Collection<UUID> getAccess() {
-        return access;
+    public Collection<UUID> getAuthorizations() {
+        return authorizations;
     }
-
-    @Override
-    public ICommandMessage getMessage() {
-        return new CreateProfileMessage(id);
-    }
-
 }

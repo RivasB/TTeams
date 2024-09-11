@@ -18,9 +18,9 @@ public class CreateAuthorizationCommand implements ICommand {
 
     public CreateAuthorizationCommand(CreateAuthorizationRequest request) {
         this.id = UUID.randomUUID();
-        this.name = request.getName();
-        this.resource = request.getResource();
-        this.action = request.getAction();
+        this.name = request.name();
+        this.resource = request.resource();
+        this.action = request.action();
         this.state = State.ACTIVE;
     }
 

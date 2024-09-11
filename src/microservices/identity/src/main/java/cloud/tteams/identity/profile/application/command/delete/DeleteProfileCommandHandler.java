@@ -16,9 +16,7 @@ public class DeleteProfileCommandHandler implements ICommandHandler<DeleteProfil
 
     @Override
     public void handle(DeleteProfileCommand command) {
-        ProfileId id = new ProfileId(command.getId());
-
-        profileService.delete(id);
+        profileService.delete(command.id());
     }
 
 }

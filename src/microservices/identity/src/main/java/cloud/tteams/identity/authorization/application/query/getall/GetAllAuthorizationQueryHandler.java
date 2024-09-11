@@ -18,7 +18,7 @@ public class GetAllAuthorizationQueryHandler
 
     @Override
     public MessagePaginatedResponse handle(GetAllAuthorizationQuery query) {
-        return service.getAll(query.getPageable(), query.getName(), query.getResource(), query.getAction(), query.getState());
+        return service.getAll(query.pageable(), query.name(), query.resource(), query.action(), query.state());
     }
 
 }

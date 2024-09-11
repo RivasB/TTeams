@@ -6,114 +6,31 @@ import cloud.tteams.identity.user.domain.UserType;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
-import java.util.Collection;
 import java.util.UUID;
 
-public class UpdateUserCommand implements ICommand {
+public record UpdateUserCommand(UUID id, String firstName, String lastName, String identification, String email,
+                                String password, UserType type, UserState state, UUID profile,
+                                RegistrationTokenState registrationState, String phone) implements ICommand {
 
-    private UUID id;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String identification;
-
-    private String email;
-
-    private UserType type;
-
-    private UserState state;
-
-    private Collection<UUID> profile;
-
-    private RegistrationTokenState registrationState;
-
-    private String phone;
-
-    private UUID operator;
-
-    public UpdateUserCommand(UUID id, String firstName, String lastName, String identification, String email,
-                             UserType type, UserState state, Collection<UUID> profile,
-                             RegistrationTokenState registrationState, String phone, UUID operator) {
-
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.identification = identification;
-        this.email = email;
-        this.type = type;
-        this.state = state;
-        this.profile = profile;
-        this.registrationState = registrationState;
-        this.phone = phone;
-        this.operator = operator;
-    }
 
     public static UpdateUserCommand fromRequest(UpdateUserRequest request) {
 
         return new UpdateUserCommand(
-                request.getId(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getIdentification(),
-                request.getEmail(),
-                request.getType(),
-                request.getState(),
-                request.getProfile(),
+                request.id(),
+                request.firstName(),
+                request.lastName(),
+                request.identification(),
+                request.email(),
+                request.password(),
+                request.type(),
+                request.state(),
+                request.profile(),
                 RegistrationTokenState.VERIFICATION_ACCEPTED,
-                request.getPhone(),
-                request.getOperator());
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getIdentification() {
-        return identification;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public UserType getType() {
-        return type;
-    }
-
-    public UserState getState() {
-        return state;
-    }
-
-    public Collection<UUID> getProfile() {
-        return profile;
-    }
-
-
-    public RegistrationTokenState getRegistrationState() {
-        return registrationState;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public UUID getOperator() {
-        return operator;
+                request.phone());
     }
 
     @Override
     public ICommandMessage getMessage() {
         return new UpdateUserMessage(id);
     }
-
 }

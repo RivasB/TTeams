@@ -1,6 +1,6 @@
 package cloud.tteams.identity.profile.infrastructure.adapter.command;
 
-import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileDto;
+import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileEntity;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -19,18 +19,18 @@ public class PostgreDBProfileCommandRepository implements IProfileCommandReposit
 
     @Override
     public void create(Profile profile) {
-        commandJPARepository.save(new ProfileDto(profile));
+        commandJPARepository.save(new ProfileEntity(profile));
     }
 
     @Override
     public void update(Profile profile) {
-        commandJPARepository.save(new ProfileDto(profile));
+        commandJPARepository.save(new ProfileEntity(profile));
 
     }
 
     @Override
     public void delete(Profile profile) {
-        commandJPARepository.deleteById(profile.getId().value());
+        commandJPARepository.deleteById(profile.getId());
     }
 
 }

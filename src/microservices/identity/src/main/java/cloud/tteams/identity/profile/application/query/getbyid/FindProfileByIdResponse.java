@@ -6,39 +6,30 @@ import java.util.UUID;
 import cloud.tteams.identity.authorization.application.AuthorizationResponse;
 import cloud.tteams.identity.organization.application.query.OrganizationResponse;
 import cloud.tteams.identity.profile.domain.Profile;
+import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
 
 public class FindProfileByIdResponse implements IResponse {
 
-    private UUID id;
+    private final UUID id;
 
-    private String name;
+    private final String name;
 
-    private String description;
+    private final String description;
 
-    private ProfileState state;
+    private final State state;
 
-    private OrganizationResponse agency;
+    private final OrganizationResponse organization;
 
-    private Collection<AuthorizationResponse> access;
-
-    public FindProfileByIdResponse(UUID id, String name, String description, ProfileState state, OrganizationResponse agency,
-            Collection<AuthorizationResponse> access) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.state = state;
-        this.agency = agency;
-        this.access = access;
-    }
+    private final Collection<AuthorizationResponse> authorizations;
 
     public FindProfileByIdResponse(Profile profile) {
-        this.id = profile.getId().value();
-        this.name = profile.getName().value();
-        this.description = profile.getDescription().value();
+        this.id = profile.getId();
+        this.name = profile.getName();
+        this.description = profile.getDescription();
         this.state = profile.getState();
-        this.agency = new OrganizationResponse(profile.getAgency());
-        this.access = profile.getAccess().getValue().stream().map(AuthorizationResponse::new).toList();
+        this.organization = new OrganizationResponse(profile.getOrganization());
+        this.authorizations = profile.getAuthorizations().stream().map(AuthorizationResponse::new).toList();
     }
 
     public UUID getId() {
@@ -53,16 +44,15 @@ public class FindProfileByIdResponse implements IResponse {
         return description;
     }
 
-    public ProfileState getState() {
+    public State getState() {
         return state;
     }
 
-    public OrganizationResponse getAgency() {
-        return agency;
+    public OrganizationResponse getOrganization() {
+        return organization;
     }
 
-    public Collection<AuthorizationResponse> getAccess() {
-        return access;
+    public Collection<AuthorizationResponse> getAuthorizations() {
+        return authorizations;
     }
-
 }

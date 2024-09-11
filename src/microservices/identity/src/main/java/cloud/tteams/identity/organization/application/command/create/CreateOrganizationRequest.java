@@ -2,16 +2,7 @@ package cloud.tteams.identity.organization.application.command.create;
 
 import jakarta.validation.constraints.NotNull;
 
-public class CreateOrganizationRequest {
-
-    @NotNull
-    private final String name;
-
-    @NotNull
-    private final String description;
-
-    @NotNull
-    private final String contact;
+public record CreateOrganizationRequest(@NotNull String name, @NotNull String description, @NotNull String contact) {
 
     public CreateOrganizationRequest(String name, String description, String contact) {
         this.name = name;
@@ -19,15 +10,18 @@ public class CreateOrganizationRequest {
         this.contact = contact;
     }
 
-    public String getName() {
+    @Override
+    public String name() {
         return name;
     }
 
-    public String getDescription() {
+    @Override
+    public String description() {
         return description;
     }
 
-    public String getContact() {
+    @Override
+    public String contact() {
         return contact;
     }
 }

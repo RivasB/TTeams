@@ -6,7 +6,4 @@ public class AuthorizationNotFoundException extends RuntimeException {
         super("Authorization not found!");
     }
 
-    public AuthorizationNotFoundException(String message) {
-        super(message);
-    }
 }

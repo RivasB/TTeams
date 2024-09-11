@@ -17,6 +17,6 @@ public class ValidateQueryHandler implements IQueryHandler<ValidateQuery, JavaWe
 
     @Override
     public JavaWebTokenResponse handle(ValidateQuery query) throws UnauthorizedException {
-        return service.validate(query.getJwtToken());
+        return service.validate(query.jwtToken());
     }
 }

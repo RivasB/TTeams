@@ -41,14 +41,14 @@ public class JavaWebTokenRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader(headerString);
 
-        String identification = null;
+        String email = null;
         String jwtToken = null;
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith(tokenPrefix)) {
             jwtToken = requestTokenHeader.replace(tokenPrefix + " ", "");
             try {
-                identification = javaWebTokenService.getValue(jwtToken);
+                email = javaWebTokenService.getValue(jwtToken);
             } catch (IllegalArgumentException e) {
                 logger.error("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -59,9 +59,9 @@ public class JavaWebTokenRequestFilter extends OncePerRequestFilter {
         }
 
         // Once we get the token validate it.
-        if (identification != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(identification);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             // if token is valid configure Spring Security to manually set
             // authentication
@@ -75,7 +75,7 @@ public class JavaWebTokenRequestFilter extends OncePerRequestFilter {
                 // that the current user is authenticated. So it passes the
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                logger.info("User identificated as: " + identification + ", is authenticated");
+                logger.info("User trying to login as: " + email + ", now is authenticated");
             }
         }
         filterChain.doFilter(request, response);

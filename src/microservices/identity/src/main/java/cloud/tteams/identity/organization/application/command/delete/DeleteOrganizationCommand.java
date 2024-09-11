@@ -7,17 +7,7 @@ import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.domain.event.EventType;
 
-public class DeleteOrganizationCommand implements ICommand {
-
-    private final UUID id;
-
-    public DeleteOrganizationCommand(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
-    }
+public record DeleteOrganizationCommand(UUID id) implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {

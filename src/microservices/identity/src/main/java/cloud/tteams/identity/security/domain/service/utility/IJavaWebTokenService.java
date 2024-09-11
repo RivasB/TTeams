@@ -23,7 +23,7 @@ public interface IJavaWebTokenService {
 
     boolean validateAuthToken(String token);
 
-    String getIdentification(String requestTokenHeader);
+    String getEmail(String requestTokenHeader);
 
     String refreshAuthToken(@NotBlank String token);
 }

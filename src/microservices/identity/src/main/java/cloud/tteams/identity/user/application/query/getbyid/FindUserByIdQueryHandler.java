@@ -1,14 +1,13 @@
 package cloud.tteams.identity.user.application.query.getbyid;
 
+import cloud.tteams.identity.user.application.UserResponse;
 import org.springframework.stereotype.Component;
 
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
-import cloud.tteams.identity.user.domain.User;
-import cloud.tteams.identity.user.domain.UserId;
 import cloud.tteams.identity.user.domain.service.IUserService;
 
 @Component
-public class FindUserByIdQueryHandler implements IQueryHandler<FindUserByIdQuery, FindUserByIdResponse> {
+public class FindUserByIdQueryHandler implements IQueryHandler<FindUserByIdQuery, UserResponse> {
 
     private final IUserService userService;
 
@@ -17,12 +16,8 @@ public class FindUserByIdQueryHandler implements IQueryHandler<FindUserByIdQuery
     }
 
     @Override
-    public FindUserByIdResponse handle(FindUserByIdQuery query) {
-
-        UserId id = new UserId(query.getId());
-        User user = userService.findById(id);
-
-        return new FindUserByIdResponse(user);
+    public UserResponse handle(FindUserByIdQuery query) {
+        return new UserResponse(userService.findById(query.id()));
     }
 
 }

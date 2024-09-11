@@ -6,12 +6,13 @@ import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
 public class UpdateProfileMessage implements ICommandMessage {
 
-    private UUID id;
+    private final UUID id;
 
-    private String command = "UPDATE_PROFILE";
+    private final String command;
 
     public UpdateProfileMessage(UUID id) {
         this.id = id;
+        this.command = "UPDATE_PROFILE";
     }
 
     public UUID getId() {

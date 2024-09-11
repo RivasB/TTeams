@@ -2,20 +2,20 @@ package cloud.tteams.identity.user.domain.rules;
 
 import cloud.tteams.share.core.domain.rules.BusinessRule;
 import cloud.tteams.identity.user.domain.UserType;
-import cloud.tteams.share.core.domain.exception.DomainErrorMessage;
+
+import java.util.Objects;
 
 public class UserTypeRequiredRule extends BusinessRule {
 
-    private UserType type;
+    private final UserType type;
 
     public UserTypeRequiredRule(UserType type) {
-        super(DomainErrorMessage.USER_TYPE_REQUIRED, "User type is required!");
-
+        super("User type is required!");
         this.type = type;
     }
 
     @Override
     public boolean isBroken() {
-        return null == type;
+        return Objects.isNull(this.type);
     }
 }

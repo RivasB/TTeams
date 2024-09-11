@@ -69,7 +69,7 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
     }
 
     @Override
-    public void spreadAgencys() {
+    public void spreadOrganizations() {
         List<Organization> allOrganization = commandRepository.findAll();
         allOrganization.forEach(eventService::create);
     }

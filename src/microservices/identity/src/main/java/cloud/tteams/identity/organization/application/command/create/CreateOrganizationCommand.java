@@ -22,9 +22,9 @@ public class CreateOrganizationCommand implements ICommand {
 
     public CreateOrganizationCommand(CreateOrganizationRequest request) {
         this.id = UUID.randomUUID();
-        this.name = request.getName();
-        this.description = request.getDescription();
-        this.contact = request.getDescription();
+        this.name = request.name();
+        this.description = request.description();
+        this.contact = request.description();
         this.state = State.ACTIVE;
     }
 

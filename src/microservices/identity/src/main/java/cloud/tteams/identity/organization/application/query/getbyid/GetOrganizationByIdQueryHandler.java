@@ -18,7 +18,7 @@ public class GetOrganizationByIdQueryHandler implements IQueryHandler<GetOrganiz
 
     @Override
     public OrganizationResponse handle(GetOrganizationByIdQuery query) {
-        Organization organization = service.findById(query.getId());
+        Organization organization = service.findById(query.id());
         return new OrganizationResponse(organization);
     }
 

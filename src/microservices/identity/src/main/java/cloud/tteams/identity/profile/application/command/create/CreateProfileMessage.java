@@ -6,9 +6,9 @@ import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
 public class CreateProfileMessage implements ICommandMessage {
 
-    private UUID id;
+    private final UUID id;
 
-    private String command = "CREATE_PROFILE";
+    private final String command = "CREATE_PROFILE";
 
     public CreateProfileMessage(UUID id) {
         this.id = id;

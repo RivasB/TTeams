@@ -1,29 +1,7 @@
 package cloud.tteams.identity.user.application.command.changepassword;
 
-public class UserChangePasswordRequest {
+import jakarta.validation.constraints.NotBlank;
 
-    private String nui;
-
-    private String oldPassword;
-
-    private String newPassword;
-
-    public UserChangePasswordRequest(String nui, String oldPassword, String newPassword) {
-        this.nui = nui;
-        this.oldPassword = oldPassword;
-        this.newPassword = newPassword;
-    }
-
-    public String getNui() {
-        return nui;
-    }
-
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
+public record UserChangePasswordRequest(@NotBlank String email, @NotBlank String oldPassword,
+                                        @NotBlank String newPassword) {
 }

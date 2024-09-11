@@ -21,11 +21,11 @@ public class UpdateOrganizationCommand implements ICommand {
     private final State state;
 
     public UpdateOrganizationCommand(UpdateOrganizationRequest request) {
-        this.id = request.getId();
-        this.name = request.getName();
-        this.description = request.getDescription();
-        this.contact = request.getContact();
-        this.state = request.getState();
+        this.id = request.id();
+        this.name = request.name();
+        this.description = request.description();
+        this.contact = request.contact();
+        this.state = request.state();
     }
 
     @Override

@@ -5,25 +5,24 @@ import java.util.List;
 import cloud.tteams.identity.authorization.application.AuthorizationResponse;
 import cloud.tteams.identity.organization.application.query.OrganizationResponse;
 import cloud.tteams.identity.profile.domain.Profile;
+import cloud.tteams.share.core.domain.State;
 
 public class ProfileResponse {
 
-    private String id;
-    private String name;
-    private String description;
-    private ProfileState state;
-    private OrganizationResponse agency;
-    private List<AuthorizationResponse> access;
+    private final String id;
+    private final String name;
+    private final String description;
+    private final State state;
+    private final OrganizationResponse organization;
+    private final List<AuthorizationResponse> authorizations;
 
     public ProfileResponse(Profile profile) {
-        this.id = profile.getId().getValue().toString();
-        this.name = profile.getName().getValue();
-        this.description = profile.getDescription().getValue();
+        this.id = profile.getId().toString();
+        this.name = profile.getName();
+        this.description = profile.getDescription();
         this.state = profile.getState();
-        this.agency = new OrganizationResponse(profile.getAgency());
-        this.access = profile.getAccess().getValue().stream().map(item -> {
-            return new AuthorizationResponse(item);
-        }).toList();
+        this.organization = new OrganizationResponse(profile.getOrganization());
+        this.authorizations = profile.getAuthorizations().stream().map(AuthorizationResponse::new).toList();
     }
 
     public String getId() {
@@ -38,15 +37,15 @@ public class ProfileResponse {
         return description;
     }
 
-    public ProfileState getState() {
+    public State getState() {
         return state;
     }
 
-    public OrganizationResponse getAgency() {
-        return agency;
+    public OrganizationResponse getOrganization() {
+        return organization;
     }
 
-    public List<AuthorizationResponse> getAccess() {
-        return access;
+    public List<AuthorizationResponse> getAuthorizations() {
+        return authorizations;
     }
 }

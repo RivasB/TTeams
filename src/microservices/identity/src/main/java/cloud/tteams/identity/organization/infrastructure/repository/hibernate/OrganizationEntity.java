@@ -1,10 +1,13 @@
 package cloud.tteams.identity.organization.infrastructure.repository.hibernate;
 
 import cloud.tteams.identity.organization.domain.Organization;
+import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileEntity;
 import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.infrastructure.config.annotation.Persistent;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +25,9 @@ public class OrganizationEntity {
     @Column
     private String description;
 
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    private List<ProfileEntity> profiles;
+
     @Column
     private String contact;
 
@@ -37,12 +43,18 @@ public class OrganizationEntity {
         this.name = organization.getName();
         this.description = organization.getDescription();
         this.contact = organization.getContact();
+        this.profiles = new ArrayList<>();
+        if (organization.getProfiles() != null) {
+            organization.getProfiles().forEach(element ->
+                    profiles.add(new ProfileEntity(element)));
+        }
         this.state = organization.getState();
     }
 
 
     public Organization toAggregate() {
-        return new Organization(this.id, this.name, this.description, this.contact, this.state);
+        return new Organization(this.id, this.name, this.description, this.contact,
+                this.profiles.stream().map(ProfileEntity::toAggregate).toList(), this.state);
     }
 
     public UUID getId() {

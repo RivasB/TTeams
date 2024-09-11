@@ -15,6 +15,6 @@ public class DeleteAuthorizationCommandHandler implements ICommandHandler<Delete
 
     @Override
     public void handle(DeleteAuthorizationCommand command) {
-        service.delete(command.getId());
+        service.delete(command.id());
     }
 }

@@ -4,17 +4,17 @@ import cloud.tteams.share.core.domain.bus.query.IQuery;
 
 public class LoginQuery implements IQuery {
 
-    private final String identification;
+    private final String email;
 
     private final String password;
 
     public LoginQuery(LoginRequest request) {
-        this.identification = request.getIdentification();
+        this.email = request.getEmail();
         this.password = request.getPassword();
     }
 
-    public String getIdentification() {
-        return identification;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {

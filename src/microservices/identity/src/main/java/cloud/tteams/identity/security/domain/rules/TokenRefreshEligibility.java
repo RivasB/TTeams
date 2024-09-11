@@ -12,7 +12,7 @@ public class TokenRefreshEligibility extends BusinessRule {
     Date expiration;
 
     public TokenRefreshEligibility(Date now, Date expiration) {
-        super("Token can not be refreshed");
+        super("Session expired!");
         this.now = now;
         this.expiration = expiration;
     }

@@ -17,6 +17,6 @@ public class FindUserWithFilterQueryHandler implements IQueryHandler<FindUserWit
 
     @Override
     public MessagePaginatedResponse handle(FindUserWithFilterQuery query) {
-        return userService.getPaginatedUsers(query.getPageable(), query.getFirstName(), query.getLastName(), query.getIdentification(), query.getEmail(), query.getType(), query.getState(), query.getFilter());
+        return userService.getPaginatedUsers(query.pageable(), query.firstName(), query.lastName(), query.identification(), query.email(), query.type(), query.state(), query.filter());
     }
 }

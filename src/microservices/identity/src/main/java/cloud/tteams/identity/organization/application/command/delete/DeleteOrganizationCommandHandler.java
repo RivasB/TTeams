@@ -16,7 +16,7 @@ public class DeleteOrganizationCommandHandler implements ICommandHandler<DeleteO
 
     @Override
     public void handle(DeleteOrganizationCommand command) {
-        service.delete(command.getId());
+        service.delete(command.id());
     }
 
 }

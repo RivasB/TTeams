@@ -4,16 +4,8 @@ import cloud.tteams.identity.authorization.domain.AuthorizedAction;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class CreateAuthorizationRequest {
-
-    @NotNull @NotBlank
-    private final String name;
-
-    @NotNull @NotBlank
-    private final String resource;
-
-    @NotNull
-    private final AuthorizedAction action;
+public record CreateAuthorizationRequest(@NotNull @NotBlank String name, @NotNull @NotBlank String resource,
+                                         @NotNull AuthorizedAction action) {
 
     public CreateAuthorizationRequest(String name, String resource, AuthorizedAction action) {
         this.name = name;
@@ -21,15 +13,18 @@ public class CreateAuthorizationRequest {
         this.action = action;
     }
 
-    public String getName() {
+    @Override
+    public String name() {
         return name;
     }
 
-    public String getResource() {
+    @Override
+    public String resource() {
         return resource;
     }
 
-    public AuthorizedAction getAction() {
+    @Override
+    public AuthorizedAction action() {
         return action;
     }
 }

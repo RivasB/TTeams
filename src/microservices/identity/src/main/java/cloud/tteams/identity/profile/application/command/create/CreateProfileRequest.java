@@ -1,46 +1,14 @@
 package cloud.tteams.identity.profile.application.command.create;
 
+import cloud.tteams.share.core.domain.State;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Collection;
 import java.util.UUID;
 
-public class CreateProfileRequest {
+public record CreateProfileRequest(@NotBlank String name, String description, @NotNull UUID organization, State state,
+                                   @NotEmpty Collection<UUID> authorizations) {
 
-    private String name;
-
-    private String description;
-
-    private UUID agency;
-
-    private ProfileState state;
-
-    private Collection<UUID> access;
-
-    public CreateProfileRequest(String name, String description, UUID agency, ProfileState state,
-            Collection<UUID> access) {
-        this.name = name;
-        this.description = description;
-        this.agency = agency;
-        this.state = state;
-        this.access = access;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public UUID getAgency() {
-        return agency;
-    }
-
-    public ProfileState getState() {
-        return state;
-    }
-
-    public Collection<UUID> getAccess() {
-        return access;
-    }
 }

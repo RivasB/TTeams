@@ -29,9 +29,9 @@ public class SecurityServiceImplementation implements ISecurityService {
     }
 
     @Override
-    public JavaWebTokenResponse login(String identification, String password) throws UnauthorizedException {
-        authenticationService.authenticate(identification, password);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(identification);
+    public JavaWebTokenResponse login(String email, String password) throws UnauthorizedException {
+        authenticationService.authenticate(email, password);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         final String token = javaWebTokenService.create(userDetails);
         return new JavaWebTokenResponse(token, ttlMillis);
     }

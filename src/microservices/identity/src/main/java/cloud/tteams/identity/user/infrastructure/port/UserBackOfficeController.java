@@ -2,6 +2,7 @@ package cloud.tteams.identity.user.infrastructure.port;
 
 import java.util.UUID;
 
+import cloud.tteams.identity.user.application.UserResponse;
 import cloud.tteams.identity.user.domain.UserState;
 import cloud.tteams.identity.user.domain.UserType;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cloud.tteams.identity.security.infrastructure.service.utility.JavaWebTokenServiceImplementation;
 import cloud.tteams.share.core.application.ApiResponse2xx;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
@@ -34,10 +34,7 @@ import cloud.tteams.identity.user.application.command.update.UpdateUserMessage;
 import cloud.tteams.identity.user.application.command.update.UpdateUserRequest;
 import cloud.tteams.identity.user.application.query.getall.FindUserWithFilterQuery;
 import cloud.tteams.identity.user.application.query.getbyid.FindUserByIdQuery;
-import cloud.tteams.identity.user.application.query.getbyid.FindUserByIdResponse;
-import cloud.tteams.identity.user.application.query.getbyidentification.FindUserByIdentificationQuery;
-import cloud.tteams.identity.user.application.query.getbyidentification.FindUserByIdentificationResponse;
-import cloud.tteams.identity.user.domain.UserIdentification;
+import cloud.tteams.identity.user.application.query.getbyemail.FindUserByEmailQuery;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -50,41 +47,31 @@ public class UserBackOfficeController {
 
     private final IMediator mediator;
 
-    private final JavaWebTokenServiceImplementation jwTokenManager;
-
-    public UserBackOfficeController(IMediator mediator, JavaWebTokenServiceImplementation jwTokenManager) {
+    public UserBackOfficeController(IMediator mediator) {
         this.mediator = mediator;
-        this.jwTokenManager = jwTokenManager;
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse2xx<CreateUserMessage>> createUser(
             @RequestBody CreateUserRequest request) {
-
         CreateUserCommand command = CreateUserCommand.fromRequest(request);
         CreateUserMessage response = mediator.send(command);
-
-        return ResponseEntity.ok(new ApiResponse2xx<CreateUserMessage>(response, HttpStatus.CREATED));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.CREATED));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse2xx<FindUserByIdResponse>> retrieveUser(@NotBlank @PathVariable UUID id) {
-
+    public ResponseEntity<ApiResponse2xx<UserResponse>> retrieveUser(@NotBlank @PathVariable UUID id) {
         FindUserByIdQuery query = new FindUserByIdQuery(id);
-        FindUserByIdResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(new ApiResponse2xx<FindUserByIdResponse>(response, HttpStatus.OK));
+        UserResponse response = mediator.send(query);
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse2xx<FindUserByIdentificationResponse>> retrieveLogedUser(
+    public ResponseEntity<ApiResponse2xx<UserResponse>> retrieveLoggedUser(
             @RequestHeader("Authorization") String jwToken) {
-        UserIdentification userIdentification = new UserIdentification(jwTokenManager.getIdentification(jwToken));
-
-        FindUserByIdentificationQuery query = new FindUserByIdentificationQuery(userIdentification.getValue());
-        FindUserByIdentificationResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(new ApiResponse2xx<FindUserByIdentificationResponse>(response, HttpStatus.OK));
+        FindUserByEmailQuery query = new FindUserByEmailQuery(jwToken);
+        UserResponse response = mediator.send(query);
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
     @GetMapping
@@ -100,33 +87,26 @@ public class UserBackOfficeController {
             @RequestParam(defaultValue = "ACTIVE") UserState state,
             @RequestParam(defaultValue = "firstName") String sortBy,
             @RequestParam(defaultValue = "asc") String sortType) {
-
         Sort sort = (sortType.equals("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
         FindUserWithFilterQuery query = new FindUserWithFilterQuery(pageable, firstName, lastName, identification, email, type, state, filter);
         MessagePaginatedResponse pageResponse = mediator.send(query);
-
         return ResponseEntity.ok(pageResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse2xx<DeleteUserMessage>> deleteRole(@PathVariable("id") UUID id) {
-
         DeleteUserCommand command = new DeleteUserCommand(id);
         DeleteUserMessage response = mediator.send(command);
-
-        return ResponseEntity.ok(new ApiResponse2xx<DeleteUserMessage>(response, HttpStatus.OK));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
     @PutMapping
     public ResponseEntity<ApiResponse2xx<UpdateUserMessage>> updateUser(
             @RequestBody UpdateUserRequest request) {
-
         UpdateUserCommand command = UpdateUserCommand.fromRequest(request);
         UpdateUserMessage response = mediator.send(command);
-
-        return ResponseEntity.ok(new ApiResponse2xx<UpdateUserMessage>(response, HttpStatus.OK));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
 }

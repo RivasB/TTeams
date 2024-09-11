@@ -1,6 +1,7 @@
 package cloud.tteams.identity.user.domain.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import cloud.tteams.identity.user.domain.*;
 import org.springframework.data.domain.Pageable;
@@ -8,37 +9,28 @@ import org.springframework.data.domain.Pageable;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 
 public interface IUserService {
-    public void createUser(User user);
 
-    public void updateUser(User user);
+    //Administrative endpoints
+    void createUser(User user);
 
-    public User findById(UserId id);
+    void updateUser(User user);
 
-    public MessagePaginatedResponse getPaginatedUsers(Pageable pageable, String firstName, String lastName, String identification, String email, UserType type, UserState state, String filter);
+    User findById(UUID id);
 
-    public UserId delete(UserId id);
+    MessagePaginatedResponse getPaginatedUsers(Pageable pageable, String firstName, String lastName, String identification, String email, UserType type, UserState state, String filter);
 
-    public Long countByIdentification(UserIdentification identification);
+    UUID delete(UUID id);
 
-    public Long countByEmail(UserEmail email);
+    User findByEmail(String email);
 
-    public User findByEmail(UserEmail email);
+    Optional<RegistrationToken> registerUser(User user);
 
-    public User findByIdentification(UserIdentification userIdentification);
+    void validateOTP(String otp, String password);
 
-    public Optional<RegistrationToken> registerUser(User user);
+    Long countByIdIsNotAndEmail(UUID id, String mail);
 
-    public UserId validateOTP(String otp, String password);
+    void changePassword(String identification, String oldPassword, String newPassword);
 
-    public Long countByIdIsNotAndEmail(UserId id, UserEmail mail);
-
-    public Long countByIdIsNotAndIdentification(UserId id, UserIdentification identification);
-
-    public void changePassword(UserIdentification identification, UserPassword oldPassword,
-            UserPassword newPassword);
-
-    public Optional<RegistrationToken> findByUserId(UserId userId);
-
-    public void spreadUsers();
+    void spreadUsers();
     
 }

@@ -7,10 +7,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Authorization extends AggregateRoot<Authorization> {
+
     private final UUID id;
+
     private String name;
+
     private String resource;
+
     private AuthorizedAction action;
+
     private State state;
 
     public Authorization(UUID id, String name, String resource, AuthorizedAction action, State state) {

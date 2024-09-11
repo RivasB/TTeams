@@ -1,5 +1,5 @@
 package cloud.tteams.identity.user.infrastructure.adapter;
-
+/*
 import cloud.tteams.identity.telephone_operator.domain.TelephoneOperator;
 import cloud.tteams.identity.user.domain.*;
 import cloud.tteams.identity.user.domain.*;
@@ -49,3 +49,4 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
         userService.createUser(user);
     }
 }
+*/

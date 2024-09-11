@@ -42,7 +42,6 @@
 		<module>src/packages/share</module>
 		<module>src/packages/share_user</module>
 		<module>src/packages/share_comment</module>
-
 	</modules>
 
 	<build>

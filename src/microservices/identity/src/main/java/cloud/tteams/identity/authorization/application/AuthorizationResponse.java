@@ -10,10 +10,10 @@ import java.util.UUID;
 public class AuthorizationResponse implements IResponse {
 
     private final UUID id;
-    private String name;
-    private String resource;
-    private AuthorizedAction action;
-    private State state;
+    private final String name;
+    private final String resource;
+    private final AuthorizedAction action;
+    private final State state;
 
     public AuthorizationResponse(Authorization authorization) {
         this.id = authorization.getId();

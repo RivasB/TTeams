@@ -28,6 +28,7 @@ import jakarta.xml.bind.DatatypeConverter;
 
 @Component
 public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
+
     @Value("${security.jwt.secret}")
     private String key;
 
@@ -49,7 +50,6 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
     /**
      * Create a new token.
      *
-     * @param user
      * @return token
      */
     @Override
@@ -86,8 +86,6 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
     /**
      * Method to validate and read the JWT
      *
-     * @param jwt
-     * @return
      */
     @Override
     public String getValue(String jwt) {
@@ -100,8 +98,6 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
     /**
      * Method to validate and read the JWT
      *
-     * @param jwt
-     * @return
      */
     @Override
     public String getKey(String jwt) {
@@ -114,8 +110,6 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
     /**
      * Method to validate and read the JWT
      *
-     * @param jwt
-     * @return
      */
     @Override
     public boolean getEnabled(String jwt) {
@@ -135,7 +129,7 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
         return !getValue(token).isEmpty() && isTokenActive(token);
     }
 
-    // check if the token has expire
+    // check if the token has expired
     private boolean isTokenActive(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return !expiration.before(new Date());
@@ -153,7 +147,7 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
         return claimsResolver.apply(claims);
     }
 
-    // for retrieveing any information from token we will need the secret key
+    // for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(DatatypeConverter.parseBase64Binary(key)).build()
                 .parseClaimsJws(token).getBody();
@@ -165,23 +159,23 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
     }
 
     @Override
-    public String getIdentification(String requestTokenHeader) {
-        String identification = "";
+    public String getEmail(String requestTokenHeader) {
+        String email;
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer")) {
             String token = requestTokenHeader.replace("Bearer" + " ", "");
             try {
-                identification = getValue(token);
+                email = getValue(token);
             } catch (IllegalArgumentException e) {
                 throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED, "Jwt Token is missing", e);
+                        HttpStatus.UNAUTHORIZED, "Invalid credentials", e);
             } catch (ExpiredJwtException e) {
                 throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED, "Jwt Token expired", e);
+                        HttpStatus.UNAUTHORIZED, "Session expired", e);
             }
         } else {
-            identification = getValue(requestTokenHeader);
+            email = getValue(requestTokenHeader);
         }
-        return identification;
+        return email;
     }
 
     @Override
@@ -191,12 +185,12 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
         RulesChecker.checkRule(new TokenRefreshEligibility(new Date(),
                 this.getExpirationDateFromToken(token)));
         try {
-            String identification = this.getValue(token);
-            user = userDetailsService.loadUserByUsername(identification);
+            String email = this.getValue(token);
+            user = userDetailsService.loadUserByUsername(email);
             refreshedToken = this.create(user);
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Token not elegible to refresh", e);
+                    HttpStatus.UNAUTHORIZED, "Logged off. Please login again!", e);
         }
         return refreshedToken;
     }

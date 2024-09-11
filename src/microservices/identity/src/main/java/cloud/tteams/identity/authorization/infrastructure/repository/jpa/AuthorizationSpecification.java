@@ -1,7 +1,6 @@
 package cloud.tteams.identity.authorization.infrastructure.repository.jpa;
 
 import cloud.tteams.identity.authorization.domain.AuthorizedAction;
-import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AccessDto_;
 import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AuthorizationEntity;
 import cloud.tteams.share.core.domain.State;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,7 +13,7 @@ public class AuthorizationSpecification {
     }
 
     public static Specification<AuthorizationEntity> getResourceContainingIgnoreCase(String resource){
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get(AccessDto_.RESOURCE_CODE)), "%" + resource.toLowerCase() + "%"));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("resource")), "%" + resource.toLowerCase() + "%"));
     }
 
     public static Specification<AuthorizationEntity> getAction(AuthorizedAction action){

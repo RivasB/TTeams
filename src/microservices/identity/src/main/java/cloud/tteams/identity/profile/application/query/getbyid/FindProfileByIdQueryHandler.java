@@ -18,10 +18,7 @@ public class FindProfileByIdQueryHandler
 
     @Override
     public FindProfileByIdResponse handle(FindProfileByIdQuery query) {
-
-        ProfileId id = new ProfileId(query.getId());
-        Profile profile = profileService.findById(id);
-
+        Profile profile = profileService.findById(query.id());
         return new FindProfileByIdResponse(profile);
     }
 

@@ -6,38 +6,35 @@ import cloud.tteams.identity.user.domain.UserType;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 
-import java.util.Collection;
 import java.util.UUID;
 
 public class CreateUserCommand implements ICommand {
 
-    private UUID id;
+    private final UUID id;
 
-    private String firstName;
+    private final String firstName;
 
-    private String lastName;
+    private final String lastName;
 
-    private String identification;
+    private final String identification;
 
-    private String email;
+    private final String email;
 
-    private String password;
+    private final String password;
 
-    private UserType type;
+    private final UserType type;
 
-    private UserState state;
+    private final UserState state;
 
-    private Collection<String> profile;
+    private final UUID profile;
 
-    private RegistrationTokenState registrationState;
+    private final RegistrationTokenState registrationState;
 
-    private String phone;
-
-    private UUID operator;
+    private final String phone;
 
     public CreateUserCommand(String firstName, String lastName, String identification, String email, String password,
-                             UserType type, UserState state, Collection<String> profile,
-                             RegistrationTokenState registrationState, String phone, UUID operator) {
+                             UserType type, UserState state, UUID profile,
+                             RegistrationTokenState registrationState, String phone) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,23 +46,21 @@ public class CreateUserCommand implements ICommand {
         this.profile = profile;
         this.registrationState = registrationState;
         this.phone = phone;
-        this.operator = operator;
     }
 
     public static CreateUserCommand fromRequest(CreateUserRequest request) {
 
         return new CreateUserCommand(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getIdentification(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getType(),
-                request.getState(),
-                request.getProfile(),
+                request.firstName(),
+                request.lastName(),
+                request.identification(),
+                request.email(),
+                request.password(),
+                request.type(),
+                request.state(),
+                request.profile(),
                 RegistrationTokenState.VERIFICATION_ACCEPTED,
-                request.getPhone(),
-                request.getOperator());
+                request.phone());
     }
 
     public UUID getId() {
@@ -100,7 +95,7 @@ public class CreateUserCommand implements ICommand {
         return state;
     }
 
-    public Collection<String> getProfile() {
+    public UUID getProfile() {
         return profile;
     }
 
@@ -112,13 +107,8 @@ public class CreateUserCommand implements ICommand {
         return phone;
     }
 
-    public UUID getOperator() {
-        return operator;
-    }
-
     @Override
     public ICommandMessage getMessage() {
         return new CreateUserMessage(id);
     }
-
 }

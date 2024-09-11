@@ -18,11 +18,8 @@ public class FindProfileWithFilterQueryHandler
 
     @Override
     public MessagePaginatedResponse handle(FindProfileWithFilterQuery query) {
-        ProfileName name = new ProfileName(query.getName());
-        ProfileDescription description = new ProfileDescription(query.getDescription());
-        AgencyId agencyId = new AgencyId(query.getAgencyId());
-        return profileService.getPaginatedProfiles(query.getPageable(), query.getFilter(), name, description,
-                query.getState(), agencyId);
+        return profileService.getPaginatedProfiles(query.pageable(), query.filter(), query.name(), query.description(),
+                query.state(), query.organization());
     }
 
 }

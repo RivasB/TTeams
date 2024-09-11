@@ -2,6 +2,7 @@ package cloud.tteams.identity.profile.infrastructure.port;
 
 import java.util.UUID;
 
+import cloud.tteams.share.core.domain.State;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,29 +48,23 @@ public class ProfileController {
         this.mediator = mediator;
     }
 
-    // This workflow is implemented by 06-RFS5. Gestionar Perfil
+
     @PostMapping
     public ResponseEntity<ApiResponse2xx<CreateProfileMessage>> createProfile(
             @RequestBody CreateProfileRequest request) {
-
         CreateProfileCommand createCommand = CreateProfileCommand.fromRequest(request);
         CreateProfileMessage response = mediator.send(createCommand);
-
-        return ResponseEntity.ok(new ApiResponse2xx<CreateProfileMessage>(response, HttpStatus.CREATED));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.CREATED));
     }
 
-    // This workflow is implemented by 06-RFS5. Gestionar Perfil
     @PutMapping
     public ResponseEntity<ApiResponse2xx<UpdateProfileMessage>> updateProfile(
             @RequestBody UpdateProfileRequest request) {
-
         UpdateProfileCommand updateCommand = UpdateProfileCommand.fromRequest(request);
         UpdateProfileMessage response = mediator.send(updateCommand);
-
-        return ResponseEntity.ok(new ApiResponse2xx<UpdateProfileMessage>(response, HttpStatus.OK));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
-    // This workflow is implemented by 06-RFS5. Gestionar Perfil
     @GetMapping
     public ResponseEntity<MessagePaginatedResponse> getAllProfiles(
             @RequestParam(defaultValue = "0") Integer pageNo,
@@ -79,34 +74,27 @@ public class ProfileController {
             @RequestParam(defaultValue = "asc") String sortType,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "state", required = false) ProfileState state,
-            @RequestParam(name = "agencyId", required = false) UUID agencyId) {
+            @RequestParam(name = "state", required = false) State state,
+            @RequestParam(name = "organization", required = false) UUID organization) {
         Sort sort = (sortType.equals("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-        FindProfileWithFilterQuery query = new FindProfileWithFilterQuery(pageable, filter, name, description, state, agencyId);
+        FindProfileWithFilterQuery query = new FindProfileWithFilterQuery(pageable, filter, name, description, state, organization);
         MessagePaginatedResponse pageResponse = mediator.send(query);
-
         return ResponseEntity.ok(pageResponse);
     }
 
-    // This workflow is implemented by 06-RFS5. Gestionar Perfil
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse2xx<DeleteProfileMessage>> deleteAgency(@NotBlank @PathVariable UUID id) {
-
         DeleteProfileCommand deleteCommand = new DeleteProfileCommand(id);
         DeleteProfileMessage response = mediator.send(deleteCommand);
-
         return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
-    // This workflow is implemented by 06-RFS5. Gestionar Perfil
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse2xx<FindProfileByIdResponse>> getProfile(@NotBlank @PathVariable UUID id) {
-
         FindProfileByIdQuery query = new FindProfileByIdQuery(id);
         FindProfileByIdResponse response = mediator.send(query);
-
         return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 }

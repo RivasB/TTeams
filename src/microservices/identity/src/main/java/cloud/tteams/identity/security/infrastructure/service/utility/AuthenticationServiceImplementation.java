@@ -17,9 +17,9 @@ public class AuthenticationServiceImplementation implements IAuthenticationServi
     }
 
     @Override
-    public void authenticate(String identification, String password) throws UnauthorizedException {
+    public void authenticate(String email, String password) throws UnauthorizedException {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(identification, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException e) {
             throw new UnauthorizedException("User disabled");
         } catch (Exception e) {

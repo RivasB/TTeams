@@ -36,7 +36,7 @@ public final class InMemoryQueryBus implements IQueryBus {
             throw new QueryHandlerExecutionError(ex);
         } catch (Exception exception) {
             logger.info("Error executing query: ", exception);
-            throw exception;
+            throw new QueryHandlerExecutionError(exception);
         }
     }
 }

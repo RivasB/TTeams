@@ -9,16 +9,17 @@ import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 
 public interface IOrganizationService {
-    public void create(Organization organization);
 
-    public void update(Organization organization);
+    void create(Organization organization);
 
-    public void delete(UUID id);
+    void update(Organization organization);
 
-    public Organization findById(UUID id);
+    void delete(UUID id);
+
+    Organization findById(UUID id);
 
     MessagePaginatedResponse getAll(Pageable pageable, String name, String description, String contact,
                                     State state);
 
-    public void spreadAgencys();
+    void spreadOrganizations();
 }

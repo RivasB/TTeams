@@ -1,7 +1,9 @@
 package cloud.tteams.identity.profile.application.command.update;
 
-import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import cloud.tteams.identity.authorization.domain.Authorization;
 import cloud.tteams.identity.authorization.domain.service.IAuthorizationService;
 import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.identity.organization.domain.service.IOrganizationService;
@@ -15,31 +17,23 @@ import cloud.tteams.share.core.domain.bus.command.ICommandHandler;
 public class UpdateProfileCommandHandler implements ICommandHandler<UpdateProfileCommand> {
 
     private final IProfileService profileService;
-    private final IOrganizationService agencyService;
-    private final IAuthorizationService accessService;
+    private final IOrganizationService organizationService;
+    private final IAuthorizationService authorizationService;
 
-    public UpdateProfileCommandHandler(IProfileService profileService, IOrganizationService agencyService,
-            IAuthorizationService accessService) {
+    public UpdateProfileCommandHandler(IProfileService profileService, IOrganizationService organizationService,
+            IAuthorizationService authorizationService) {
         this.profileService = profileService;
-        this.agencyService = agencyService;
-        this.accessService = accessService;
+        this.organizationService = organizationService;
+        this.authorizationService = authorizationService;
     }
 
     @Override
     public void handle(UpdateProfileCommand command) {
-        ProfileId id = new ProfileId(command.getId());
-        ProfileName name = new ProfileName(command.getName());
-        ProfileDescription description = new ProfileDescription(command.getDescription());
-        Organization organization = agencyService.findById(new AgencyId(command.getAgency()));
-        ProfileState state = command.getState();
-        ProfileAccessSet access = new ProfileAccessSet(new HashSet<>());
-        command.getAccess().stream().forEach(element -> {
-            Authorization toStore = accessService.findById(new AccessId(element));
-            access.getValue().add(toStore);
-        });
-
-        Profile profile = new Profile(id, name, description, state, organization, null, access);
-
+        Organization organization = organizationService.findById(command.organization());
+        List<Authorization> authorizations = command.authorizations()
+                .stream().map(authorizationService::findById).collect(Collectors.toList());
+        Profile profile = new Profile(command.id(), command.name(), command.description(), organization,
+                command.state(), authorizations);
         profileService.update(profile);
     }
 

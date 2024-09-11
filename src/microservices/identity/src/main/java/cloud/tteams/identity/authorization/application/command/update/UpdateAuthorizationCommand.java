@@ -17,11 +17,11 @@ public class UpdateAuthorizationCommand implements ICommand {
     private final State state;
 
     public UpdateAuthorizationCommand(UpdateAuthorizationRequest request) {
-        this.id = request.getId();
-        this.name = request.getName();
-        this.resource = request.getResource();
-        this.action = request.getAction();
-        this.state = request.getState();
+        this.id = request.id();
+        this.name = request.name();
+        this.resource = request.resource();
+        this.action = request.action();
+        this.state = request.state();
     }
 
     @Override

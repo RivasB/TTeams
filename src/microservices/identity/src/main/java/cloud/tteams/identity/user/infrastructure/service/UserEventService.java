@@ -13,6 +13,7 @@ import cloud.tteams.identity.user.domain.event.UserUpdatedEvent;
 
 @Component
 public class UserEventService implements IEventService<User> {
+
     private final KafkaTemplate<String, Event<?>> producer;
 
     public UserEventService(KafkaTemplate<String, Event<?>> producer) {
