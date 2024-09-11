@@ -6,6 +6,7 @@ import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserEntity
 import cloud.tteams.identity.user.infrastructure.repository.jpa.UserSpecifications;
 import cloud.tteams.identity.user.domain.UserState;
 import cloud.tteams.identity.user.domain.UserType;
+import cloud.tteams.share.core.infrastructure.config.annotation.QueryRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;

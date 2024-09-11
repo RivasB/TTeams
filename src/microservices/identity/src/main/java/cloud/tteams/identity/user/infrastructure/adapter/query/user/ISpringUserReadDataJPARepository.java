@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserEntity;
+import cloud.tteams.share.core.infrastructure.config.annotation.QueryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import cloud.tteams.identity.user.domain.User;
 
+@QueryRepository
 public interface ISpringUserReadDataJPARepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<User> findByEmail(String email);
