@@ -6,6 +6,7 @@ import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
 import cloud.tteams.share.core.domain.bus.query.QueryHandlerExecutionError;
 import cloud.tteams.share.core.domain.bus.query.QueryNotRegisteredError;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -20,10 +21,12 @@ public final class InMemoryQueryBus implements IQueryBus {
     private final QueryHandlersInformation information;
 
     private final ApplicationContext context;
+    private final HttpServletResponse httpServletResponse;
 
-    public InMemoryQueryBus(QueryHandlersInformation information, ApplicationContext context) {
+    public InMemoryQueryBus(QueryHandlersInformation information, ApplicationContext context, HttpServletResponse httpServletResponse) {
         this.information = information;
         this.context = context;
+        this.httpServletResponse = httpServletResponse;
     }
 
     @Override
@@ -36,7 +39,7 @@ public final class InMemoryQueryBus implements IQueryBus {
             throw new QueryHandlerExecutionError(ex);
         } catch (Exception exception) {
             logger.info("Error executing query: ", exception);
-            throw new QueryHandlerExecutionError(exception);
+            throw exception;
         }
     }
 }

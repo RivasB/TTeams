@@ -24,8 +24,13 @@ public class RegisterUserCommandHandler implements ICommandHandler<RegisterUserC
         User user = new User(command.id(), command.firstName(), command.lastName(), null, command.email(),
                 command.password(), UserType.USER, UserState.ACTIVE, null, RegistrationTokenState.VERIFICATION_PENDING,
                 command.phone(), false);
-        Optional<RegistrationToken> token = userService.registerUser(user);
-        token.ifPresent(registrationToken -> mailService.sendSimpleOTPEmail(user.getEmail(), "Registro exitoso. Verifica tu cuenta", registrationToken.getOtp()));
+        try {
+            Optional<RegistrationToken> token = userService.registerUser(user);
+            token.ifPresent(registrationToken -> mailService.sendSimpleOTPEmail(user.getEmail(), "Registro exitoso. Verifica tu cuenta", registrationToken.getOtp()));
+        }catch (Exception exception) {
+
+        }
+
     }
 
 }

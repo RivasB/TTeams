@@ -16,6 +16,7 @@ import cloud.tteams.share.core.domain.service.IEventService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@Transactional(readOnly = true)
 @Component
 public class DomainUserService implements IUserService {
 
@@ -76,7 +76,7 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createUser(User user) {
         RulesChecker.checkRule(new UserFirstNameRequiredRule(user.getFirstName()));
         RulesChecker.checkRule(new UserLastNameRequiredRule(user.getLastName()));
@@ -118,7 +118,7 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateUser(User user) {
         User toUpdate = this.queryRepository.findById(user.getId());
         RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
@@ -148,21 +148,20 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<RegistrationToken> registerUser(User user) {
-        try {
-            Optional<User> oUser = queryRepository.findByEmail(user.getEmail());
-            if (oUser.isPresent()) {
-                switch (oUser.get().getRegistrationState()) {
-                    case VERIFICATION_ACCEPTED -> throw new DomainException("User has registered before!");
-                    case VERIFICATION_PENDING -> throw new DomainException("User registration pending of validation!");
-                    case VERIFICATION_BLOCKED -> throw new DomainException("User registration blocked");
-                    default -> {
-                        return Optional.empty();
-                    }
+        Optional<User> oUser = queryRepository.findByEmail(user.getEmail());
+        if (oUser.isPresent()) {
+            switch (oUser.get().getRegistrationState()) {
+                case VERIFICATION_ACCEPTED -> throw new DomainException("User has registered before!");
+                case VERIFICATION_PENDING -> throw new DomainException("User registration pending of validation!");
+                case VERIFICATION_BLOCKED -> throw new DomainException("User registration blocked");
+                default -> {
+                    return Optional.empty();
                 }
             }
-        } catch (Exception ex) {
+        }
+        else {
             user.setFreshInstallTokenState();
             createUser(user);
             LocalDateTime currenDateTime = LocalDateTime.now();
@@ -171,7 +170,6 @@ public class DomainUserService implements IUserService {
             registrationCommandRepository.create(registrationToken);
             return Optional.of(registrationToken);
         }
-        return Optional.empty();
     }
 
     @Override

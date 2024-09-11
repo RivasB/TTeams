@@ -2,11 +2,8 @@ package cloud.tteams.identity.profile.infrastructure.repository.hibernate;
 
 import java.util.*;
 
-import cloud.tteams.identity.authorization.domain.Authorization;
 import cloud.tteams.identity.authorization.infrastructure.repository.hibernate.AuthorizationEntity;
-import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.identity.organization.infrastructure.repository.hibernate.OrganizationEntity;
-import cloud.tteams.identity.user.domain.User;
 import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserEntity;
 import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.share.core.domain.State;
@@ -54,16 +51,21 @@ public class ProfileEntity {
     }
 
     public ProfileEntity(Profile profile) {
-        this.id = profile.getId();
-        this.name = profile.getName();
-        this.description = profile.getDescription();
-        this.organization = new OrganizationEntity(profile.getOrganization());
-        this.state = profile.getState();
-        this.authorizations = new HashSet<>();
-        if (profile.getAuthorizations() != null) {
-            profile.getAuthorizations().forEach(element ->
-                    authorizations.add(new AuthorizationEntity(element)));
-        }
+        Optional.ofNullable(profile.getId()).ifPresent(value -> this.id = value);
+        Optional.ofNullable(profile.getName()).ifPresent(value -> this.name = value);
+        Optional.ofNullable(profile.getDescription()).ifPresent(value -> this.description = value);
+        Optional.ofNullable(profile.getOrganization()).ifPresent(value -> this.organization = new OrganizationEntity(value));
+        Optional.ofNullable(profile.getState()).ifPresent(value -> this.state = value);
+        Optional.ofNullable(profile.getAuthorizations()).ifPresent(authorizationsList -> {
+            if (Objects.isNull(this.authorizations)) {
+                this.authorizations = new HashSet<>();
+            } else {
+                this.authorizations.clear();
+            }
+            authorizationsList.forEach(element ->
+                    this.authorizations.add(new AuthorizationEntity(element))
+            );
+        });
     }
 
     public Profile toAggregate() {

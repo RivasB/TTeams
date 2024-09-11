@@ -3,7 +3,7 @@ package cloud.tteams.share.email.infrastructure.service;
 import cloud.tteams.share.email.domain.service.IEmailService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -12,11 +12,10 @@ import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Service
+@Component
 class EmailServiceImplementation implements IEmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImplementation.class);
-
 
     private final JavaMailSender emailSender;
 

@@ -29,7 +29,7 @@ public class SecurityServiceImplementation implements ISecurityService {
     }
 
     @Override
-    public JavaWebTokenResponse login(String email, String password) throws UnauthorizedException {
+    public JavaWebTokenResponse login(String email, String password) {
         authenticationService.authenticate(email, password);
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         final String token = javaWebTokenService.create(userDetails);
@@ -37,7 +37,7 @@ public class SecurityServiceImplementation implements ISecurityService {
     }
 
     @Override
-    public JavaWebTokenResponse validate(String token) throws UnauthorizedException {
+    public JavaWebTokenResponse validate(String token) {
         boolean isValid = javaWebTokenService.validateAuthToken(token);
         if (isValid){
             return new JavaWebTokenResponse(token, ttlMillis);

@@ -19,7 +19,7 @@ public class GetByIdAuthorizationQueryHandler implements IQueryHandler<GetByIdAu
 
 
     @Override
-    public AuthorizationResponse handle(GetByIdAuthorizationQuery query) throws UnauthorizedException {
+    public AuthorizationResponse handle(GetByIdAuthorizationQuery query) {
         Authorization authorization = service.findById(query.id());
         return new AuthorizationResponse(authorization);
     }

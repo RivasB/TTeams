@@ -5,6 +5,7 @@ import cloud.tteams.identity.user.domain.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Where;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -22,7 +23,7 @@ public class UserEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "identification", unique = true, nullable = false)
+    @Column(name = "identification", unique = true)
     private String identification;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -60,20 +61,19 @@ public class UserEntity {
     }
 
     public UserEntity(User user) {
-        this.id = user.getId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.identification = user.getIdentification();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.type = user.getType();
-        this.state = user.getState();
-        this.profile =  new ProfileEntity(user.getProfile());
-        this.registrationState = user.getRegistrationState();
-        this.phone = user.getPhone();
-        this.shouldChangePassword = user.getShouldChangePassword() != null ? user.getShouldChangePassword()
-                : false;
-        this.deleted = user.getDeleted() != null ? user.getDeleted() : false;
+        Optional.ofNullable(user.getId()).ifPresent(value -> this.id = value);
+        Optional.ofNullable(user.getFirstName()).ifPresent(value -> this.firstName = value);
+        Optional.ofNullable(user.getLastName()).ifPresent(value -> this.lastName = value);
+        Optional.ofNullable(user.getIdentification()).ifPresent(value -> this.identification = value);
+        Optional.ofNullable(user.getEmail()).ifPresent(value -> this.email = value);
+        Optional.ofNullable(user.getPassword()).ifPresent(value -> this.password = value);
+        Optional.ofNullable(user.getType()).ifPresent(value -> this.type = value);
+        Optional.ofNullable(user.getState()).ifPresent(value -> this.state = value);
+        Optional.ofNullable(user.getProfile()).ifPresent(profile -> this.profile = new ProfileEntity(profile));
+        Optional.ofNullable(user.getRegistrationState()).ifPresent(value -> this.registrationState = value);
+        Optional.ofNullable(user.getPhone()).ifPresent(value -> this.phone = value);
+        this.shouldChangePassword = Optional.ofNullable(user.getShouldChangePassword()).orElse(false);
+        this.deleted = Optional.ofNullable(user.getDeleted()).orElse(false);
     }
 
 

@@ -4,9 +4,9 @@ import cloud.tteams.identity.security.application.JavaWebTokenResponse;
 import cloud.tteams.share.core.infrastructure.exceptions.UnauthorizedException;
 
 public interface ISecurityService {
-    JavaWebTokenResponse login(String email, String password) throws UnauthorizedException;
+    JavaWebTokenResponse login(String email, String password);
 
-    JavaWebTokenResponse validate(String token) throws UnauthorizedException;
+    JavaWebTokenResponse validate(String token);
 
     JavaWebTokenResponse refresh(String jwtToken);
 }

@@ -3,7 +3,6 @@ package cloud.tteams.identity.security.application.refresh;
 import cloud.tteams.identity.security.application.JavaWebTokenResponse;
 import cloud.tteams.identity.security.domain.service.ISecurityService;
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
-import cloud.tteams.share.core.infrastructure.exceptions.UnauthorizedException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +15,7 @@ public class RefreshQueryHandler implements IQueryHandler<RefreshQuery, JavaWebT
     }
 
     @Override
-    public JavaWebTokenResponse handle(RefreshQuery query) throws UnauthorizedException {
+    public JavaWebTokenResponse handle(RefreshQuery query) {
         return service.refresh(query.jwtToken());
     }
 }
