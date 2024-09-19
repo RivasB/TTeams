@@ -1,8 +1,11 @@
 package cloud.tteams.gateway.share.infrastructure.conf;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SwaggerUiConfigParameters;
 import org.springdoc.core.SwaggerUiConfigProperties;
@@ -23,24 +26,26 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @Configuration
 public class SwaggerConfig implements WebFluxConfigurer {
 
-    @Bean
-    @Lazy(false)
-    public List<GroupedOpenApi> apis(RouteDefinitionLocator locator) {
-        List<GroupedOpenApi> groups = new ArrayList<>();
+    public Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls(RouteDefinitionLocator locator) {
+        Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
         List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
-        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
+        assert definitions != null;
+        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-swagger-ui"))
                 .forEach(routeDefinition -> {
-                    String name = routeDefinition.getId().replaceAll("-service", "");
-                    GroupedOpenApi api = GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name)
-                            .build();
-                    groups.add(api);
+                    AbstractSwaggerUiConfigProperties.SwaggerUrl url = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+                    String name = routeDefinition.getId().replaceAll("-swagger-ui", "");
+                    url.setName(name);
+                    url.setUrl("lb://" + name + "/v3/api-docs");
+                    urls.add(url);
                 });
-        return groups;
+        return urls;
     }
 
     @Bean
-    public SwaggerUiConfigParameters swaggerUiConfigParameters() {
+    public SwaggerUiConfigParameters swaggerUiConfigParameters(RouteDefinitionLocator locator) {
         SwaggerUiConfigProperties properties = new SwaggerUiConfigProperties();
+        properties.setDisableSwaggerDefaultUrl(true);
+        properties.setUrls(this.urls(locator));
         return new SwaggerUiConfigParameters(properties);
     }
 
