@@ -1,35 +1,91 @@
 package cloud.tteams.project.project.infrastructure.repository.hibernate;
 import cloud.tteams.project.project.domain.*;
+import cloud.tteams.share.comment.domain.Comment;
+import cloud.tteams.share.comment.infrastructure.repository.hibernate.CommentEntity;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
+
 @Entity
-@Table(name = "tteams_project")
+@Table(name = "projects")
 public class ProjectEntity {
 
     @Id
-    @Column(name = "id", nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "status")
+    @Column(nullable = false)
+    private String name;
+
+    @Column(length = 2000)
+    private String description;
+
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column
+    private LocalDate estimatedEndDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProjectStatus status;
 
-    public ProjectEntity() {
-    }
+    @Enumerated(EnumType.STRING)
+    private ProjectPriority priority;
 
-    public ProjectEntity(Project project) {
-        this.id = project.getId().value();
-        this.status = project.getStatus();
-    }
+    private String tags;
 
-    public Project toAggregate() {
-        ProjectId id = new ProjectId(this.id);
-        ProjectStatus status = this.status;
-        return null;
-    }
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentEntity> comments;
 
-    public UUID getId() {
+    @ElementCollection
+    @CollectionTable(name = "project_changelog", joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "changeLog")
+    private List<String> changeLog;
+
+    public Long getId() {
         return id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEstimatedEndDate() {
+        return estimatedEndDate;
+    }
+
+    public ProjectStatus getStatus() {
+        return status;
+    }
+
+    public ProjectPriority getPriority() {
+        return priority;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public List<String> getChangeLog() {
+        return changeLog;
+    }
 }
+

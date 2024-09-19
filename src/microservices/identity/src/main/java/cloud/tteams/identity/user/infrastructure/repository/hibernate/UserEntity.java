@@ -5,6 +5,7 @@ import cloud.tteams.identity.user.domain.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Where;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -79,7 +80,7 @@ public class UserEntity {
 
     public User toAggregate() {
         return new User(this.id, this.firstName, this.lastName, this.identification, this.email, this.password, this.type
-        , this.state, this.profile.toAggregate(), this.registrationState, this.phone, this.shouldChangePassword);
+        , this.state, Objects.nonNull(this.profile) ? this.profile.toAggregate() : null, this.registrationState, this.phone, this.shouldChangePassword);
     }
 
     public void removeProfile(){

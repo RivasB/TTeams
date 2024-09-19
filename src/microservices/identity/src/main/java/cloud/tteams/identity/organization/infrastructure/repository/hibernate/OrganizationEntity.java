@@ -54,7 +54,7 @@ public class OrganizationEntity {
 
     public Organization toAggregate() {
         return new Organization(this.id, this.name, this.description, this.contact,
-                this.profiles.stream().map(ProfileEntity::toAggregate).toList(), this.state);
+                new ArrayList<>(), this.state);
     }
 
     public UUID getId() {

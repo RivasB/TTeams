@@ -27,7 +27,7 @@ public interface IUserService {
 
     void validateOTP(String otp, String password);
 
-    Long countByIdIsNotAndEmail(UUID id, String mail);
+    boolean existByEmailAndIdNot(UUID id, String mail);
 
     void changePassword(String identification, String oldPassword, String newPassword);
 

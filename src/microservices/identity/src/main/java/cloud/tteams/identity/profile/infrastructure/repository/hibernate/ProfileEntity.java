@@ -27,11 +27,11 @@ public class ProfileEntity {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_pk_organization", nullable = false)
     private OrganizationEntity organization;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(name = "tteams_mtm_profile_authorization",
             joinColumns = @JoinColumn(name = "fk_pk_profile"),
             inverseJoinColumns = @JoinColumn(name = "fk_pk_authorization"))
@@ -71,7 +71,7 @@ public class ProfileEntity {
     public Profile toAggregate() {
         return new Profile(this.id, this.name, this.description, this.organization.toAggregate(), this.state,
                 this.authorizations.stream().map(AuthorizationEntity::toAggregate).toList(),
-                this.users.stream().map(UserEntity::toAggregate).toList());
+                new ArrayList<>());
     }
 
     public UUID getId() {

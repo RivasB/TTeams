@@ -6,7 +6,6 @@ import cloud.tteams.identity.user.infrastructure.repository.hibernate.UserEntity
 import cloud.tteams.identity.user.infrastructure.repository.jpa.UserSpecifications;
 import cloud.tteams.identity.user.domain.UserState;
 import cloud.tteams.identity.user.domain.UserType;
-import cloud.tteams.share.core.infrastructure.config.annotation.QueryRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
@@ -40,12 +39,13 @@ public class PostgresDBUserQueryRepository implements IUserQueryRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        Optional<UserEntity> userEntity = userRepository.findByEmail(email);
+        return userEntity.map(UserEntity::toAggregate);
     }
 
     @Override
-    public Long countByIdIsNotAndEmail(UUID id, String email) {
-        return userRepository.countByIdIsNotAndEmail(id, email);
+    public boolean existByEmailAndIdNot(UUID id, String email) {
+        return userRepository.existsByEmailAndIdNot(email, id);
     }
 
     @Override

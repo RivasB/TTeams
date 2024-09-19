@@ -5,6 +5,8 @@ import java.util.UUID;
 import cloud.tteams.identity.user.application.UserResponse;
 import cloud.tteams.identity.user.domain.UserState;
 import cloud.tteams.identity.user.domain.UserType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,6 +47,7 @@ import jakarta.validation.constraints.NotBlank;
 @Tag(name = "BackOffice User", description = "The User API. Contains all the operations that can be performed on a user.")
 public class UserBackOfficeController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserBackOfficeController.class);
     private final IMediator mediator;
 
     public UserBackOfficeController(IMediator mediator) {
@@ -55,8 +58,14 @@ public class UserBackOfficeController {
     public ResponseEntity<ApiResponse2xx<CreateUserMessage>> createUser(
             @RequestBody CreateUserRequest request) {
         CreateUserCommand command = CreateUserCommand.fromRequest(request);
-        CreateUserMessage response = mediator.send(command);
-        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.CREATED));
+        try {
+            CreateUserMessage response = mediator.send(command);
+            return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.CREATED));
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     @GetMapping("/{id}")

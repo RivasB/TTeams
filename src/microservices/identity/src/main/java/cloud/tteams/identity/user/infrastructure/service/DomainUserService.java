@@ -9,6 +9,7 @@ import cloud.tteams.identity.user.domain.repository.user.IUserCommandRepository;
 import cloud.tteams.identity.user.domain.repository.user.IUserQueryRepository;
 import cloud.tteams.identity.user.domain.service.IPasswordEncoder;
 import cloud.tteams.identity.user.domain.service.IUserService;
+import cloud.tteams.identity.user.infrastructure.adapter.query.user.PostgresDBUserQueryRepository;
 import cloud.tteams.share.core.domain.exception.DomainException;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.rules.RulesChecker;
@@ -16,7 +17,6 @@ import cloud.tteams.share.core.domain.service.IEventService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -34,6 +34,7 @@ public class DomainUserService implements IUserService {
     private final IEventService<User> eventService;
     private final IRegistrationTokenCommandRepository registrationCommandRepository;
     private final IRegistrationTokenQueryRepository registrationQueryRepository;
+    private final PostgresDBUserQueryRepository postgresDBUserQueryRepository;
 
     /**
      * REGISTRATION_TOKEN_EXPIRE configuration variable,
@@ -66,22 +67,22 @@ public class DomainUserService implements IUserService {
             IPasswordEncoder passwordEncoder,
             IEventService<User> eventService,
             IRegistrationTokenCommandRepository registrationCommandRepository,
-            IRegistrationTokenQueryRepository registrationQueryRepository) {
+            IRegistrationTokenQueryRepository registrationQueryRepository, PostgresDBUserQueryRepository postgresDBUserQueryRepository) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.passwordEncoder = passwordEncoder;
         this.eventService = eventService;
         this.registrationCommandRepository = registrationCommandRepository;
         this.registrationQueryRepository = registrationQueryRepository;
+        this.postgresDBUserQueryRepository = postgresDBUserQueryRepository;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createUser(User user) {
         RulesChecker.checkRule(new UserFirstNameRequiredRule(user.getFirstName()));
         RulesChecker.checkRule(new UserLastNameRequiredRule(user.getLastName()));
         RulesChecker.checkRule(new UserEmailRequiredRule(user.getEmail()));
-        RulesChecker.checkRule(new UserEmailMustBeUniqueRule(this, user));
+        RulesChecker.checkRule(new UserEmailMustBeUniqueRule(postgresDBUserQueryRepository, user));
         RulesChecker.checkRule(new UserPasswordRequiredRule(user.getPassword()));
         RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
         RulesChecker.checkRule(new UserTypeRequiredRule(user.getType()));
@@ -107,7 +108,6 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional
     public UUID delete(UUID id) {
         User user = this.queryRepository.findById(id);
         this.commandRepository.delete(user);
@@ -118,7 +118,6 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateUser(User user) {
         User toUpdate = this.queryRepository.findById(user.getId());
         RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
@@ -129,7 +128,7 @@ public class DomainUserService implements IUserService {
         RulesChecker.checkRule(new UserFirstNameRequiredRule(toUpdate.getFirstName()));
         RulesChecker.checkRule(new UserLastNameRequiredRule(toUpdate.getLastName()));
         RulesChecker.checkRule(new UserEmailRequiredRule(toUpdate.getEmail()));
-        RulesChecker.checkRule(new UserEmailMustBeUniqueRule(this, toUpdate));
+        RulesChecker.checkRule(new UserEmailMustBeUniqueRule(postgresDBUserQueryRepository, toUpdate));
         RulesChecker.checkRule(new UserPasswordRequiredRule(toUpdate.getPassword()));
         RulesChecker.checkRule(new UserTypeRequiredRule(toUpdate.getType()));
         commandRepository.update(toUpdate);
@@ -148,7 +147,6 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<RegistrationToken> registerUser(User user) {
         Optional<User> oUser = queryRepository.findByEmail(user.getEmail());
         if (oUser.isPresent()) {
@@ -208,8 +206,8 @@ public class DomainUserService implements IUserService {
     }
 
     @Override
-    public Long countByIdIsNotAndEmail(UUID id, String email) {
-        return queryRepository.countByIdIsNotAndEmail(id, email);
+    public boolean existByEmailAndIdNot(UUID id, String email) {
+        return queryRepository.existByEmailAndIdNot(id, email);
     }
 
     @Override

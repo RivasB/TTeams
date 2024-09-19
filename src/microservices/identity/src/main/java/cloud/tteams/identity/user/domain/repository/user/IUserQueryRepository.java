@@ -16,7 +16,7 @@ public interface IUserQueryRepository {
 
     Optional<User> findByEmail(String email);
 
-    Long countByIdIsNotAndEmail(UUID id, String email);
+    boolean existByEmailAndIdNot(UUID id, String email);
 
     MessagePaginatedResponse findAll(Pageable pageable, String firstName, String lastName, String identification, String email, UserType type, UserState state, String filter);
 
