@@ -30,12 +30,11 @@ public class SwaggerConfig implements WebFluxConfigurer {
     @Lazy(false)
     public List<GroupedOpenApi> apis(RouteDefinitionLocator locator) {
         List<GroupedOpenApi> groups = new ArrayList<>();
-        List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
-        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
-                .forEach(routeDefinition -> {
+        locator.getRouteDefinitions()
+                .filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
+                .subscribe(routeDefinition -> {
                     String name = routeDefinition.getId().replaceAll("-service", "");
-                    GroupedOpenApi api = GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name)
-                            .build();
+                    GroupedOpenApi api = GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name).build();
                     groups.add(api);
                 });
         return groups;
@@ -43,10 +42,9 @@ public class SwaggerConfig implements WebFluxConfigurer {
 
     public Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls(RouteDefinitionLocator locator) {
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
-        List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
-        assert definitions != null;
-        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-swagger-ui"))
-                .forEach(routeDefinition -> {
+        locator.getRouteDefinitions()
+                .filter(routeDefinition -> routeDefinition.getId().matches(".*-swagger-ui"))
+                .subscribe(routeDefinition -> {
                     AbstractSwaggerUiConfigProperties.SwaggerUrl url = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
                     String name = routeDefinition.getId().replaceAll("-swagger-ui", "");
                     url.setName(name);
@@ -71,3 +69,4 @@ public class SwaggerConfig implements WebFluxConfigurer {
                 .resourceChain(false);
     }
 }
+
