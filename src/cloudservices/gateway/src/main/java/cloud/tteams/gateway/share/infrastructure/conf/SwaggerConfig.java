@@ -26,6 +26,21 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @Configuration
 public class SwaggerConfig implements WebFluxConfigurer {
 
+    @Bean
+    @Lazy(false)
+    public List<GroupedOpenApi> apis(RouteDefinitionLocator locator) {
+        List<GroupedOpenApi> groups = new ArrayList<>();
+        List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
+        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
+                .forEach(routeDefinition -> {
+                    String name = routeDefinition.getId().replaceAll("-service", "");
+                    GroupedOpenApi api = GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name)
+                            .build();
+                    groups.add(api);
+                });
+        return groups;
+    }
+
     public Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls(RouteDefinitionLocator locator) {
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
         List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
