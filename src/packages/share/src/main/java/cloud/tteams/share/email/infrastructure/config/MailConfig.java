@@ -3,6 +3,7 @@ package cloud.tteams.share.email.infrastructure.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -11,6 +12,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan("cloud.tteams")
+@Conditional(ExcludeConfigCondition.class)
 public class MailConfig {
 
     @Value("${spring.mail.host}")

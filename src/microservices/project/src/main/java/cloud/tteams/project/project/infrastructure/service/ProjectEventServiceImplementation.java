@@ -21,9 +21,9 @@ import java.util.UUID;
 @Component
 public class ProjectEventServiceImplementation implements IEventService<Project> {
 
-    private final KafkaTemplate<String, Event<Notification>> producer;
+    private final KafkaTemplate<String, Event<?>> producer;
 
-    public ProjectEventServiceImplementation(KafkaTemplate<String, Event<Notification>> producer) {
+    public ProjectEventServiceImplementation(KafkaTemplate<String, Event<?>> producer) {
         this.producer = producer;
     }
 
