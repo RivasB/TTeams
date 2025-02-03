@@ -43,7 +43,7 @@ public class DomainUserService implements IUserService {
      * <p>
      * Default: 5 minutes
      */
-    @Value("${user.validation.expire:5}")
+    @Value("${user.validation.expire:15}")
     private int REGISTRATION_TOKEN_EXPIRE;
 
     /**
@@ -120,17 +120,15 @@ public class DomainUserService implements IUserService {
     @Override
     public void updateUser(User user) {
         User toUpdate = this.queryRepository.findById(user.getId());
-        RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
-        toUpdate.updatePassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println("password: " + user.getPassword());
+        if (Objects.nonNull(user.getPassword()) && !user.getPassword().equals("EMPTY")) {
+            RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
+            toUpdate.updatePassword(passwordEncoder.encode(user.getPassword()));
+        }
         if (Objects.nonNull(user.getIdentification())) {
             RulesChecker.checkRule(new UserIdentificationMustBeUniqueRule(queryRepository, user));
         }
-        RulesChecker.checkRule(new UserFirstNameRequiredRule(toUpdate.getFirstName()));
-        RulesChecker.checkRule(new UserLastNameRequiredRule(toUpdate.getLastName()));
-        RulesChecker.checkRule(new UserEmailRequiredRule(toUpdate.getEmail()));
-        RulesChecker.checkRule(new UserEmailMustBeUniqueRule(postgresDBUserQueryRepository, toUpdate));
-        RulesChecker.checkRule(new UserPasswordRequiredRule(toUpdate.getPassword()));
-        RulesChecker.checkRule(new UserTypeRequiredRule(toUpdate.getType()));
+        toUpdate.update(user);
         commandRepository.update(toUpdate);
         if (messengerIsActive) {
             eventService.update(toUpdate);
@@ -195,7 +193,6 @@ public class DomainUserService implements IUserService {
             });
             User user = token.getUser();
             user.unBlockUserByMaxTokenVerificationAttempts();
-            user.updatePassword(password);
             commandRepository.update(user);
             if (messengerIsActive) {
                 eventService.update(user);

@@ -38,10 +38,11 @@
 		<module>src/microservices/identity</module>
 		<module>src/microservices/project</module>
 		<module>src/microservices/comment</module>
-		<module>src/microservices/share_log</module>
+		<module>src/microservices/log</module>
+		<module>src/microservices/notification</module>
+		<module>src/microservices/sprint</module>
+		<module>src/microservices/team</module>
 		<module>src/packages/share</module>
-		<module>src/packages/share_user</module>
-		<module>src/packages/share_comment</module>
 	</modules>
 
 	<build>

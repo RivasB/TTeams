@@ -167,10 +167,10 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
                 email = getValue(token);
             } catch (IllegalArgumentException e) {
                 throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED, "Invalid credentials", e);
+                        HttpStatus.UNAUTHORIZED, "¡Credenciales no válidas! Verifica tu correo electrónico y tu contraseña.", e);
             } catch (ExpiredJwtException e) {
                 throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED, "Session expired", e);
+                        HttpStatus.UNAUTHORIZED, "¡La sesión de usuario ha expirado!", e);
             }
         } else {
             email = getValue(requestTokenHeader);
@@ -190,7 +190,7 @@ public class JavaWebTokenServiceImplementation implements IJavaWebTokenService {
             refreshedToken = this.create(user);
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Logged off. Please login again!", e);
+                    HttpStatus.UNAUTHORIZED, "Usuario desconectado. ¡Por favor inicia sesión de nuevo!", e);
         }
         return refreshedToken;
     }

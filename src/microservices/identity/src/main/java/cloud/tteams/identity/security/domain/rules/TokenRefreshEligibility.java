@@ -12,7 +12,7 @@ public class TokenRefreshEligibility extends BusinessRule {
     Date expiration;
 
     public TokenRefreshEligibility(Date now, Date expiration) {
-        super("Session expired!");
+        super("¡La sesión de usuario ha expirado!");
         this.now = now;
         this.expiration = expiration;
     }

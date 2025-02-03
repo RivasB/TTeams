@@ -1,13 +1,13 @@
 package cloud.tteams.project.project.domain.repository;
 
 import cloud.tteams.project.project.domain.Project;
-import cloud.tteams.project.project.domain.ProjectId;
+import cloud.tteams.project.project.domain.valueobject.ProjectId;
 
 public interface IProjectCommandRepository {
 
-    void create(Project project);
+    Project create(Project project);
 
-    void update(Project project);
+    Project update(Project project);
 
-    void delete(ProjectId projectId);
+    Project delete(ProjectId projectId);
 }

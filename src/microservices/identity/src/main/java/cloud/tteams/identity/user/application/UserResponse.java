@@ -1,9 +1,11 @@
 package cloud.tteams.identity.user.application;
 
 import cloud.tteams.identity.profile.application.ProfileResponse;
+import cloud.tteams.identity.profile.infrastructure.repository.hibernate.ProfileEntity;
 import cloud.tteams.identity.user.domain.User;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserResponse implements IResponse {
@@ -22,7 +24,7 @@ public class UserResponse implements IResponse {
 
     private final String state;
 
-    private final ProfileResponse profile;
+    private ProfileResponse profile;
 
     public UserResponse(User user) {
         this.id = user.getId();
@@ -32,7 +34,7 @@ public class UserResponse implements IResponse {
         this.phone = user.getPhone();
         this.type = user.getType().toString();
         this.state = user.getState().toString();
-        this.profile = new ProfileResponse(user.getProfile());
+        Optional.ofNullable(user.getProfile()).ifPresent(profile -> this.profile = new ProfileResponse(profile));
     }
 
     public UUID getId() {

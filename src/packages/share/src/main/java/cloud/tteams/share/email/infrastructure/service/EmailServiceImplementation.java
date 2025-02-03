@@ -32,6 +32,7 @@ class EmailServiceImplementation implements IEmailService {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
+            helper.setFrom("verify@tteams.io");
             helper.setSubject(subject);
             Context context = new Context();
             context.setVariable("otpCode", otp);

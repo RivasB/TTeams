@@ -18,6 +18,7 @@ import cloud.tteams.share.core.application.ApiResponse2xx;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class UserController {
     // User registration process (STEP 1)
     @PostMapping("/register")
     public ResponseEntity<ApiResponse2xx<RegisterUserMessage>> registerUserSendData(
-            @RequestBody RegisterUserRequest request) {
+            @RequestBody @Valid RegisterUserRequest request) {
         RegisterUserCommand command = RegisterUserCommand.fromRequest(request);
         RegisterUserMessage response = mediator.send(command);
         return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));

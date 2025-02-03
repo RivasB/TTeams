@@ -1,10 +1,10 @@
 package cloud.tteams.project.project.infrastructure.adapter.query;
 
 
-import cloud.tteams.project.project.application.ProjectResponse;
+import cloud.tteams.project.project.application.query.ProjectResponse;
 import cloud.tteams.project.project.domain.Project;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
-import cloud.tteams.project.project.domain.ProjectId;
+import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundException;
 import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;

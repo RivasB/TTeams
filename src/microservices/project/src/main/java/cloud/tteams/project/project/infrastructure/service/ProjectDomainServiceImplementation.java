@@ -2,10 +2,11 @@ package cloud.tteams.project.project.infrastructure.service;
 
 
 import cloud.tteams.project.project.domain.Project;
+import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.service.IEventService;
-import cloud.tteams.project.project.domain.ProjectId;
+import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.domain.service.IProjectDomainService;
@@ -14,8 +15,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Field;
 
 @Component
 public class ProjectDomainServiceImplementation implements IProjectDomainService {
@@ -28,7 +27,7 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
 
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    @Value("${kafka.messenger.project:false}")
+    @Value("${kafka.messenger.notifications:true}")
     private boolean messengerIsActive;
 
     public ProjectDomainServiceImplementation(IProjectCommandRepository commandRepository, IProjectQueryRepository queryRepository,
@@ -40,36 +39,32 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
 
     @Override
     public void create(Project project) {
-        commandRepository.create(project);
-        publishEvent(project, EventType.CREATED);
+        Project created = commandRepository.create(project);
+        logger.info(
+                String.format("New Project created with: Id: %s and Name: %s  by the user: %s",
+                        created.getId().getValue(),
+                        created.getName(), UserContext.getUserSession().getUsername()));
+        publishEvent(created, EventType.CREATED);
     }
 
     @Override
     public void update(Project project) {
-        Project toUpdateProject = findById(project.getId());
-        Field[] fields = project.getClass().getDeclaredFields();
-        try  {
-            for (Field attrib : fields) {
-                attrib.setAccessible(true);
-                Object valueStation = attrib.get(project);
-                Object valueToUpdateStation = attrib.get(toUpdateProject);
-                if (valueStation != null && !valueStation.equals(valueToUpdateStation)
-                        && attrib.getType().isAssignableFrom(valueStation.getClass())) {
-                    attrib.set(toUpdateProject, valueStation);
-                }
-            }
-        } catch (IllegalAccessException e){
-            logger.error(e.getMessage());
-        }
-        commandRepository.update(toUpdateProject);
-        publishEvent(toUpdateProject, EventType.UPDATED);
+        Project updated = commandRepository.update(project);
+        logger.info(
+                String.format("Project updated with: Id: %s and Name: %s  by the user: %s",
+                        updated.getId().getValue(),
+                        updated.getName(), UserContext.getUserSession().getUsername()));
+        publishEvent(updated, EventType.UPDATED);
     }
 
     @Override
     public void delete(ProjectId projectId) {
-        Project project = this.findById(projectId);
-        commandRepository.delete(projectId);
-        publishEvent(project, EventType.DELETED);
+        Project deleted = commandRepository.delete(projectId);
+        logger.info(
+                String.format("Project deleted with: Id: %s and Name: %s  by the user: %s",
+                        deleted.getId().getValue(),
+                        deleted.getName(), UserContext.getUserSession().getUsername()));
+        publishEvent(deleted, EventType.DELETED);
     }
 
     @Override
@@ -95,7 +90,6 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
                     eventService.delete(data);
                     break;
                 default:
-                    // do nothing
             }
         }
     }

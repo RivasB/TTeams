@@ -1,7 +1,5 @@
 package cloud.tteams.project.shared.infrastructure.config;
 
-import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
-import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.infrastructure.adapter.query.ProjectQueryRepositoryImplementation;
 import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
+@SuppressWarnings("all")
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef =
         "readTransactionManager", basePackageClasses = {ProjectQueryRepositoryImplementation.class})

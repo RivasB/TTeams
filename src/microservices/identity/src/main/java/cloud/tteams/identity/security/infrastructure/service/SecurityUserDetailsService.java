@@ -33,7 +33,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
             Set<GrantedAuthority> grantList = new HashSet<>();
             if (appUser.isEmpty()) {
                 throw new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED, "User must be registered");
+                        HttpStatus.UNAUTHORIZED, "¡Debes registrarte primero!");
             }
             String role = "ROLE_" + appUser.get().getType().toString();
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
@@ -43,7 +43,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
                     appUser.get().getPassword(), grantList);
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "User must be registered");
+                    HttpStatus.UNAUTHORIZED, "¡Debes registrarte primero!");
         }
         return user;
     }

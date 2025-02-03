@@ -59,8 +59,6 @@ public final class User extends AggregateRoot<User> {
                 this.identification = value);
         Optional.ofNullable(user.getEmail()).ifPresent(value ->
                 this.email = value);
-        Optional.ofNullable(user.getPassword()).ifPresent(value ->
-                this.password = value);
         Optional.ofNullable(user.getType()).ifPresent(value ->
                 this.type = value);
         Optional.ofNullable(user.getState()).ifPresent(value ->

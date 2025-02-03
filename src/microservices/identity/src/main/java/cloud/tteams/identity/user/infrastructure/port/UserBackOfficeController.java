@@ -92,8 +92,8 @@ public class UserBackOfficeController {
             @RequestParam(defaultValue = "") String lastName,
             @RequestParam(defaultValue = "") String identification,
             @RequestParam(defaultValue = "") String email,
-            @RequestParam(defaultValue = "CITIZEN") UserType type,
-            @RequestParam(defaultValue = "ACTIVE") UserState state,
+            @RequestParam(defaultValue = "") UserType type,
+            @RequestParam(defaultValue = "") UserState state,
             @RequestParam(defaultValue = "firstName") String sortBy,
             @RequestParam(defaultValue = "asc") String sortType) {
         Sort sort = (sortType.equals("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();

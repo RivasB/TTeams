@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Primary
@@ -34,6 +33,8 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
     private final IProfileService profileService;
 
     private final IAuthorizationService authorizationService;
+
+    public static final String USER_PROFILE_UUID = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
     public SuperUserDataLoader(IUserService userService, IOrganizationService organizationService, IProfileService profileService, IAuthorizationService authorizationService) {
         this.userService = userService;
@@ -83,6 +84,13 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
                 State.ACTIVE,
                 adminAuthorizations);
         profileService.create(profile);
+        Profile user = new Profile(UUID.fromString(USER_PROFILE_UUID),
+                "Desarrollador",
+                "Perfil Desarrollador en DevMinds",
+                devminds,
+                State.ACTIVE,
+                this.createUserAuthorizations());
+        profileService.create(user);
         return profileService.findById(uuid);
     }
 
@@ -92,6 +100,17 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
                 "Administrativos", 
                 "**/**", 
                 AuthorizedAction.ALL, 
+                State.ACTIVE);
+        authorizationService.create(all);
+        return List.of(authorizationService.findById(createUuid));
+    }
+
+    private List<Authorization> createUserAuthorizations() {
+        UUID createUuid = UUID.randomUUID();
+        Authorization all = new Authorization(createUuid,
+                "Desarrollo",
+                "/",
+                AuthorizedAction.ALL,
                 State.ACTIVE);
         authorizationService.create(all);
         return List.of(authorizationService.findById(createUuid));

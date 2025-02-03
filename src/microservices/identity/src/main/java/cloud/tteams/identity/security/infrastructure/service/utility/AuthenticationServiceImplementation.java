@@ -21,9 +21,9 @@ public class AuthenticationServiceImplementation implements IAuthenticationServi
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException e) {
-            throw new UnauthorizedException("User disabled");
+            throw new UnauthorizedException("¡El usuario está deshabilitado!");
         } catch (Exception e) {
-            throw new UnauthorizedException("Bad Credentials");
+            throw new UnauthorizedException("¡Credenciales no válidas! Verifica tu correo electrónico y tu contraseña.");
         }
     }
 }

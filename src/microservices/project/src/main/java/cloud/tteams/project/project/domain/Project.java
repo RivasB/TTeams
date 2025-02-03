@@ -1,6 +1,9 @@
 package cloud.tteams.project.project.domain;
 
+import cloud.tteams.project.project.domain.valueobject.*;
+
 public class Project {
+
     private final ProjectId id;
 
     private final ProjectName name;
@@ -17,16 +20,9 @@ public class Project {
 
     private final ProjectTags tags;
 
-    private final ProjectComments comments;
-
-    private final ProjectChangeLog changeLog;
-
-    private final ProjectAttachments attachments;
-
     public Project(ProjectId id, ProjectName name, ProjectDescription description, ProjectStartDate startDate,
                    ProjectEstimatedEndDate estimatedEndDate, ProjectStatus status, ProjectPriority priority,
-                   ProjectTags tags, ProjectComments comments, ProjectChangeLog changeLog,
-                   ProjectAttachments attachments) {
+                   ProjectTags tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -35,9 +31,6 @@ public class Project {
         this.status = status;
         this.priority = priority;
         this.tags = tags;
-        this.comments = comments;
-        this.changeLog = changeLog;
-        this.attachments = attachments;
     }
 
     public ProjectId getId() {
@@ -71,36 +64,4 @@ public class Project {
     public ProjectTags getTags() {
         return tags;
     }
-
-    public ProjectComments getComments() {
-        return comments;
-    }
-
-    public ProjectChangeLog getChangeLog() {
-        return changeLog;
-    }
-
-    public ProjectAttachments getAttachments() {
-        return attachments;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name=" + name +
-                ", description=" + description +
-                ", startDate=" + startDate +
-                ", estimatedEndDate=" + estimatedEndDate +
-                ", status=" + status +
-                ", priority=" + priority +
-                ", tags=" + tags +
-                ", comments=" + comments +
-                ", changeLog=" + changeLog +
-                ", attachments=" + attachments +
-                '}';
-    }
-
-   //TODO: Agregar los siguientes atributos en sus propias entidades, tags, comments, changelog, attachment
-
 }

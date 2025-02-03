@@ -2,7 +2,8 @@ package cloud.tteams.identity.organization.application.query;
 
 import java.util.UUID;
 
-import cloud.tteams.identity.organization.domain.Organization;import cloud.tteams.share.core.domain.State;
+import cloud.tteams.identity.organization.domain.Organization;
+import cloud.tteams.share.core.domain.State;
 import cloud.tteams.share.core.domain.bus.query.IResponse;
 
 public class OrganizationResponse implements IResponse {

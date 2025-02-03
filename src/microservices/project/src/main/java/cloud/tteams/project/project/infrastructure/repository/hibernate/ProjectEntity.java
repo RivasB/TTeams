@@ -1,23 +1,25 @@
 package cloud.tteams.project.project.infrastructure.repository.hibernate;
 import cloud.tteams.project.project.domain.*;
-import cloud.tteams.share.comment.domain.Comment;
-import cloud.tteams.share.comment.infrastructure.repository.hibernate.CommentEntity;
+import cloud.tteams.project.project.domain.valueobject.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "project")
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProjectEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -38,54 +40,43 @@ public class ProjectEntity {
     @Enumerated(EnumType.STRING)
     private ProjectPriority priority;
 
-    private String tags;
-
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentEntity> comments;
-
     @ElementCollection
-    @CollectionTable(name = "project_changelog", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "changeLog")
-    private List<String> changeLog;
+    @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "tags")
+    private List<String> tags;
 
-    public Long getId() {
-        return id;
+    @Column
+    private boolean deleted = false;
+
+    public void setAsDeleted(){
+        this.deleted = true;
     }
 
-    public String getName() {
-        return name;
+    public ProjectEntity(Project project) {
+        if (project == null) {
+            throw new IllegalArgumentException("Project cannot be null");
+        }
+        this.id = Objects.requireNonNull(project.getId().value(), "Project ID cannot be null");
+        this.name = Objects.requireNonNull(project.getName().value(), "Project name cannot be null");
+        this.description = Objects.nonNull(project.getDescription()) ? project.getDescription().value() : "";
+        this.startDate = Objects.requireNonNull(project.getStartDate().value(), "Project start date cannot be null");
+        this.estimatedEndDate = project.getEstimatedEndDate() != null ? project.getEstimatedEndDate().value() : null;
+        this.status = Objects.requireNonNull(project.getStatus(), "Project status cannot be null");
+        this.priority = project.getPriority();
+        this.tags = project.getTags() != null ? project.getTags().value().stream().toList() : List.of();
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEstimatedEndDate() {
-        return estimatedEndDate;
-    }
-
-    public ProjectStatus getStatus() {
-        return status;
-    }
-
-    public ProjectPriority getPriority() {
-        return priority;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public List<CommentEntity> getComments() {
-        return comments;
-    }
-
-    public List<String> getChangeLog() {
-        return changeLog;
+    public Project toAggregate() {
+        return new Project(
+                new ProjectId(this.id),
+                new ProjectName(this.name),
+                new ProjectDescription(this.description),
+                new ProjectStartDate(this.startDate),
+                new ProjectEstimatedEndDate(this.estimatedEndDate),
+                this.status,
+                this.priority,
+                new ProjectTags(this.tags)
+        );
     }
 }
 
