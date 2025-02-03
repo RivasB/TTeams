@@ -1,6 +1,8 @@
 package cloud.tteams.share.email.infrastructure.service;
 
 import cloud.tteams.share.email.domain.service.IEmailService;
+import cloud.tteams.share.email.infrastructure.config.ExcludeConfigCondition;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
+@Conditional(ExcludeConfigCondition.class)
 class EmailServiceImplementation implements IEmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImplementation.class);
