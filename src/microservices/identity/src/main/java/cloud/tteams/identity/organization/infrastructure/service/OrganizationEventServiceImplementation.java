@@ -14,9 +14,9 @@ import cloud.tteams.share.core.domain.service.IEventService;
 @Service
 public class OrganizationEventServiceImplementation implements IEventService<Organization> {
 
-    private final KafkaTemplate<String, Event<?>> producer;
+    private final KafkaTemplate<String, Event> producer;
 
-    public OrganizationEventServiceImplementation(KafkaTemplate<String, Event<?>> producer) {
+    public OrganizationEventServiceImplementation(KafkaTemplate<String, Event> producer) {
         this.producer = producer;
     }
 
@@ -25,20 +25,20 @@ public class OrganizationEventServiceImplementation implements IEventService<Org
 
     @Override
     public void create(Organization entity) {
-        CreateOrganizationEvent event = new CreateOrganizationEvent(entity);
-        this.producer.send(topic, event);
+        //CreateOrganizationEvent event = new CreateOrganizationEvent(entity);
+        //this.producer.send(topic, event);
     }
 
     @Override
     public void update(Organization entity) {
-        UpdateOrganizationEvent event = new UpdateOrganizationEvent(entity);
-        this.producer.send(topic, event);
+        //UpdateOrganizationEvent event = new UpdateOrganizationEvent(entity);
+        //this.producer.send(topic, event);
     }
 
     @Override
     public void delete(Organization entity) {
-        DeleteOrganizationEvent event = new DeleteOrganizationEvent(entity);
-        this.producer.send(topic, event);
+        //DeleteOrganizationEvent event = new DeleteOrganizationEvent(entity);
+        //this.producer.send(topic, event);
     }
 
 }

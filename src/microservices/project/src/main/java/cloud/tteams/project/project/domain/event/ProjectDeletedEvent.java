@@ -6,7 +6,7 @@ import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.notification.Notification;
 
-public class ProjectDeletedEvent extends Event<Notification> {
+public class ProjectDeletedEvent extends Event {
 
     public ProjectDeletedEvent(Notification data) {
         super(EventType.DELETED, data);
