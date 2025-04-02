@@ -3,6 +3,7 @@ package cloud.tteams.project.project.infrastructure.adapter.query;
 
 import cloud.tteams.project.project.application.query.ProjectResponse;
 import cloud.tteams.project.project.domain.Project;
+import cloud.tteams.project.project.domain.valueobject.ProjectName;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
