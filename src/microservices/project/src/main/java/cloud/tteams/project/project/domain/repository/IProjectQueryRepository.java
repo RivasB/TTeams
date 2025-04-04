@@ -9,6 +9,6 @@ public interface IProjectQueryRepository {
 
     Project findById(ProjectId id);
 
-    MessagePaginatedResponse findAll(Pageable pageable);
+    MessagePaginatedResponse findAll(Pageable pageable, Object filters);
 
     }

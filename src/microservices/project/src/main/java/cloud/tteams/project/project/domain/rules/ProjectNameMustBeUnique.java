@@ -1,6 +1,5 @@
 package cloud.tteams.project.project.domain.rules;
 
-import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.valueobject.ProjectName;
 import cloud.tteams.project.project.infrastructure.adapter.query.IProjectQueryJPARepository;
@@ -21,6 +20,6 @@ public class ProjectNameMustBeUnique extends BusinessRule {
 
     @Override
     public boolean isBroken() {
-        return jpaRepository.existByNameAndIdNot(name.value(), id.value());
+        return jpaRepository.existsByNameAndIdNot(name.value(), id.value());
     }
 }

@@ -15,5 +15,5 @@ public interface IProjectDomainService{
 
     Project findById(ProjectId projectId);
 
-    MessagePaginatedResponse findAll(Pageable pageable);
+    MessagePaginatedResponse findAll(Pageable pageable, Object filters);
 }

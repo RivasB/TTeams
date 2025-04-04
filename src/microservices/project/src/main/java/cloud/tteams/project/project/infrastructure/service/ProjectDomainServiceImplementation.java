@@ -78,8 +78,8 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
     }
 
     @Override
-    public MessagePaginatedResponse findAll(Pageable pageable) {
-        return queryRepository.findAll(pageable);
+    public MessagePaginatedResponse findAll(Pageable pageable, Object filters) {
+        return queryRepository.findAll(pageable, filters);
     }
 
     private void publishEvent(Project data, EventType type){
