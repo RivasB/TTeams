@@ -2,12 +2,9 @@ package cloud.tteams.project.project.infrastructure.service;
 
 
 import cloud.tteams.project.project.domain.Project;
-import cloud.tteams.project.project.domain.rules.ProjectNameMustBeUnique;
-import cloud.tteams.project.project.domain.rules.ProjectStartDateMustBeBeforeEstimatedEndDate;
 import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.event.EventType;
-import cloud.tteams.share.core.domain.rules.RulesChecker;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;

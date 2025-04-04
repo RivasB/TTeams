@@ -3,7 +3,6 @@ package cloud.tteams.project.project.infrastructure.adapter.query;
 
 import cloud.tteams.project.project.application.query.ProjectResponse;
 import cloud.tteams.project.project.domain.Project;
-import cloud.tteams.project.project.domain.valueobject.ProjectName;
 import cloud.tteams.project.project.infrastructure.repository.jpa.ProjectSpecification;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.project.project.domain.valueobject.ProjectId;
@@ -12,7 +11,6 @@ import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundExce
 import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -38,6 +36,7 @@ public class ProjectQueryRepositoryImplementation implements IProjectQueryReposi
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public MessagePaginatedResponse findAll(Pageable pageable, Object filters) {
         Page<ProjectEntity> page;
         if (filters instanceof Map<?, ?>) {
