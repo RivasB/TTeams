@@ -47,7 +47,7 @@ public class SuperUserDataLoader implements ApplicationListener<ContextRefreshed
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
-            User administrador = userService.findByEmail("admin@devminds.com");
+            userService.findByEmail("admin@devminds.com");
         }
         catch (Exception ignored) {
             createSuperUserIfNotExist();

@@ -10,6 +10,7 @@ import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.domain.service.IProjectDomainService;
+import jakarta.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,7 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
     }
 
     @Override
+    @Transactional
     public void update(Project project) {
         Project updated = commandRepository.update(project);
         logger.info(
@@ -73,8 +75,8 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
     }
 
     @Override
-    public MessagePaginatedResponse findAll(Pageable pageable) {
-        return queryRepository.findAll(pageable);
+    public MessagePaginatedResponse findAll(Pageable pageable, Object filters) {
+        return queryRepository.findAll(pageable, filters);
     }
 
     private void publishEvent(Project data, EventType type){

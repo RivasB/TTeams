@@ -1,11 +1,14 @@
 package cloud.tteams.project.project.infrastructure.adapter.command;
 
 import cloud.tteams.project.project.domain.Project;
+import cloud.tteams.project.project.domain.rules.ProjectNameMustBeUnique;
+import cloud.tteams.project.project.domain.rules.ProjectStartDateMustBeBeforeEstimatedEndDate;
 import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
 import cloud.tteams.project.project.infrastructure.adapter.query.IProjectQueryJPARepository;
 import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundException;
 import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
+import cloud.tteams.share.core.domain.rules.RulesChecker;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Primary;
@@ -30,6 +33,8 @@ public class ProjectCommandRepositoryImplementation implements IProjectCommandRe
 
     @Override
     public Project create(Project project) {
+        RulesChecker.checkRule(new ProjectNameMustBeUnique(readDataJPARepository, project.getName(), project.getId()));
+        RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(project.getStartDate(), project.getEstimatedEndDate()));
         return jpaRepository
                 .save(new ProjectEntity(project))
                 .toAggregate();
@@ -40,6 +45,16 @@ public class ProjectCommandRepositoryImplementation implements IProjectCommandRe
         ProjectEntity entityToUpdate =
                 readDataJPARepository.findById(project.getId().getValue()).orElseThrow(ProjectNotFoundException::new);
         Project toUpdateProject = entityToUpdate.toAggregate();
+        if (project.getStartDate() != null) {
+            if (project.getEstimatedEndDate() != null){
+                RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(project.getStartDate(), project.getEstimatedEndDate()));
+            }
+            else {
+                RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(project.getStartDate(), toUpdateProject.getEstimatedEndDate()));
+            }
+        } else if (project.getEstimatedEndDate() != null) {
+            RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(toUpdateProject.getStartDate(), project.getEstimatedEndDate()));
+        }
         Field[] fields = project.getClass().getDeclaredFields();
         try  {
             for (Field attrib : fields) {

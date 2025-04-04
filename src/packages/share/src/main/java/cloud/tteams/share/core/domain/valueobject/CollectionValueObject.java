@@ -31,7 +31,13 @@ public abstract class CollectionValueObject<T> implements Serializable {
             return true;
         }
         if (obj instanceof CollectionValueObject instance) {
-            return Objects.equals(value, instance.value);
+            if (value == null || instance.value == null) {
+                return value == instance.value;
+            }
+            if (value.size() != instance.value.size()) {
+                return false;
+            }
+            return value.containsAll(instance.value) && instance.value.containsAll(value);
         }
         return false;
     }

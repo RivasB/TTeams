@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("/api/v1/project")
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Command-Project", description = " Command Project API. Contains the command operations " +
         "that can be performed on a Project.")
@@ -41,10 +41,10 @@ public class ProjectCommandController {
         return ResponseEntity.ok(message);
     }
 
-    @DeleteMapping
-    private ResponseEntity<?> deleteProject(@RequestParam("id") @NotNull UUID id){
-        ICommandMessage message = mediator.send(new DeleteProjectCommand(id));
-        return  ResponseEntity.ok(message);
+    @DeleteMapping("{id}")
+    private ResponseEntity<?> deleteProject(@PathVariable("id") @NotNull UUID id){
+        mediator.send(new DeleteProjectCommand(id));
+        return  ResponseEntity.noContent().build();
     }
 
 }

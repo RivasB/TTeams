@@ -3,6 +3,7 @@ package cloud.tteams.project.project.application.query;
 import cloud.tteams.project.project.domain.*;
 import cloud.tteams.project.project.domain.valueobject.ProjectPriority;
 import cloud.tteams.project.project.domain.valueobject.ProjectStatus;
+import cloud.tteams.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class ProjectResponse {
+public class ProjectResponse implements IResponse {
     private final UUID id;
     private final String name;
     private final String description;

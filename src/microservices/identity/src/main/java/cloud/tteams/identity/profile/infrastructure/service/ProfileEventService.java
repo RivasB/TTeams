@@ -14,9 +14,9 @@ import cloud.tteams.share.core.domain.service.IEventService;
 @Service
 public class ProfileEventService implements IEventService<Profile> {
 
-    private final KafkaTemplate<String, Event<?>> producer;
+    private final KafkaTemplate<String, Event> producer;
 
-    public ProfileEventService(KafkaTemplate<String, Event<?>> producer) {
+    public ProfileEventService(KafkaTemplate<String, Event> producer) {
         this.producer = producer;
     }
 
@@ -25,20 +25,20 @@ public class ProfileEventService implements IEventService<Profile> {
 
     @Override
     public void create(Profile entity) {
-        ProfileCreatedEvent event = new ProfileCreatedEvent(entity);
-        this.producer.send(topic, event);
+        //ProfileCreatedEvent event = new ProfileCreatedEvent(entity);
+        //this.producer.send(topic, event);
     }
 
     @Override
     public void update(Profile entity) {
-        ProfileUpdatedEvent event = new ProfileUpdatedEvent(entity);
-        this.producer.send(topic, event);
+        //ProfileUpdatedEvent event = new ProfileUpdatedEvent(entity);
+        //this.producer.send(topic, event);
     }
 
     @Override
     public void delete(Profile entity) {
-        ProfileDeletedEvent event = new ProfileDeletedEvent(entity);
-        this.producer.send(topic, event);
+        //ProfileDeletedEvent event = new ProfileDeletedEvent(entity);
+        //this.producer.send(topic, event);
     }
 
 }

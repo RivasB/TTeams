@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "project")
+@Where(clause = "deleted = false")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,7 +43,7 @@ public class ProjectEntity {
     @Enumerated(EnumType.STRING)
     private ProjectPriority priority;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "tags")
     private List<String> tags;
