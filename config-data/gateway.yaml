@@ -58,6 +58,15 @@ spring:
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
             - AuthFilter
 
+        # Identity API routes
+        - id: project-service
+          uri: lb://project
+          predicates:
+            - Path=/project/api/**
+          filters:
+            - RewritePath=/project(?<segment>/?.*), /$\{segment}
+            - AuthFilter
+
         # --- RUTAS PARA SWAGGER/OPENAPI DOCS ---
         # Identity routes swagger
         - id: identity-api-docs
