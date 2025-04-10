@@ -1,0 +1,92 @@
+# Server port
+server:
+  port: 8091
+  error:
+    include-message: always
+
+# Springdoc OpenAPI configuration
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    use-route-definition: true
+    disable-swagger-default-url: true
+
+# Spring Cloud Gateway configuration
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
+      routes:
+        # Authentication routes
+        - id: authentication-service
+          uri: lb://identity
+          predicates:
+            - Path=/api/auth/login
+          filters:
+            - DedupeResponseHeader=Access-Control-Request-Method Access-Control-Allow-Origin Access-Control-Request-Headers, RETAIN_FIRST
+
+        # Register routes
+        - id: register1-service
+          uri: lb://identity
+          predicates:
+            - Path=/api/user/register
+        - id: register2-service
+          uri: lb://identity
+          predicates:
+            - Path=/api/user/register/code
+
+        # Identity API routes
+        - id: identity-service
+          uri: lb://identity
+          predicates:
+            - Path=/identity/api/**
+          filters:
+            - RewritePath=/identity(?<segment>/?.*), /$\{segment}
+            - AuthFilter
+
+        # --- RUTAS PARA SWAGGER/OPENAPI DOCS ---
+        # Identity routes swagger
+        - id: identity-api-docs
+          uri: lb://identity
+          predicates:
+            - Path=/identity/v3/api-docs/**
+          filters:
+            - RewritePath=/identity(?<segment>/?.*), /$\{segment}
+
+        # Project routes swagger
+        - id: project-api-docs
+          uri: lb://project
+          predicates:
+            - Path=/project/v3/api-docs/**
+          filters:
+            - RewritePath=/project(?<segment>/?.*), /$\{segment}
+
+# Eureka client configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8099/eureka
+  instance:
+    prefer-ip-address: true
+
+# Logging levels configuration
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+    org.springdoc: DEBUG
