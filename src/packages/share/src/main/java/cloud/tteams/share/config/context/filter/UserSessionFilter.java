@@ -32,6 +32,10 @@ public class UserSessionFilter implements Filter {
             UserSession userSession = new UserSession(userId, usernameHeader);
             UserContext.setUserSession(userSession);
         }
+        else {
+            UserSession userSession = new UserSession(UUID.randomUUID(), "anonymous");
+            UserContext.setUserSession(userSession);
+        }
         try {
             chain.doFilter(request, response);
         } finally {

@@ -1,13 +1,12 @@
 package cloud.tteams.identity.organization.domain.event;
 
-import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.EventType;
-import cloud.tteams.share.core.domain.notification.Notification;
+import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
 
 public class UpdateOrganizationEvent extends Event {
 
-    public UpdateOrganizationEvent(Notification data) {
+    public UpdateOrganizationEvent(NotificationMessage data) {
         super(EventType.UPDATED, data);
     }
 

@@ -1,13 +1,12 @@
 package cloud.tteams.identity.organization.domain.event;
 
-import cloud.tteams.identity.organization.domain.Organization;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.EventType;
-import cloud.tteams.share.core.domain.notification.Notification;
+import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
 
 public class DeleteOrganizationEvent extends Event {
 
-    public DeleteOrganizationEvent(Notification data) {
+    public DeleteOrganizationEvent(NotificationMessage data) {
         super(EventType.DELETED, data);
     }
 

@@ -1,6 +1,8 @@
 package cloud.tteams.project.log.domain;
 
 import cloud.tteams.project.log.domain.valueobject.*;
+import cloud.tteams.share.core.domain.event.message.log.LogDataMessage;
+import cloud.tteams.share.core.domain.event.message.log.LogType;
 
 public class Log {
 
@@ -24,6 +26,18 @@ public class Log {
         this.userRole = userRole;
         this.timestamp = timestamp;
         this.additionalData = additionalData;
+    }
+
+    public Log(LogDataMessage message) {
+        this.id = new LogId(message.getId());
+        this.type = message.getType();
+        this.message = new LogMessage(message.getMessage());
+        this.serviceName = new LogServiceName(message.getServiceName());
+        this.methodName = new LogMethodName(message.getMethodName());
+        this.user = new LogUser(message.getUser());
+        this.userRole = new LogUserRole(message.getUserRole());
+        this.timestamp = new LogTimeStamp(message.getTimestamp());
+        this.additionalData = new LogAdditionalData(message.getAdditionalData());
     }
 
     public LogId getId() {

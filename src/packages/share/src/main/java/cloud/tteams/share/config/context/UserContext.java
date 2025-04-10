@@ -3,7 +3,7 @@ package cloud.tteams.share.config.context;
 import cloud.tteams.share.config.context.session.UserSession;
 
 public class UserContext {
-    private static final ThreadLocal<UserSession> userSession = new ThreadLocal<>();
+    private static final ThreadLocal<UserSession> userSession = new InheritableThreadLocal<>();
 
     public static void setUserSession(UserSession session) {
         userSession.set(session);

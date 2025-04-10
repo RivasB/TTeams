@@ -1,9 +1,9 @@
-package cloud.tteams.share.core.domain.notification;
+package cloud.tteams.share.core.domain.event.message.notification;
 
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-public class Notification {
+public class NotificationMessage {
     private final UUID id;
     private final UUID dataId;
     private final UUID recipientUuid;
@@ -13,7 +13,7 @@ public class Notification {
     private final NotificationPriority priority;
     private final NotificationStatus status;
 
-    public Notification(UUID id, UUID dataId, UUID recipientUuid, String service, String message, LocalDateTime createdAt, NotificationPriority priority, NotificationStatus status) {
+    public NotificationMessage(UUID id, UUID dataId, UUID recipientUuid, String service, String message, LocalDateTime createdAt, NotificationPriority priority, NotificationStatus status) {
         this.id = id;
         this.dataId = dataId;
         this.recipientUuid = recipientUuid;

@@ -1,7 +1,6 @@
 package cloud.tteams.share.core.infrastructure.config.messagebroker;
 
 import cloud.tteams.share.core.domain.event.Event;
-import cloud.tteams.share.core.domain.notification.Notification;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

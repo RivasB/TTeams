@@ -10,9 +10,8 @@ import cloud.tteams.project.project.domain.valueobject.ProjectId;
 import cloud.tteams.project.project.domain.repository.IProjectCommandRepository;
 import cloud.tteams.project.project.domain.repository.IProjectQueryRepository;
 import cloud.tteams.project.project.domain.service.IProjectDomainService;
+import cloud.tteams.share.core.domain.service.ILogService;
 import jakarta.transaction.Transactional;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -26,25 +25,25 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
 
     private final IEventService<Project> eventService;
 
-    private final Log logger = LogFactory.getLog(this.getClass());
+    private final ILogService logService;
 
     @Value("${kafka.messenger.notifications:true}")
     private boolean messengerIsActive;
 
     public ProjectDomainServiceImplementation(IProjectCommandRepository commandRepository, IProjectQueryRepository queryRepository,
-                                              IEventService<Project> eventService) {
+                                              IEventService<Project> eventService, ILogService logService) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.eventService = eventService;
+        this.logService = logService;
     }
 
     @Override
     public void create(Project project) {
         Project created = commandRepository.create(project);
-        logger.info(
-                String.format("New Project created with: Id: %s and Name: %s  by the user: %s",
-                        created.getId().getValue(),
-                        created.getName(), UserContext.getUserSession().getUsername()));
+        logService.info(String.format("New Project created with: Id: %s and Name: %s  by the user: %s",
+                created.getId().getValue(),
+                created.getName(), UserContext.getUserSession().getUsername()), created);
         publishEvent(created, EventType.CREATED);
     }
 
@@ -52,20 +51,20 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
     @Transactional
     public void update(Project project) {
         Project updated = commandRepository.update(project);
-        logger.info(
+        logService.info(
                 String.format("Project updated with: Id: %s and Name: %s  by the user: %s",
                         updated.getId().getValue(),
-                        updated.getName(), UserContext.getUserSession().getUsername()));
+                        updated.getName(), UserContext.getUserSession().getUsername()), updated);
         publishEvent(updated, EventType.UPDATED);
     }
 
     @Override
     public void delete(ProjectId projectId) {
         Project deleted = commandRepository.delete(projectId);
-        logger.info(
+        logService.info(
                 String.format("Project deleted with: Id: %s and Name: %s  by the user: %s",
                         deleted.getId().getValue(),
-                        deleted.getName(), UserContext.getUserSession().getUsername()));
+                        deleted.getName(), UserContext.getUserSession().getUsername()), deleted);
         publishEvent(deleted, EventType.DELETED);
     }
 

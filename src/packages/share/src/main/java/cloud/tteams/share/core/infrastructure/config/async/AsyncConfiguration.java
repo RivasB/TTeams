@@ -22,7 +22,7 @@ public class AsyncConfiguration extends AbstractAsyncConfiguration {
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);
         executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("AsynchThread-");
+        executor.setThreadNamePrefix("AsyncThread-");
         executor.initialize();
         return executor;
     }

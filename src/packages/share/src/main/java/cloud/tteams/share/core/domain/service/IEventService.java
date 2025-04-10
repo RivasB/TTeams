@@ -1,6 +1,8 @@
 package cloud.tteams.share.core.domain.service;
 
-//@Async
+import org.springframework.scheduling.annotation.Async;
+
+@Async
 public interface IEventService<T> {
     void create(T entity);
 

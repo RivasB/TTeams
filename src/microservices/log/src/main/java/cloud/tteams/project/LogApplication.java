@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-public class LogManagementApplication {
+public class LogApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LogManagementApplication.class, args);
+        SpringApplication.run(LogApplication.class, args);
     }
 
 }

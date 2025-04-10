@@ -1,6 +1,5 @@
 package cloud.tteams.share.core.domain.event;
 
-import cloud.tteams.share.core.domain.notification.Notification;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Date;
@@ -15,16 +14,16 @@ public abstract class Event{
     private EventType type;
 
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
-    private Notification data;
+    private Object data;
 
-    protected Event(EventType type, Notification data) {
+    protected Event(EventType type, Object data) {
         this.id = UUID.randomUUID().toString();
         this.date = new Date();
         this.type = type;
         this.data = data;
     }
 
-    public Event(String id, Date date, EventType type, Notification data) {
+    public Event(String id, Date date, EventType type, Object data) {
         this.id = id;
         this.date = date;
         this.type = type;
@@ -55,11 +54,11 @@ public abstract class Event{
         this.type = type;
     }
 
-    public Notification getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Notification data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

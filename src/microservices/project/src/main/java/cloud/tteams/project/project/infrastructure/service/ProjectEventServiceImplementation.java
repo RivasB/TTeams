@@ -1,14 +1,16 @@
 package cloud.tteams.project.project.infrastructure.service;
 
 import cloud.tteams.share.config.context.UserContext;
-import cloud.tteams.share.core.domain.notification.Notification;
-import cloud.tteams.share.core.domain.notification.NotificationPriority;
-import cloud.tteams.share.core.domain.notification.NotificationStatus;
+import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
+import cloud.tteams.share.core.domain.event.message.notification.NotificationPriority;
+import cloud.tteams.share.core.domain.event.message.notification.NotificationStatus;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.project.project.domain.Project;
 import cloud.tteams.project.project.domain.event.ProjectCreatedEvent;
 import cloud.tteams.project.project.domain.event.ProjectDeletedEvent;
 import cloud.tteams.project.project.domain.event.ProjectUpdatedEvent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -27,12 +29,14 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
         this.producer = producer;
     }
 
+    private static final Log log = LogFactory.getLog(ProjectEventServiceImplementation.class);
+
     @Value("${topic.project.name:notification}")
     private String topic;
 
     @Override
     public void create(Project project) {
-        Notification notification = new Notification(
+        NotificationMessage notificationMessage = new NotificationMessage(
                 UUID.randomUUID(),
                 project.getId().getValue(),
                 UserContext.getUserSession().getUserId(),
@@ -42,13 +46,14 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
                 NotificationPriority.LOW,
                 NotificationStatus.NEW
         );
-        ProjectCreatedEvent create = new ProjectCreatedEvent(notification);
+        ProjectCreatedEvent create = new ProjectCreatedEvent(notificationMessage);
         this.producer.send(topic, create);
+        log.info("A new CREATED notification has been sent successfully");
     }
 
     @Override
     public void update(Project project) {
-        Notification notification = new Notification(
+        NotificationMessage notificationMessage = new NotificationMessage(
                 UUID.randomUUID(),
                 project.getId().getValue(),
                 UserContext.getUserSession().getUserId(),
@@ -58,13 +63,14 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
                 NotificationPriority.LOW,
                 NotificationStatus.NEW
         );
-        ProjectUpdatedEvent update = new ProjectUpdatedEvent(notification);
+        ProjectUpdatedEvent update = new ProjectUpdatedEvent(notificationMessage);
         this.producer.send(topic, update);
+        log.info("A new UPDATED notification has been sent successfully");
     }
 
     @Override
     public void delete(Project project) {
-        Notification notification = new Notification(
+        NotificationMessage notificationMessage = new NotificationMessage(
                 UUID.randomUUID(),
                 project.getId().getValue(),
                 UserContext.getUserSession().getUserId(),
@@ -74,7 +80,8 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
                 NotificationPriority.LOW,
                 NotificationStatus.NEW
         );
-        ProjectDeletedEvent delete = new ProjectDeletedEvent(notification);
+        ProjectDeletedEvent delete = new ProjectDeletedEvent(notificationMessage);
         this.producer.send(topic, delete);
+        log.info("A new DELETED notification has been sent successfully");
     }
 }

@@ -9,8 +9,7 @@ import cloud.tteams.project.project.infrastructure.adapter.query.IProjectQueryJP
 import cloud.tteams.project.project.infrastructure.exception.ProjectNotFoundException;
 import cloud.tteams.project.project.infrastructure.repository.hibernate.ProjectEntity;
 import cloud.tteams.share.core.domain.rules.RulesChecker;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import cloud.tteams.share.core.domain.service.ILogService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +23,12 @@ public class ProjectCommandRepositoryImplementation implements IProjectCommandRe
 
     private final IProjectQueryJPARepository readDataJPARepository;
 
-    private final Log logger = LogFactory.getLog(this.getClass());
+    private final ILogService logService;
 
-    public ProjectCommandRepositoryImplementation(final IProjectCommandJPARepository jpaRepository, IProjectQueryJPARepository readDataJPARepository) {
+    public ProjectCommandRepositoryImplementation(final IProjectCommandJPARepository jpaRepository, IProjectQueryJPARepository readDataJPARepository, ILogService logService) {
         this.jpaRepository = jpaRepository;
         this.readDataJPARepository = readDataJPARepository;
+        this.logService = logService;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ProjectCommandRepositoryImplementation implements IProjectCommandRe
                 }
             }
         } catch (IllegalAccessException e){
-            logger.error(e.getMessage());
+            logService.error(e.getMessage(), project, e);
         }
         jpaRepository.save(new ProjectEntity(toUpdateProject));
         return toUpdateProject;
