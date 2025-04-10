@@ -11,7 +11,7 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true # Habilita la interfaz Swagger UI en /swagger-ui.html (o la ruta configurada)
-    disable-swagger-default-url: true # Oculta la entrada por defecto "/v3/api-docs" que apuntaría al gateway mismo
+    #disable-swagger-default-url: true # Oculta la entrada por defecto "/v3/api-docs" que apuntaría al gateway mismo
     # Define los grupos de API que aparecerán en el desplegable de Swagger UI.
     # Cada 'url' es una RUTA DEL GATEWAY que springdoc usará para buscar la definición OpenAPI del microservicio.
     urls:
