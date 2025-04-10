@@ -2,18 +2,23 @@
 server:
   port: 8091
   error:
-    include-message: always
+    include-message: always # Útil para debugging
 
 # Springdoc OpenAPI configuration
 springdoc:
-  swagger-ui:
+  # Habilita el endpoint agregado /v3/api-docs en el gateway (buena práctica tenerlo explícito)
+  api-docs:
     enabled: true
-    disable-swagger-default-url: true
+  swagger-ui:
+    enabled: true # Habilita la interfaz Swagger UI en /swagger-ui.html (o la ruta configurada)
+    disable-swagger-default-url: true # Oculta la entrada por defecto "/v3/api-docs" que apuntaría al gateway mismo
+    # Define los grupos de API que aparecerán en el desplegable de Swagger UI.
+    # Cada 'url' es una RUTA DEL GATEWAY que springdoc usará para buscar la definición OpenAPI del microservicio.
     urls:
       - name: Servicio Identidad (Explícito)
-        url: /identity/v3/api-docs # Ruta DEL GATEWAY
+        url: /identity/v3/api-docs # Esta URL será gestionada por la ruta 'identity-api-docs' del gateway
       - name: Servicio Proyecto (Explícito)
-        url: /project/v3/api-docs # Ruta DEL GATEWAY
+        url: /project/v3/api-docs  # Esta URL será gestionada por la ruta 'project-api-docs' del gateway
 
 # Spring Cloud Gateway configuration
 spring:
@@ -22,7 +27,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins: "*"
+            allowed-origins: "*" # Considera restringir esto en producción
             allowed-headers: "*"
             allowed-methods:
               - GET
@@ -31,15 +36,18 @@ spring:
               - DELETE
 
       routes:
-        # Authentication routes
+        # === RUTAS DE NEGOCIO ===
+
+        # Authentication routes (Apuntan a 'identity')
         - id: authentication-service
           uri: lb://identity
           predicates:
             - Path=/api/auth/login
           filters:
+            # Evita duplicados en cabeceras CORS si el microservicio también las añade
             - DedupeResponseHeader=Access-Control-Request-Method Access-Control-Allow-Origin Access-Control-Request-Headers, RETAIN_FIRST
 
-        # Register routes
+        # Register routes (Apuntan a 'identity')
         - id: register1-service
           uri: lb://identity
           predicates:
@@ -49,52 +57,67 @@ spring:
           predicates:
             - Path=/api/user/register/code
 
-        # Identity API routes
+        # Identity API routes (Ruta principal para la API de identidad)
         - id: identity-service
-          uri: lb://identity
+          uri: lb://identity # Descubrimiento de servicio para 'identity'
           predicates:
-            - Path=/identity/api/**
+            - Path=/identity/api/** # Captura todas las llamadas a /identity/api/...
           filters:
+            # Reescribe /identity/api/foo -> /api/foo antes de enviar a 'identity'
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
-            - AuthFilter
+            - AuthFilter # Aplica filtro de autenticación/autorización
 
-        # Identity API routes
+        # Project API routes (Ruta principal para la API de proyecto)
         - id: project-service
-          uri: lb://project
+          uri: lb://project # Descubrimiento de servicio para 'project'
           predicates:
-            - Path=/project/api/**
+            - Path=/project/api/** # Captura todas las llamadas a /project/api/...
           filters:
+            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'project'
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
-            - AuthFilter
+            - AuthFilter # Aplica filtro de autenticación/autorización
 
-        # --- RUTAS PARA SWAGGER/OPENAPI DOCS ---
-        # Identity routes swagger
+        # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
+        # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
+        # Permiten que Swagger UI (a través de springdoc.swagger-ui.urls) solicite las definiciones de cada microservicio.
+
+        # Ruta para obtener la documentación OpenAPI del servicio 'identity'
         - id: identity-api-docs
           uri: lb://identity
           predicates:
-            - Path=/identity/v3/api-docs/**
+            - Path=/identity/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
           filters:
+            # Reescribe /identity/v3/api-docs -> /v3/api-docs antes de enviar a 'identity'
+            # Asegúrate que 'identity' expone su doc en /v3/api-docs
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
+            # <<< CONSIDERACIÓN: ¿Debería aplicarse aquí también el AuthFilter? >>>
+            # - AuthFilter
 
-        # Project routes swagger
+        # Ruta para obtener la documentación OpenAPI del servicio 'project'
         - id: project-api-docs
           uri: lb://project
           predicates:
-            - Path=/project/v3/api-docs/**
+            - Path=/project/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
           filters:
+            # Reescribe /project/v3/api-docs -> /v3/api-docs antes de enviar a 'project'
+            # Asegúrate que 'project' expone su doc en /v3/api-docs
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
+            # <<< CONSIDERACIÓN: ¿Debería aplicarse aquí también el AuthFilter? >>>
+            # - AuthFilter
 
 # Eureka client configuration
 eureka:
   client:
+    # Asegúrate que esta URL sea correcta para tu servidor Eureka
     service-url:
       defaultZone: http://localhost:8099/eureka
   instance:
     prefer-ip-address: true
 
-# Logging levels configuration
+# Logging levels configuration (Mantener DEBUG durante el desarrollo/pruebas)
 logging:
   level:
+    # Niveles DEBUG útiles para diagnosticar problemas de enrutamiento y configuración de springdoc
     org.springframework.cloud.gateway: DEBUG
     reactor.netty.http.client: DEBUG
-    org.springdoc: DEBUG
+    org.springdoc: DEBUG # Ver qué hace springdoc internamente
