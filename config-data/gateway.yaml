@@ -7,7 +7,7 @@ server:
 # Springdoc OpenAPI configuration
 springdoc:
   swagger-ui:
-    # use-route-definition: false # Asegúrate de desactivar esto para la prueba
+    enabled: true
     disable-swagger-default-url: true
     urls:
       - name: Servicio Identidad (Explícito)
@@ -19,10 +19,6 @@ springdoc:
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
       globalcors:
         cors-configurations:
           '[/**]':
