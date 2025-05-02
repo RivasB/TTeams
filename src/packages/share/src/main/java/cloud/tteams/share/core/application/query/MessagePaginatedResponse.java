@@ -68,6 +68,19 @@ public class MessagePaginatedResponse implements IResponse {
         this.pageNumber = page.getNumber();
     }
 
+    public MessagePaginatedResponse(Page<?> page) {
+        this.timestamp = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss '['z']'")
+                .format(ZonedDateTime.now(ZoneId.of("UTC")));
+        this.message = "OK";
+        this.errors = null;
+        this.data = page.getContent();
+        this.totalPages = page.getTotalPages();
+        this.totalElements = page.getTotalElements();
+        this.pageElements = page.getNumberOfElements();
+        this.pageLimit = page.getSize();
+        this.pageNumber = page.getNumber();
+    }
+
     public String getTimestamp() {
         return timestamp;
     }

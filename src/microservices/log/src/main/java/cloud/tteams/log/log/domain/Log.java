@@ -1,6 +1,6 @@
-package cloud.tteams.project.log.domain;
+package cloud.tteams.log.log.domain;
 
-import cloud.tteams.project.log.domain.valueobject.*;
+import cloud.tteams.log.log.domain.valueobject.*;
 import cloud.tteams.share.core.domain.event.message.log.LogDataMessage;
 import cloud.tteams.share.core.domain.event.message.log.LogType;
 

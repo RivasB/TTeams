@@ -1,12 +1,12 @@
-package cloud.tteams.project.log.domain.valueobject;
+package cloud.tteams.log.log.domain.valueobject;
 
 import cloud.tteams.share.core.domain.valueobject.StringValueObject;
 
-public class LogServiceName extends StringValueObject {
+public class LogUser extends StringValueObject {
 
     private final String value;
 
-    public LogServiceName(String value) {
+    public LogUser(String value) {
         this.value = value;
     }
 

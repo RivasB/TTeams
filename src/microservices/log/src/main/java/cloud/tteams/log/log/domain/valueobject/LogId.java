@@ -1,4 +1,4 @@
-package cloud.tteams.project.log.domain.valueobject;
+package cloud.tteams.log.log.domain.valueobject;
 
 import cloud.tteams.share.core.domain.valueobject.Identifier;
 
