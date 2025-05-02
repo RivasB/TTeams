@@ -2,6 +2,7 @@ package cloud.tteams.log.log.infrastructure.service;
 
 import cloud.tteams.log.log.domain.Log;
 import cloud.tteams.log.log.domain.service.ILogDomainService;
+import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.message.log.LogDataMessage;
 import cloud.tteams.share.core.domain.event.message.log.LogEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -18,9 +19,9 @@ public class LogConsumerService {
     }
 
     @KafkaListener(topics = "log-topic", groupId = "log-subscriber-group")
-    public void consumeLogEvent(ConsumerRecord<String, LogEvent> record) {
+    public void consumeLogEvent(ConsumerRecord<String, Event> record) {
         try {
-            LogEvent logEvent = record.value();
+            Event logEvent = record.value();
             LogDataMessage logData = (LogDataMessage) logEvent.getData();
             Log log = new Log(logData);
             logDomainService.create(log);
