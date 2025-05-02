@@ -24,6 +24,10 @@ spring:
     resources:
       add-mappings: false
 
+  # Mail server configuration
+  mail:
+    active: ${MAIL_HOST_ACTIVE}
+
 # Propiedad separada en el archivo .properties original
 hibernate:
   hbm2ddl:

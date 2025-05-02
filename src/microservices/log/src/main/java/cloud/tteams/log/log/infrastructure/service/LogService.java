@@ -17,30 +17,28 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class LogService implements ILogDomainService {
 
-    private final LogMongoCommandJpaRepository logMongoCommandJpaRepository;
-    private final LogMongoQueryJpaRepository logMongoQueryJpaRepository;
     private final MongoTemplate mongoTemplate;
 
-    public LogService(LogMongoCommandJpaRepository logMongoCommandJpaRepository, LogMongoQueryJpaRepository logMongoQueryJpaRepository, MongoTemplate mongoTemplate) {
-        this.logMongoCommandJpaRepository = logMongoCommandJpaRepository;
-        this.logMongoQueryJpaRepository = logMongoQueryJpaRepository;
+    public LogService(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
+
 
     @Override
     public void create(Log log) {
         LogDocument logDocument = new LogDocument(log);
-        logMongoCommandJpaRepository.save(logDocument);
+        mongoTemplate.save(logDocument);
     }
 
     @Override
     public Log getById(LogId id) {
-        LogDocument logDocument = logMongoQueryJpaRepository.findById(id.value())
-                .orElseThrow(LogNotFoundException::new);
+        LogDocument logDocument = Optional.ofNullable(mongoTemplate.findById(id.value(), LogDocument.class))
+                                           .orElseThrow(LogNotFoundException::new);
         return logDocument.toAggregate();
     }
 
