@@ -36,7 +36,7 @@ spring:
         spring.json.trusted.packages: "*"
 
 
-# Propiedad separada en el archivo .properties original
+# Propiedad separada en el archivo '.properties' original
 hibernate:
   hbm2ddl:
     auto: update
