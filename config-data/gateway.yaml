@@ -42,10 +42,10 @@ spring:
           predicates:
             - Path=/api/auth/login
           filters:
-            # Evita duplicados en cabeceras CORS si el microservicio también las añade
+            # Evita duplicados en cabeceras CORS si el micro-servicio también las añade
             - DedupeResponseHeader=Access-Control-Request-Method Access-Control-Allow-Origin Access-Control-Request-Headers, RETAIN_FIRST
 
-        # Register routes (Apuntan a 'identity')
+        # Register routes (Apuntan a: 'identity')
         - id: register-first-step-service
           uri: lb://identity
           predicates:
@@ -87,7 +87,7 @@ spring:
 
         # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
         # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
-        # Permiten que Swagger UI (a través de springdoc.swagger-ui.urls) solicite las definiciones de cada microservicio.
+        # Permiten que Swagger UI (a través de "springdoc.swagger-ui.urls") solicite las definiciones de cada micro-servicio.
 
         # Ruta para obtener la documentación OpenAPI del servicio 'identity'
         - id: identity-api-docs
