@@ -22,8 +22,8 @@ public class UserEventService implements IEventService<User> {
 
     @Override
     public void create(User user) {
-        //UserCreatedEvent create = new UserCreatedEvent(user);
-        //this.producer.send(topic, create);
+        //UserCreatedEvent publish = new UserCreatedEvent(user);
+        //this.producer.send(topic, publish);
     }
 
     @Override

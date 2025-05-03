@@ -5,7 +5,6 @@ import cloud.tteams.share.config.context.session.UserSession;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.event.message.log.LogDataMessage;
-import cloud.tteams.share.core.domain.event.message.log.LogEvent;
 import cloud.tteams.share.core.domain.event.message.log.LogType;
 import cloud.tteams.share.core.domain.service.ILogService;
 import jakarta.annotation.Nullable;
@@ -127,7 +126,7 @@ public class LogProducerService implements ILogService {
     }
 
     private void sendMessage(LogDataMessage logData) {
-        LogEvent logEvent = new LogEvent(EventType.LOG, logData);
+        Event logEvent = new Event(EventType.LOG, logData);
         try {
             CompletableFuture<SendResult<String, Event>> future = producer.send(kafkaTopic, logEvent);
             future.whenComplete((result, ex) -> {

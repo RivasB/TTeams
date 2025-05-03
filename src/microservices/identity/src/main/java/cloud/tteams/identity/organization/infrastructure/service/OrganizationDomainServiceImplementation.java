@@ -34,7 +34,7 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
     public void create(Organization organization) {
         commandRepository.create(organization);
         if (messengerIsActive) {
-            eventService.create(organization);
+            eventService.publish(organization);
         }
     }
 
@@ -71,7 +71,7 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
     @Override
     public void spreadOrganizations() {
         List<Organization> allOrganization = commandRepository.findAll();
-        allOrganization.forEach(eventService::create);
+        allOrganization.forEach(eventService::publish);
     }
 
 }

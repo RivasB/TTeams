@@ -45,14 +45,14 @@ public class LogDocument {
     }
 
     public LogDocument(Log log) {
-        this.id = log.getId().getValue();
+        this.id = log.getId().value();
         this.type = log.getType().name();
-        this.message = log.getMessage().getValue();
-        this.serviceName = log.getServiceName().getValue();
-        this.methodName = log.getMethodName().getValue();
-        this.user = log.getUser().getValue();
-        this.userRole = log.getUserRole().getValue();
-        this.timestamp = log.getTimestamp().getValue();
+        this.message = log.getMessage().value();
+        this.serviceName = log.getServiceName().value();
+        this.methodName = log.getMethodName().value();
+        this.user = log.getUser().value();
+        this.userRole = log.getUserRole().value();
+        this.timestamp = log.getTimestamp().value();
         this.additionalData = log.getAdditionalData().value();
     }
 

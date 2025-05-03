@@ -47,7 +47,7 @@ public class DomainProfileService implements IProfileService {
         RulesChecker.checkRule(new ProfileOrganizationRequiredRule(profile.getOrganization()));
         commandRepository.create(profile);
         if (messengerIsActive) {
-            eventService.create(profile);
+            eventService.publish(profile);
         }
     }
 

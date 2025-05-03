@@ -4,8 +4,6 @@ import cloud.tteams.log.log.domain.Log;
 import cloud.tteams.log.log.domain.exception.LogNotFoundException;
 import cloud.tteams.log.log.domain.service.ILogDomainService;
 import cloud.tteams.log.log.domain.valueobject.LogId;
-import cloud.tteams.log.log.infrastructure.adapter.command.LogMongoCommandJpaRepository;
-import cloud.tteams.log.log.infrastructure.adapter.query.LogMongoQueryJpaRepository;
 import cloud.tteams.log.log.infrastructure.repository.document.LogDocument;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

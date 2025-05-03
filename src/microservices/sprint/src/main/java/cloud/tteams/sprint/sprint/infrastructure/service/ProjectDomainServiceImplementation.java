@@ -86,7 +86,7 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
         if (messengerIsActive){
             switch(type) {
                 case CREATED:
-                    eventService.create(data);
+                    eventService.publish(data);
                     break;
                 case UPDATED:
                     eventService.update(data);

@@ -4,7 +4,6 @@ import cloud.tteams.log.log.domain.Log;
 import cloud.tteams.log.log.domain.service.ILogDomainService;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.event.message.log.LogDataMessage;
-import cloud.tteams.share.core.domain.event.message.log.LogEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

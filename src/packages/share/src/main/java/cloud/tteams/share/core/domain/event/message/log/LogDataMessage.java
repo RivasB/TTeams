@@ -6,15 +6,15 @@ import java.util.UUID;
 
 
 public class LogDataMessage {
-    private final UUID id;
-    private final LogType type;
-    private final String message;
-    private final String serviceName;
-    private final String methodName;
-    private final String user;
-    private final String userRole;
-    private final LocalDateTime timestamp;
-    private final Map<String, Object> additionalData;
+    private  UUID id;
+    private  LogType type;
+    private  String message;
+    private  String serviceName;
+    private  String methodName;
+    private  String user;
+    private  String userRole;
+    private  LocalDateTime timestamp;
+    private  Map<String, Object> additionalData;
 
     public LogDataMessage(UUID id, LogType type, String message, String serviceName, String methodName, String user, String userRole, LocalDateTime timestamp, Map<String, Object> additionalData) {
         this.id = id;
@@ -26,6 +26,9 @@ public class LogDataMessage {
         this.userRole = userRole;
         this.timestamp = timestamp;
         this.additionalData = additionalData;
+    }
+
+    public LogDataMessage() {
     }
 
     public UUID getId() {

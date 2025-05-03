@@ -10,15 +10,14 @@ springdoc:
   api-docs:
     enabled: true
   swagger-ui:
-    enabled: true # Habilita la interfaz Swagger UI en /swagger-ui.html (o la ruta configurada)
-    #disable-swagger-default-url: true # Oculta la entrada por defecto "/v3/api-docs" que apuntaría al gateway mismo
-    # Define los grupos de API que aparecerán en el desplegable de Swagger UI.
-    # Cada 'url' es una RUTA DEL GATEWAY que springdoc usará para buscar la definición OpenAPI del microservicio.
+    enabled: true
     urls:
-      - name: Servicio Identidad (Explícito)
-        url: /identity/v3/api-docs # Esta URL será gestionada por la ruta 'identity-api-docs' del gateway
-      - name: Servicio Proyecto (Explícito)
-        url: /project/v3/api-docs  # Esta URL será gestionada por la ruta 'project-api-docs' del gateway
+      - name: Servicio Identidad
+        url: /identity/v3/api-docs
+      - name: Servicio Proyecto
+        url: /project/v3/api-docs
+      - name: Servicio Logs
+        url: /log/v3/api-docs
 
 # Spring Cloud Gateway configuration
 spring:
@@ -27,7 +26,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins: "*" # Considera restringir esto en producción
+            allowed-origins: "*"
             allowed-headers: "*"
             allowed-methods:
               - GET
@@ -37,7 +36,6 @@ spring:
 
       routes:
         # === RUTAS DE NEGOCIO ===
-
         # Authentication routes (Apuntan a 'identity')
         - id: authentication-service
           uri: lb://identity
@@ -48,11 +46,11 @@ spring:
             - DedupeResponseHeader=Access-Control-Request-Method Access-Control-Allow-Origin Access-Control-Request-Headers, RETAIN_FIRST
 
         # Register routes (Apuntan a 'identity')
-        - id: register1-service
+        - id: register-first-step-service
           uri: lb://identity
           predicates:
             - Path=/api/user/register
-        - id: register2-service
+        - id: register-second-step-service
           uri: lb://identity
           predicates:
             - Path=/api/user/register/code
@@ -77,6 +75,16 @@ spring:
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
             - AuthFilter # Aplica filtro de autenticación/autorización
 
+        # Log API routes (Ruta principal para la API de log)
+        - id: log-service
+          uri: lb://log # Descubrimiento de servicio para 'log'
+          predicates:
+            - Path=/log/api/** # Captura todas las llamadas a /log/api/...
+          filters:
+            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'log'
+            - RewritePath=/log(?<segment>/?.*), /$\{segment}
+            - AuthFilter # Aplica filtro de autenticación/autorización
+
         # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
         # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
         # Permiten que Swagger UI (a través de springdoc.swagger-ui.urls) solicite las definiciones de cada microservicio.
@@ -88,10 +96,7 @@ spring:
             - Path=/identity/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
           filters:
             # Reescribe /identity/v3/api-docs -> /v3/api-docs antes de enviar a 'identity'
-            # Asegúrate que 'identity' expone su doc en /v3/api-docs
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
-            # <<< CONSIDERACIÓN: ¿Debería aplicarse aquí también el AuthFilter? >>>
-            # - AuthFilter
 
         # Ruta para obtener la documentación OpenAPI del servicio 'project'
         - id: project-api-docs
@@ -100,15 +105,20 @@ spring:
             - Path=/project/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
           filters:
             # Reescribe /project/v3/api-docs -> /v3/api-docs antes de enviar a 'project'
-            # Asegúrate que 'project' expone su doc en /v3/api-docs
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
-            # <<< CONSIDERACIÓN: ¿Debería aplicarse aquí también el AuthFilter? >>>
-            # - AuthFilter
+
+        # Ruta para obtener la documentación OpenAPI del servicio 'log'
+        - id: log-api-docs
+          uri: lb://log
+          predicates:
+            - Path=/log/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+          filters:
+            # Reescribe /log/v3/api-docs -> /v3/api-docs antes de enviar a 'log'
+            - RewritePath=/log(?<segment>/?.*), /$\{segment}
 
 # Eureka client configuration
 eureka:
   client:
-    # Asegúrate que esta URL sea correcta para tu servidor Eureka
     service-url:
       defaultZone: http://localhost:8099/eureka
   instance:

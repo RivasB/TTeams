@@ -80,18 +80,7 @@ public class ProjectDomainServiceImplementation implements IProjectDomainService
 
     private void publishEvent(Project data, EventType type){
         if (messengerIsActive){
-            switch(type) {
-                case CREATED:
-                    eventService.create(data);
-                    break;
-                case UPDATED:
-                    eventService.update(data);
-                    break;
-                case DELETED:
-                    eventService.delete(data);
-                    break;
-                default:
-            }
+                    eventService.publish(type, data);
         }
     }
 

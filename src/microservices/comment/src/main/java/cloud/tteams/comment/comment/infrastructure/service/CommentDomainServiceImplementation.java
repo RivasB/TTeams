@@ -72,7 +72,7 @@ public class CommentDomainServiceImplementation implements ICommentDomainService
         if (messengerIsActive){
             switch(type) {
                 case CREATED:
-                    eventService.create(data);
+                    eventService.publish(data);
                     logData(data,type);
                     break;
                 case UPDATED:

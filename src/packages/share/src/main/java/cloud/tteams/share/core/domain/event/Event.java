@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class Event{
+public class Event{
 
     private String id;
 
@@ -16,7 +16,7 @@ public abstract class Event{
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
     private Object data;
 
-    protected Event(EventType type, Object data) {
+    public Event(EventType type, Object data) {
         this.id = UUID.randomUUID().toString();
         this.date = new Date();
         this.type = type;
@@ -28,6 +28,9 @@ public abstract class Event{
         this.date = date;
         this.type = type;
         this.data = data;
+    }
+
+    public Event() {
     }
 
     public String getId() {

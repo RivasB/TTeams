@@ -92,7 +92,7 @@ public class DomainUserService implements IUserService {
         user.updatePassword(passwordEncoder.encode(user.getPassword()));
         this.commandRepository.create(user);
         if (messengerIsActive) {
-            eventService.create(user);
+            eventService.publish(user);
         }
     }
 
@@ -223,7 +223,7 @@ public class DomainUserService implements IUserService {
     @Transactional
     public void spreadUsers() {
         List<User> allUsers = commandRepository.findAll();
-        allUsers.forEach(eventService::create);
+        allUsers.forEach(eventService::publish);
     }
 
 }
