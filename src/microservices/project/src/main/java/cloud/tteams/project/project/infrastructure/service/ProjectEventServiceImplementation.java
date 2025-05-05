@@ -30,7 +30,7 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
 
     private static final Log log = LogFactory.getLog(ProjectEventServiceImplementation.class);
 
-    @Value("${topic.project.name:notification}")
+    @Value("${topic.notification.name:notification}")
     private String topic;
 
     @Override

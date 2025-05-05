@@ -1,6 +1,7 @@
 package cloud.tteams.identity.user.infrastructure.service;
 
 import cloud.tteams.identity.common.infrastructure.utils.OTPUtil;
+import cloud.tteams.identity.profile.domain.Profile;
 import cloud.tteams.identity.user.domain.*;
 import cloud.tteams.identity.user.domain.rules.*;
 import cloud.tteams.identity.user.domain.repository.otp.IRegistrationTokenCommandRepository;
@@ -10,10 +11,13 @@ import cloud.tteams.identity.user.domain.repository.user.IUserQueryRepository;
 import cloud.tteams.identity.user.domain.service.IPasswordEncoder;
 import cloud.tteams.identity.user.domain.service.IUserService;
 import cloud.tteams.identity.user.infrastructure.adapter.query.user.PostgresDBUserQueryRepository;
+import cloud.tteams.share.config.context.UserContext;
+import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.exception.DomainException;
 import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.rules.RulesChecker;
 import cloud.tteams.share.core.domain.service.IEventService;
+import cloud.tteams.share.core.domain.service.ILogService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -35,6 +39,7 @@ public class DomainUserService implements IUserService {
     private final IRegistrationTokenCommandRepository registrationCommandRepository;
     private final IRegistrationTokenQueryRepository registrationQueryRepository;
     private final PostgresDBUserQueryRepository postgresDBUserQueryRepository;
+    private final ILogService logService;
 
     /**
      * REGISTRATION_TOKEN_EXPIRE configuration variable,
@@ -58,7 +63,7 @@ public class DomainUserService implements IUserService {
     @Value("${user.validation.attempts:3}")
     private int REGISTRATION_TOKEN_MAX_ATTEMPTS;
 
-    @Value("${kafka.messenger.user:true}")
+    @Value("${kafka.messenger.notifications:true}")
     private boolean messengerIsActive;
 
     public DomainUserService(
@@ -67,7 +72,7 @@ public class DomainUserService implements IUserService {
             IPasswordEncoder passwordEncoder,
             IEventService<User> eventService,
             IRegistrationTokenCommandRepository registrationCommandRepository,
-            IRegistrationTokenQueryRepository registrationQueryRepository, PostgresDBUserQueryRepository postgresDBUserQueryRepository) {
+            IRegistrationTokenQueryRepository registrationQueryRepository, PostgresDBUserQueryRepository postgresDBUserQueryRepository, ILogService logService) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.passwordEncoder = passwordEncoder;
@@ -75,6 +80,7 @@ public class DomainUserService implements IUserService {
         this.registrationCommandRepository = registrationCommandRepository;
         this.registrationQueryRepository = registrationQueryRepository;
         this.postgresDBUserQueryRepository = postgresDBUserQueryRepository;
+        this.logService = logService;
     }
 
     @Override
@@ -91,9 +97,10 @@ public class DomainUserService implements IUserService {
         }
         user.updatePassword(passwordEncoder.encode(user.getPassword()));
         this.commandRepository.create(user);
-        if (messengerIsActive) {
-            eventService.publish(user);
-        }
+        logService.info(String.format("New user created with: Id: %s and email: %s  by the user: %s",
+                user.getId(),
+                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+        publish(EventType.CREATED, user);
     }
 
     @Override
@@ -111,9 +118,10 @@ public class DomainUserService implements IUserService {
     public UUID delete(UUID id) {
         User user = this.queryRepository.findById(id);
         this.commandRepository.delete(user);
-        if (messengerIsActive) {
-            eventService.delete(user);
-        }
+        logService.info(String.format("User deleted with: Id: %s and email: %s  by the user: %s",
+                user.getId(),
+                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+        publish(EventType.DELETED, user);
         return id;
     }
 
@@ -130,9 +138,10 @@ public class DomainUserService implements IUserService {
         }
         toUpdate.update(user);
         commandRepository.update(toUpdate);
-        if (messengerIsActive) {
-            eventService.update(toUpdate);
-        }
+        logService.info(String.format("User updated with: Id: %s and email: %s  by the user: %s",
+                user.getId(),
+                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+        publish(EventType.UPDATED, toUpdate);
     }
 
     @Override
@@ -187,16 +196,18 @@ public class DomainUserService implements IUserService {
                 User user = token.getUser();
                 user.blockUserByMaxTokenVerificationAttempts();
                 commandRepository.update(user);
-                if (messengerIsActive) {
-                    eventService.update(user);
-                }
+                logService.info(String.format("OTP validation fail. The User with: Id: %s and email: %s  was blocked by the user: %s",
+                        user.getId(),
+                        user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                publish(EventType.UPDATED, user);
             });
             User user = token.getUser();
             user.unBlockUserByMaxTokenVerificationAttempts();
             commandRepository.update(user);
-            if (messengerIsActive) {
-                eventService.update(user);
-            }
+            logService.info(String.format("OTP validated successfully by the User with: Id: %s and email: %s  by the user: %s",
+                    user.getId(),
+                    user.getEmail(), UserContext.getUserSession().getUsername()), user);
+            publish(EventType.UPDATED, user);
         } else {
             throw new DomainException(String.format("%s is not a valid OTP!", otp));
         }
@@ -214,16 +225,21 @@ public class DomainUserService implements IUserService {
         RulesChecker.checkRule(new UserPasswordMatchRule(passwordEncoder, user, oldPassword));
         user.updatePassword(passwordEncoder.encode(newPassword));
         updateUser(user);
-        if (messengerIsActive) {
-            eventService.update(user);
-        }
+        logService.info(String.format("User with: Id: %s and email: %s changes his password correctly. Register by the user: %s",
+                user.getId(),
+                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+        publish(EventType.UPDATED, user);
     }
 
     @Override
     @Transactional
     public void spreadUsers() {
-        List<User> allUsers = commandRepository.findAll();
-        allUsers.forEach(eventService::publish);
+    }
+
+    private void publish(EventType eventType, User user) {
+        if (messengerIsActive) {
+            eventService.publish(eventType, user);
+        }
     }
 
 }

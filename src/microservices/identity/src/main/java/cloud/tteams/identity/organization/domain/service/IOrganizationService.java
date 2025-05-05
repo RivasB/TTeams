@@ -20,6 +20,4 @@ public interface IOrganizationService {
 
     MessagePaginatedResponse getAll(Pageable pageable, String name, String description, String contact,
                                     State state);
-
-    void spreadOrganizations();
 }

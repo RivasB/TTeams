@@ -1,6 +1,9 @@
 package cloud.tteams.identity.profile.infrastructure.service;
 
+import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.domain.State;
+import cloud.tteams.share.core.domain.event.EventType;
+import cloud.tteams.share.core.domain.service.ILogService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,15 +30,17 @@ public class DomainProfileService implements IProfileService {
     private final IProfileCommandRepository commandRepository;
     private final IProfileQueryRepository queryRepository;
     private final IEventService<Profile> eventService;
+    private final ILogService logService;
 
     @Value("${kafka.messenger.profile:false}")
     private boolean messengerIsActive;
 
     public DomainProfileService(IProfileCommandRepository commandRepository, IProfileQueryRepository queryRepository,
-            IEventService<Profile> eventService) {
+                                IEventService<Profile> eventService, ILogService logService) {
         this.commandRepository = commandRepository;
         this.queryRepository = queryRepository;
         this.eventService = eventService;
+        this.logService = logService;
     }
 
     @Override
@@ -46,10 +51,13 @@ public class DomainProfileService implements IProfileService {
         RulesChecker.checkRule(new ProfileAuthorizationsRequiredRule(profile.getAuthorizations()));
         RulesChecker.checkRule(new ProfileOrganizationRequiredRule(profile.getOrganization()));
         commandRepository.create(profile);
-        if (messengerIsActive) {
-            eventService.publish(profile);
-        }
+        logService.info(String.format("New Profile created with: Id: %s and Name: %s  by the user: %s",
+                profile.getId(),
+                profile.getName(), UserContext.getUserSession().getUsername()), profile);
+        publish(EventType.CREATED, profile);
     }
+
+
 
     @Override
     @Transactional
@@ -57,9 +65,10 @@ public class DomainProfileService implements IProfileService {
         Profile toUpdate = queryRepository.findById(profile.getId());
         toUpdate.update(profile);
         commandRepository.update(toUpdate);
-        if (messengerIsActive) {
-            eventService.update(toUpdate);
-        }
+        logService.info(String.format("New Profile updated with: Id: %s and Name: %s  by the user: %s",
+                toUpdate.getId(),
+                toUpdate.getName(), UserContext.getUserSession().getUsername()), toUpdate);
+        publish(EventType.UPDATED, toUpdate);
 
     }
 
@@ -68,9 +77,10 @@ public class DomainProfileService implements IProfileService {
     public void delete(UUID id) {
         Profile profile = this.findById(id);
         commandRepository.delete(profile);
-        if (messengerIsActive) {
-            eventService.delete(profile);
-        }
+        logService.info(String.format("New Profile deleted with: Id: %s and Name: %s  by the user: %s",
+                profile.getId(),
+                profile.getName(), UserContext.getUserSession().getUsername()), profile);
+        publish(EventType.DELETED, profile);
     }
 
     @Override
@@ -82,6 +92,12 @@ public class DomainProfileService implements IProfileService {
     public MessagePaginatedResponse getPaginatedProfiles(Pageable pageable, String filter, String name,
                                                          String description, State state, UUID organization) {
         return queryRepository.findAllProfiles(pageable, filter, name, description, state, organization);
+    }
+
+    private void publish(EventType eventType, Profile profile) {
+        if (messengerIsActive) {
+            eventService.publish(eventType, profile);
+        }
     }
 
 }
