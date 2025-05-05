@@ -17,7 +17,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: setstatus
+      ddl-auto: create
 
   # [Required]PostgreSQL Write database data source
   datasource:
