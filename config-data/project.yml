@@ -49,7 +49,7 @@ spring:
 # Propiedad separada en el archivo .properties original
 hibernate:
   hbm2ddl:
-    auto: update
+    auto: setstatus
 
 logging:
   level:

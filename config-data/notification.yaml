@@ -1,12 +1,10 @@
-# [Optional]Application server port
+# [Optional]Aplication server port
 server:
-  port: 8083
+  port: 8086
 
 spring:
   application:
-    name: identity
-  main:
-    allow-bean-definition-overriding: true
+    name: notification
   jpa:
     database: default
     properties:
@@ -17,12 +15,19 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: setstatus
+      ddl-auto: create
 
   # [Required]PostgreSQL Write database data source
   datasource:
     driverClassName: org.postgresql.Driver
-    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_IDENTITY}
+    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_NOTIFICATION}
+    username: ${POSTGRES_DB_USERNAME}
+    password: ${POSTGRES_DB_PASSWORD}
+
+  # [Required]PostgreSQL Read database data source
+  read-datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_NOTIFICATION}
     username: ${POSTGRES_DB_USERNAME}
     password: ${POSTGRES_DB_PASSWORD}
 
@@ -37,19 +42,9 @@ spring:
     resources:
       add-mappings: false
 
-  # Configuracion del servidor de correo
+  # Mail server configuration
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-    default-encoding: UTF-8
+    active: ${MAIL_HOST_ACTIVE}
 
 # Propiedad separada en el archivo .properties original
 hibernate:
@@ -60,28 +55,10 @@ logging:
   level:
     org.hibernate.engine.jdbc.connections.internal: DEBUG
 
-# [Required]JWT configuration
-security:
-  jwt:
-    header:
-      string: ${JWT_HEADER_STRING}
-    token:
-      prefix: ${JWT_TOKEN_PREFIX}
-    secret: ${JWT_SECRET}
-    issuer: ${JWT_ISSUER}
-    ttlMillis: ${JWT_TTL_MILLIS}
-    authorities:
-      key: ${JWT_AUTHORITIES_KEY}
-
 # Kafka
 kafka:
   bootstrap:
     address: ${KAFKA_BOOTSTRAP_ADDRESS}
-  # KafkaMessengers
-  messenger:
-    user: false
-    organization: false
-    location: false
 
 # Eureka
 eureka:

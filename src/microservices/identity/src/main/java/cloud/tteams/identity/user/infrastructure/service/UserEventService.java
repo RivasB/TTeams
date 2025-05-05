@@ -1,6 +1,5 @@
 package cloud.tteams.identity.user.infrastructure.service;
 
-import cloud.tteams.identity.profile.infrastructure.service.ProfileEventService;
 import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
@@ -70,7 +69,7 @@ public class UserEventService implements IEventService<User> {
                 stringNotificationMessage,
                 LocalDateTime.now(),
                 NotificationPriority.LOW,
-                NotificationStatus.NEW
+                NotificationStatus.UNREAD
         );
         return CompletableFuture.completedFuture(notificationMessage);
     }

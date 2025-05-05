@@ -1,7 +1,7 @@
 FROM ghcr.io/graalvm/native-image:ol8-java17-22 AS builder
 
 # Install tar and gzip to extract the Maven binaries
-RUN microdnf update \
+RUN microdnf setstatus \
     && microdnf install --nodocs \
     tar \
     gzip \

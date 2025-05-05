@@ -26,7 +26,6 @@ public class LogConsumerService {
             logDomainService.create(log);
         } catch (Exception e) {
             System.err.println("Error processing log event: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

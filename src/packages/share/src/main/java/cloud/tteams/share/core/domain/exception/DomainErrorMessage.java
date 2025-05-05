@@ -335,7 +335,7 @@ public enum DomainErrorMessage implements IDomainErrorMessage {
 
     CHANGE_NAME_REQUEST_NAME_SIZE_INVALID(681, Series.DOMAIN_ERROR, "Size of name invalid"),
 
-    CHANGE_NAME_REQUEST_UPDATE_INACTIVE(682, Series.DOMAIN_ERROR, "Forbidden to update an inactive change name"),
+    CHANGE_NAME_REQUEST_UPDATE_INACTIVE(682, Series.DOMAIN_ERROR, "Forbidden to setstatus an inactive change name"),
 
     CHANGE_NAME_REQUEST_EXIST(683, Series.DOMAIN_ERROR, "There is a previous name change"),
 

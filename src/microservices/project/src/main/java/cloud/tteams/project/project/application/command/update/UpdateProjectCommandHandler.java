@@ -43,7 +43,7 @@ public class UpdateProjectCommandHandler implements ICommandHandler<UpdateProjec
                     )
             );
         } catch (Exception handlingException) {
-            logger.error("Unable to Handle the creation of the project: %s during an update request. The error was: %s".formatted(command.getName(), handlingException.getMessage()));
+            logger.error("Unable to Handle the creation of the project: %s during an setstatus request. The error was: %s".formatted(command.getName(), handlingException.getMessage()));
             throw handlingException;
         }
         service.update(project);

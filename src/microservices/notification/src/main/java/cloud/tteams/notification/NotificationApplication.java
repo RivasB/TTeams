@@ -1,4 +1,4 @@
-package cloud.tteams.project;
+package cloud.tteams.notification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-public class ProjectManagementApplication {
+public class NotificationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ProjectManagementApplication.class, args);
+        SpringApplication.run(NotificationApplication.class, args);
     }
 
 }

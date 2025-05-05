@@ -1,6 +1,5 @@
 package cloud.tteams.identity.profile.infrastructure.service;
 
-import cloud.tteams.identity.organization.infrastructure.service.OrganizationEventServiceImplementation;
 import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
@@ -13,9 +12,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import cloud.tteams.identity.profile.domain.Profile;
-import cloud.tteams.identity.profile.domain.event.ProfileCreatedEvent;
-import cloud.tteams.identity.profile.domain.event.ProfileUpdatedEvent;
-import cloud.tteams.identity.profile.domain.event.ProfileDeletedEvent;
 import cloud.tteams.share.core.domain.event.Event;
 import cloud.tteams.share.core.domain.service.IEventService;
 
@@ -74,7 +70,7 @@ public class ProfileEventService implements IEventService<Profile> {
                 stringNotificationMessage,
                 LocalDateTime.now(),
                 NotificationPriority.LOW,
-                NotificationStatus.NEW
+                NotificationStatus.UNREAD
         );
         return CompletableFuture.completedFuture(notificationMessage);
     }

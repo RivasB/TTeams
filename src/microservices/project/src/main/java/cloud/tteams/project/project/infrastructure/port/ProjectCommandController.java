@@ -5,12 +5,14 @@ import cloud.tteams.project.project.application.command.create.CreateProjectRequ
 import cloud.tteams.project.project.application.command.delete.DeleteProjectCommand;
 import cloud.tteams.project.project.application.command.update.UpdateProjectCommand;
 import cloud.tteams.project.project.application.command.update.UpdateProjectRequest;
+import cloud.tteams.share.core.application.ApiResponse2xx;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.infrastructure.bus.IMediator;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +32,15 @@ public class ProjectCommandController {
     }
 
     @PostMapping
-    private ResponseEntity<?> createProject(@RequestBody @Valid CreateProjectRequest request) {
+    private ResponseEntity<ApiResponse2xx<ICommandMessage>> createProject(@RequestBody @Valid CreateProjectRequest request) {
         ICommandMessage message = mediator.send(new CreateProjectCommand(request));
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(new ApiResponse2xx<>(message, HttpStatus.OK));
     }
 
     @PutMapping
-    private ResponseEntity<?> updateProject(@RequestBody @Valid UpdateProjectRequest request) {
+    private ResponseEntity<ApiResponse2xx<ICommandMessage>> updateProject(@RequestBody @Valid UpdateProjectRequest request) {
         ICommandMessage message = mediator.send(new UpdateProjectCommand(request));
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(new ApiResponse2xx<>(message, HttpStatus.OK));
     }
 
     @DeleteMapping("{id}")

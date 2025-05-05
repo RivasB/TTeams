@@ -70,7 +70,7 @@ public class ProjectEventServiceImplementation implements IEventService<Project>
                 stringNotificationMessage,
                 LocalDateTime.now(),
                 NotificationPriority.LOW,
-                NotificationStatus.NEW
+                NotificationStatus.UNREAD
         );
         return CompletableFuture.completedFuture(notificationMessage);
     }

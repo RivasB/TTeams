@@ -1,9 +1,6 @@
 package cloud.tteams.identity.organization.infrastructure.service;
 
 import cloud.tteams.identity.organization.domain.Organization;
-import cloud.tteams.identity.organization.domain.event.CreateOrganizationEvent;
-import cloud.tteams.identity.organization.domain.event.DeleteOrganizationEvent;
-import cloud.tteams.identity.organization.domain.event.UpdateOrganizationEvent;
 import cloud.tteams.share.config.context.UserContext;
 import cloud.tteams.share.core.domain.event.EventType;
 import cloud.tteams.share.core.domain.event.message.notification.NotificationMessage;
@@ -73,7 +70,7 @@ public class OrganizationEventServiceImplementation implements IEventService<Org
                 stringNotificationMessage,
                 LocalDateTime.now(),
                 NotificationPriority.LOW,
-                NotificationStatus.NEW
+                NotificationStatus.UNREAD
         );
         return CompletableFuture.completedFuture(notificationMessage);
     }
