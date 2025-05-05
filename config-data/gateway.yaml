@@ -18,6 +18,8 @@ springdoc:
         url: /project/v3/api-docs
       - name: Servicio Logs
         url: /log/v3/api-docs
+      - name: Servicio Notificaciones
+        url: /notification/v3/api-docs
 
 # Spring Cloud Gateway configuration
 spring:
@@ -85,6 +87,16 @@ spring:
             - RewritePath=/log(?<segment>/?.*), /$\{segment}
             - AuthFilter # Aplica filtro de autenticación/autorización
 
+        # Notification API routes (Ruta principal para la API de notification)
+        - id: notification-service
+          uri: lb://notification # Descubrimiento de servicio para 'notification'
+          predicates:
+            - Path=/notification/api/** # Captura todas las llamadas a /notification/api/...
+          filters:
+            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'notification'
+            - RewritePath=/notification(?<segment>/?.*), /$\{segment}
+            - AuthFilter # Aplica filtro de autenticación/autorización
+
         # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
         # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
         # Permiten que Swagger UI (a través de "springdoc.swagger-ui.urls") solicite las definiciones de cada micro-servicio.
@@ -115,6 +127,15 @@ spring:
           filters:
             # Reescribe /log/v3/api-docs -> /v3/api-docs antes de enviar a 'log'
             - RewritePath=/log(?<segment>/?.*), /$\{segment}
+
+        # Ruta para obtener la documentación OpenAPI del servicio 'notification'
+        - id: notification-api-docs
+          uri: lb://notification
+          predicates:
+            - Path=/notification/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+          filters:
+            # Reescribe /log/v3/api-docs -> /v3/api-docs antes de enviar a 'notification'
+            - RewritePath=/notification(?<segment>/?.*), /$\{segment}
 
 # Eureka client configuration
 eureka:
