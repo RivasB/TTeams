@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -77,7 +78,7 @@ public class LogProducerService implements ILogService {
             additionalData.put("errorMessage", t.getMessage());
             additionalData.put("errorStackTrace", formatStackTrace(t));
         }
-        return new LogDataMessage( UUID.randomUUID(), type, message, this.serviceName, methodName, username, userRole, null, additionalData.isEmpty() ? null : additionalData );
+        return new LogDataMessage( UUID.randomUUID(), type, message, this.serviceName, methodName, username, userRole, LocalDateTime.now(), additionalData.isEmpty() ? null : additionalData );
     }
 
 

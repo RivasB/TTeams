@@ -9,61 +9,64 @@ import java.util.Map;
 import java.util.UUID;
 
 public class LogResponse implements IResponse {
-    private final UUID id;
-    private final LogType type;
-    private final String message;
-    private final String serviceName;
-    private final String methodName;
-    private final String user;
-    private final String userRole;
-    private final LocalDateTime timestamp;
-    private final Map<String, Object> additionalData;
+    private UUID id;
+    private LogType type;
+    private String message;
+    private String serviceName;
+    private String methodName;
+    private String user;
+    private String userRole;
+    private LocalDateTime timestamp;
+    private Map<String, Object> additionalData;
+
+    public LogResponse() {
+    }
 
     public LogResponse(Log log) {
-        this.id = log.getId().getValue();
+        this.id = log.getId().value();
         this.type = log.getType();
-        this.message = log.getMessage().getValue();
-        this.serviceName = log.getServiceName().getValue();
-        this.methodName = log.getMethodName().getValue();
-        this.user = log.getUser().getValue();
-        this.userRole = log.getUserRole().getValue();
-        this.timestamp = log.getTimestamp().getValue();
+        this.message = log.getMessage().value();
+        this.serviceName = log.getServiceName().value();
+        this.methodName = log.getMethodName().value();
+        this.user = log.getUser().value();
+        this.userRole = log.getUserRole().value();
+        this.timestamp = log.getTimestamp().value();
         this.additionalData = log.getAdditionalData().value();
     }
 
-    public UUID id() {
+    public UUID getId() {
         return id;
     }
 
-    public LogType type() {
+    public LogType getType() {
         return type;
     }
 
-    public String message() {
+    public String getMessage() {
         return message;
     }
 
-    public String serviceName() {
+    public String getServiceName() {
         return serviceName;
     }
 
-    public String methodName() {
+    public String getMethodName() {
         return methodName;
     }
 
-    public String user() {
+    public String getUser() {
         return user;
     }
 
-    public String userRole() {
+    public String getUserRole() {
         return userRole;
     }
 
-    public LocalDateTime timestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public Map<String, Object> additionalData() {
+    public Map<String, Object> getAdditionalData() {
         return additionalData;
     }
 }

@@ -43,7 +43,9 @@ public class LogService implements ILogDomainService {
     @Override
     public Page<Log> getAll(Pageable pageable, Map<String, Object> filters) {
         Query query = new Query();
-        filters.forEach((key, value) -> query.addCriteria(Criteria.where(key).is(value)));
+        if (filters != null) {
+            filters.forEach((key, value) -> query.addCriteria(Criteria.where(key).is(value)));
+        }
         long total = mongoTemplate.count(query, LogDocument.class);
         query.with(pageable);
         List<LogDocument> documents = mongoTemplate.find(query, LogDocument.class);
