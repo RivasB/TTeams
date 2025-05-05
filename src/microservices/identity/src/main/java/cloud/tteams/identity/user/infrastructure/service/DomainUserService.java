@@ -97,9 +97,10 @@ public class DomainUserService implements IUserService {
         }
         user.updatePassword(passwordEncoder.encode(user.getPassword()));
         this.commandRepository.create(user);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New user created with: Id: %s and email: %s  by the user: %s",
                 user.getId(),
-                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                user.getEmail(), username), user);
         publish(EventType.CREATED, user);
     }
 
@@ -118,9 +119,10 @@ public class DomainUserService implements IUserService {
     public UUID delete(UUID id) {
         User user = this.queryRepository.findById(id);
         this.commandRepository.delete(user);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("User deleted with: Id: %s and email: %s  by the user: %s",
                 user.getId(),
-                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                user.getEmail(), username), user);
         publish(EventType.DELETED, user);
         return id;
     }
@@ -128,7 +130,6 @@ public class DomainUserService implements IUserService {
     @Override
     public void updateUser(User user) {
         User toUpdate = this.queryRepository.findById(user.getId());
-        System.out.println("password: " + user.getPassword());
         if (Objects.nonNull(user.getPassword()) && !user.getPassword().equals("EMPTY")) {
             RulesChecker.checkRule(new UserPasswordMustBeSecureRule(user.getPassword()));
             toUpdate.updatePassword(passwordEncoder.encode(user.getPassword()));
@@ -138,9 +139,10 @@ public class DomainUserService implements IUserService {
         }
         toUpdate.update(user);
         commandRepository.update(toUpdate);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("User updated with: Id: %s and email: %s  by the user: %s",
                 user.getId(),
-                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                user.getEmail(), username), user);
         publish(EventType.UPDATED, toUpdate);
     }
 
@@ -196,17 +198,19 @@ public class DomainUserService implements IUserService {
                 User user = token.getUser();
                 user.blockUserByMaxTokenVerificationAttempts();
                 commandRepository.update(user);
+                String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
                 logService.info(String.format("OTP validation fail. The User with: Id: %s and email: %s  was blocked by the user: %s",
                         user.getId(),
-                        user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                        user.getEmail(), username), user);
                 publish(EventType.UPDATED, user);
             });
             User user = token.getUser();
             user.unBlockUserByMaxTokenVerificationAttempts();
             commandRepository.update(user);
+            String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
             logService.info(String.format("OTP validated successfully by the User with: Id: %s and email: %s  by the user: %s",
                     user.getId(),
-                    user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                    user.getEmail(), username), user);
             publish(EventType.UPDATED, user);
         } else {
             throw new DomainException(String.format("%s is not a valid OTP!", otp));
@@ -225,9 +229,10 @@ public class DomainUserService implements IUserService {
         RulesChecker.checkRule(new UserPasswordMatchRule(passwordEncoder, user, oldPassword));
         user.updatePassword(passwordEncoder.encode(newPassword));
         updateUser(user);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("User with: Id: %s and email: %s changes his password correctly. Register by the user: %s",
                 user.getId(),
-                user.getEmail(), UserContext.getUserSession().getUsername()), user);
+                user.getEmail(), username), user);
         publish(EventType.UPDATED, user);
     }
 

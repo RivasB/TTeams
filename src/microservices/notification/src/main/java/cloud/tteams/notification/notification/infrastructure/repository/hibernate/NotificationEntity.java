@@ -16,13 +16,13 @@ import java.util.UUID;
 public class NotificationEntity {
 
     @Id
-    @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "data_id", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "data_id", nullable = false)
     private UUID dataId;
 
-    @Column(name = "recipient_uuid", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "recipient_uuid", nullable = false)
     private UUID recipientUuid;
 
     @Column(name = "service", nullable = false)

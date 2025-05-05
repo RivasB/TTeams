@@ -46,6 +46,13 @@ spring:
   mail:
     active: ${MAIL_HOST_ACTIVE}
 
+  # [Required]Kafka consumer configuration
+  kafka:
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
 # Propiedad separada en el archivo .properties original
 hibernate:
   hbm2ddl:

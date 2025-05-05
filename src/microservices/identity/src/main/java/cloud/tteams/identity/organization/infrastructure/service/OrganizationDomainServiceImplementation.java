@@ -38,9 +38,10 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
     @Override
     public void create(Organization organization) {
         commandRepository.create(organization);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Organization created with: Id: %s and Name: %s  by the user: %s",
                 organization.getId(),
-                organization.getName(), UserContext.getUserSession().getUsername()), organization);
+                organization.getName(), username), organization);
         publish(EventType.CREATED, organization);
     }
 
@@ -49,9 +50,10 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
         Organization toUpdate = queryRepository.findById(organization.getId());
         toUpdate.update(organization);
         commandRepository.update(toUpdate);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Organization updated with: Id: %s and Name: %s  by the user: %s",
                 toUpdate.getId(),
-                toUpdate.getName(), UserContext.getUserSession().getUsername()), toUpdate);
+                toUpdate.getName(), username), toUpdate);
         publish(EventType.UPDATED, toUpdate);
     }
 
@@ -59,9 +61,10 @@ public class OrganizationDomainServiceImplementation implements IOrganizationSer
     public void delete(UUID id) {
         Organization organizationDelete = queryRepository.findById(id);
         commandRepository.delete(organizationDelete);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Organization deleted with: Id: %s and Name: %s  by the user: %s",
                 organizationDelete.getId(),
-                organizationDelete.getName(), UserContext.getUserSession().getUsername()), organizationDelete);
+                organizationDelete.getName(), username), organizationDelete);
         publish(EventType.DELETED, organizationDelete);
     }
 

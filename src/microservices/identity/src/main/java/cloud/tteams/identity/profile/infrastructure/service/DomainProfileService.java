@@ -51,9 +51,10 @@ public class DomainProfileService implements IProfileService {
         RulesChecker.checkRule(new ProfileAuthorizationsRequiredRule(profile.getAuthorizations()));
         RulesChecker.checkRule(new ProfileOrganizationRequiredRule(profile.getOrganization()));
         commandRepository.create(profile);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Profile created with: Id: %s and Name: %s  by the user: %s",
                 profile.getId(),
-                profile.getName(), UserContext.getUserSession().getUsername()), profile);
+                profile.getName(), username), profile);
         publish(EventType.CREATED, profile);
     }
 
@@ -65,9 +66,10 @@ public class DomainProfileService implements IProfileService {
         Profile toUpdate = queryRepository.findById(profile.getId());
         toUpdate.update(profile);
         commandRepository.update(toUpdate);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Profile updated with: Id: %s and Name: %s  by the user: %s",
                 toUpdate.getId(),
-                toUpdate.getName(), UserContext.getUserSession().getUsername()), toUpdate);
+                toUpdate.getName(), username), toUpdate);
         publish(EventType.UPDATED, toUpdate);
 
     }
@@ -77,9 +79,10 @@ public class DomainProfileService implements IProfileService {
     public void delete(UUID id) {
         Profile profile = this.findById(id);
         commandRepository.delete(profile);
+        String username = UserContext.getUserSession() != null ? UserContext.getUserSession().getUsername() : "system/unknown";
         logService.info(String.format("New Profile deleted with: Id: %s and Name: %s  by the user: %s",
                 profile.getId(),
-                profile.getName(), UserContext.getUserSession().getUsername()), profile);
+                profile.getName(), username), profile);
         publish(EventType.DELETED, profile);
     }
 
