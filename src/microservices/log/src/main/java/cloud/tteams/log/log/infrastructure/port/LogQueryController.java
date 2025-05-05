@@ -40,11 +40,14 @@ public class LogQueryController {
 
     @PostMapping("/all")
     public ResponseEntity<MessagePaginatedResponse> getAllLogsPaginated(
-            @ModelAttribute FilterPageAndSortRequest pageAndSortRequest,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "20") Integer pageSize,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortType,
             @RequestBody(required = false) Map<String, Object> filters) {
-        Sort sort = (pageAndSortRequest.sortType().equals("asc")) ? Sort.by(pageAndSortRequest.sortBy()).ascending()
-                : Sort.by(pageAndSortRequest.sortBy()).descending();
-        Pageable pageable = PageRequest.of(pageAndSortRequest.pageNo(), pageAndSortRequest.pageSize(), sort);
+        Sort sort = (sortType.equals("asc")) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         GetAllLogQuery query = new GetAllLogQuery(filters, pageable);
         MessagePaginatedResponse pageResponse = mediator.send(query);
         return ResponseEntity.ok(pageResponse);
