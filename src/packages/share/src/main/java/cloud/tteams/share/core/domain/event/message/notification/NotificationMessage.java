@@ -4,14 +4,17 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 
 public class NotificationMessage {
-    private final UUID id;
-    private final UUID dataId;
-    private final UUID recipientUuid;
-    private final String service;
-    private final String message;
-    private final LocalDateTime createdAt;
-    private final NotificationPriority priority;
-    private final NotificationStatus status;
+    private UUID id;
+    private UUID dataId;
+    private UUID recipientUuid;
+    private String service;
+    private String message;
+    private LocalDateTime createdAt;
+    private NotificationPriority priority;
+    private NotificationStatus status;
+
+    public NotificationMessage() {
+    }
 
     public NotificationMessage(UUID id, UUID dataId, UUID recipientUuid, String service, String message, LocalDateTime createdAt, NotificationPriority priority, NotificationStatus status) {
         this.id = id;
