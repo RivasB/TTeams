@@ -20,6 +20,8 @@ springdoc:
         url: /log/v3/api-docs
       - name: Servicio Notificaciones
         url: /notification/v3/api-docs
+      - name: Servicio Comentarios
+        url: /comment/v3/api-docs
 
 # Spring Cloud Gateway configuration
 spring:
@@ -59,43 +61,48 @@ spring:
 
         # Identity API routes (Ruta principal para la API de identidad)
         - id: identity-service
-          uri: lb://identity # Descubrimiento de servicio para 'identity'
+          uri: lb://identity
           predicates:
-            - Path=/identity/api/** # Captura todas las llamadas a /identity/api/...
+            - Path=/identity/api/**
           filters:
-            # Reescribe /identity/api/foo -> /api/foo antes de enviar a 'identity'
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
-            - AuthFilter # Aplica filtro de autenticación/autorización
+            - AuthFilter
 
         # Project API routes (Ruta principal para la API de proyecto)
         - id: project-service
-          uri: lb://project # Descubrimiento de servicio para 'project'
+          uri: lb://project
           predicates:
-            - Path=/project/api/** # Captura todas las llamadas a /project/api/...
+            - Path=/project/api/**
           filters:
-            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'project'
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
-            - AuthFilter # Aplica filtro de autenticación/autorización
+            - AuthFilter
 
         # Log API routes (Ruta principal para la API de log)
         - id: log-service
-          uri: lb://log # Descubrimiento de servicio para 'log'
+          uri: lb://log
           predicates:
-            - Path=/log/api/** # Captura todas las llamadas a /log/api/...
+            - Path=/log/api/**
           filters:
-            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'log'
             - RewritePath=/log(?<segment>/?.*), /$\{segment}
-            - AuthFilter # Aplica filtro de autenticación/autorización
+            - AuthFilter
 
         # Notification API routes (Ruta principal para la API de notification)
         - id: notification-service
-          uri: lb://notification # Descubrimiento de servicio para 'notification'
+          uri: lb://notification
           predicates:
-            - Path=/notification/api/** # Captura todas las llamadas a /notification/api/...
+            - Path=/notification/api/**
           filters:
-            # Reescribe /project/api/bar -> /api/bar antes de enviar a 'notification'
             - RewritePath=/notification(?<segment>/?.*), /$\{segment}
-            - AuthFilter # Aplica filtro de autenticación/autorización
+            - AuthFilter
+
+        # Comment API routes (Ruta principal para la API de comentarios)
+        - id: comment-service
+          uri: lb://comment
+          predicates:
+            - Path=/comment/api/**
+          filters:
+            - RewritePath=/comment(?<segment>/?.*), /$\{segment}
+            - AuthFilter
 
         # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
         # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
@@ -105,37 +112,41 @@ spring:
         - id: identity-api-docs
           uri: lb://identity
           predicates:
-            - Path=/identity/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+            - Path=/identity/v3/api-docs/**
           filters:
-            # Reescribe /identity/v3/api-docs -> /v3/api-docs antes de enviar a 'identity'
             - RewritePath=/identity(?<segment>/?.*), /$\{segment}
 
         # Ruta para obtener la documentación OpenAPI del servicio 'project'
         - id: project-api-docs
           uri: lb://project
           predicates:
-            - Path=/project/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+            - Path=/project/v3/api-docs/**
           filters:
-            # Reescribe /project/v3/api-docs -> /v3/api-docs antes de enviar a 'project'
             - RewritePath=/project(?<segment>/?.*), /$\{segment}
 
         # Ruta para obtener la documentación OpenAPI del servicio 'log'
         - id: log-api-docs
           uri: lb://log
           predicates:
-            - Path=/log/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+            - Path=/log/v3/api-docs/**
           filters:
-            # Reescribe /log/v3/api-docs -> /v3/api-docs antes de enviar a 'log'
             - RewritePath=/log(?<segment>/?.*), /$\{segment}
 
         # Ruta para obtener la documentación OpenAPI del servicio 'notification'
         - id: notification-api-docs
           uri: lb://notification
           predicates:
-            - Path=/notification/v3/api-docs/** # Coincide con la URL en springdoc.swagger-ui.urls
+            - Path=/notification/v3/api-docs/**
           filters:
-            # Reescribe /log/v3/api-docs -> /v3/api-docs antes de enviar a 'notification'
             - RewritePath=/notification(?<segment>/?.*), /$\{segment}
+
+        # Ruta para obtener la documentación OpenAPI del servicio 'comment'
+        - id: comment-api-docs
+          uri: lb://comment
+          predicates:
+            - Path=/comment/v3/api-docs/**
+          filters:
+            - RewritePath=/comment(?<segment>/?.*), /$\{segment}
 
 # Eureka client configuration
 eureka:
@@ -148,7 +159,6 @@ eureka:
 # Logging levels configuration (Mantener DEBUG durante el desarrollo/pruebas)
 logging:
   level:
-    # Niveles DEBUG útiles para diagnosticar problemas de enrutamiento y configuración de springdoc
     org.springframework.cloud.gateway: DEBUG
     reactor.netty.http.client: DEBUG
-    org.springdoc: DEBUG # Ver qué hace springdoc internamente
+    org.springdoc: DEBUG
