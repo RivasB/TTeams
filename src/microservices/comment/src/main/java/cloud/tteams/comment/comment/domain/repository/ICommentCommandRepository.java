@@ -10,5 +10,5 @@ public interface ICommentCommandRepository {
 
     void update(Comment project);
 
-    void delete(UUID projectId);
+    Comment delete(UUID projectId);
 }

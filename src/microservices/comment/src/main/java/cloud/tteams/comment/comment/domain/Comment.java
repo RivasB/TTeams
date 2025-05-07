@@ -15,23 +15,27 @@ public class Comment extends AggregateRoot<Comment> {
 
     private final String author;
 
+    private final UUID task;
+
     private String body;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    public Comment(UUID id, String author, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Comment(UUID id, String author, UUID task, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
+        this.task = task;
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Comment(UUID id, String author, String body) {
+    public Comment(UUID id, String author, UUID task, String body) {
         this.id = id;
         this.author = author;
+        this.task = task;
         this.body = body;
     }
 
@@ -64,5 +68,9 @@ public class Comment extends AggregateRoot<Comment> {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public UUID getTask() {
+        return task;
     }
 }

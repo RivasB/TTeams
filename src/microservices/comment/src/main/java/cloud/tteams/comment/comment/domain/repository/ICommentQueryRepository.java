@@ -12,4 +12,6 @@ public interface ICommentQueryRepository {
 
     MessagePaginatedResponse findAll(Pageable pageable);
 
+    MessagePaginatedResponse findAllByTask(UUID task, Pageable pageable);
+
     }

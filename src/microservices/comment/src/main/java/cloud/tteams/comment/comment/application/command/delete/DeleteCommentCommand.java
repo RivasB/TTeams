@@ -18,6 +18,7 @@ public class DeleteCommentCommand implements ICommand {
     public UUID getId() {
         return id;
     }
+
     @Override
     public ICommandMessage getMessage() {
         return new CommandMessage(this.id, EventType.DELETED.toString());

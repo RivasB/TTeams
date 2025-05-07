@@ -8,6 +8,7 @@ import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.comment.comment.domain.repository.ICommentCommandRepository;
 import cloud.tteams.comment.comment.domain.repository.ICommentQueryRepository;
 import cloud.tteams.comment.comment.domain.service.ICommentDomainService;
+import jakarta.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
+@Transactional
 public class CommentDomainServiceImplementation implements ICommentDomainService {
 
     private final ICommentCommandRepository commandRepository;
@@ -53,9 +55,8 @@ public class CommentDomainServiceImplementation implements ICommentDomainService
 
     @Override
     public void delete(UUID commentId) {
-        Comment comment = this.findById(commentId);
-        commandRepository.delete(commentId);
-        publishEvent(comment, EventType.DELETED);
+        Comment comment = commandRepository.delete(commentId);
+        logData(comment, EventType.DELETED);
     }
 
     @Override
@@ -68,24 +69,15 @@ public class CommentDomainServiceImplementation implements ICommentDomainService
         return queryRepository.findAll(pageable);
     }
 
+    @Override
+    public MessagePaginatedResponse findAllByTask(UUID task, Pageable pageable) {
+        return queryRepository.findAllByTask(task, pageable);
+    }
+
     private void publishEvent(Comment data, EventType type){
+        logData(data, type);
         if (messengerIsActive){
-            switch(type) {
-                case CREATED:
-                    eventService.publish(data);
-                    logData(data,type);
-                    break;
-                case UPDATED:
-                    eventService.update(data);
-                    logData(data,type);
-                    break;
-                case DELETED:
-                    eventService.delete(data);
-                    logData(data,type);
-                    break;
-                default:
-                    // do nothing
-            }
+            eventService.publish(type, data);
         }
     }
 

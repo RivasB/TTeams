@@ -1,9 +1,8 @@
 package cloud.tteams.comment.comment.infrastructure.repository.hibernate;
 import cloud.tteams.comment.comment.domain.Comment;
-import cloud.tteams.share.core.infrastructure.config.annotation.CommandRepository;
-import cloud.tteams.share.core.infrastructure.config.annotation.Persistent;
 import cloud.tteams.share.core.infrastructure.repository.hibernate.Auditable;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -11,8 +10,8 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Persistent
 @Table(name = "tteams_comment")
+@Where(clause = "deleted = false")
 public class CommentEntity extends Auditable {
 
     @Id
@@ -23,7 +22,13 @@ public class CommentEntity extends Auditable {
     private String author;
 
     @Column(nullable = false)
+    private UUID task;
+
+    @Column(nullable = false, columnDefinition = "BARCHART(4000)")
     private String body;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 
 
     public CommentEntity() {
@@ -32,6 +37,7 @@ public class CommentEntity extends Auditable {
     public CommentEntity(Comment comment) {
         this.id = comment.getId();
         this.author = comment.getAuthor();
+        this.task = comment.getTask();
         this.body = comment.getBody();
     }
 
@@ -39,6 +45,7 @@ public class CommentEntity extends Auditable {
         return new Comment(
                 this.id,
                 this.author,
+                this.task,
                 this.body,
                 fromDateToLocalDateTime(super.getCreatedDate()),
                 fromDateToLocalDateTime(super.getLastModifiedDate()));
@@ -48,5 +55,9 @@ public class CommentEntity extends Auditable {
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

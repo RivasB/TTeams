@@ -16,7 +16,7 @@ public class UpdateCommentCommandHandler implements ICommandHandler<UpdateCommen
 
     @Override
     public void handle(UpdateCommentCommand command) {
-        Comment updated = new Comment(command.getId(), command.getAuthor(), command.getBody());
+        Comment updated = command.toAggregate();
         service.update(updated);
     }
 }

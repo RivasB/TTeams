@@ -30,24 +30,24 @@ public class CommentCommandController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse2xx> create(@RequestBody CreateCommentRequest request) {
+    public ResponseEntity<ApiResponse2xx<CommandMessage>> create(@RequestBody CreateCommentRequest request) {
         CreateCommentCommand command = new CreateCommentCommand(request);
         CommandMessage response = mediator.send(command);
-        return ResponseEntity.ok(new ApiResponse2xx(response, HttpStatus.CREATED));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.CREATED));
     }
 
     @PutMapping
-    public  ResponseEntity<ApiResponse2xx> update(@RequestBody UpdateCommentRequest request){
+    public  ResponseEntity<ApiResponse2xx<CommandMessage>> update(@RequestBody UpdateCommentRequest request){
         UpdateCommentCommand command = new UpdateCommentCommand(request);
         CommandMessage response = mediator.send(command);
-        return ResponseEntity.ok(new ApiResponse2xx(response, HttpStatus.OK));
+        return ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.OK));
     }
 
     @DeleteMapping("{id}")
-    public  ResponseEntity<ApiResponse2xx> delete(@PathVariable UUID id){
+    public  ResponseEntity<ApiResponse2xx<CommandMessage>> delete(@PathVariable UUID id){
         DeleteCommentCommand command = new DeleteCommentCommand(id);
         CommandMessage response = mediator.send(command);
-        return  ResponseEntity.ok(new ApiResponse2xx(response, HttpStatus.NO_CONTENT));
+        return  ResponseEntity.ok(new ApiResponse2xx<>(response, HttpStatus.NO_CONTENT));
     }
 
 }

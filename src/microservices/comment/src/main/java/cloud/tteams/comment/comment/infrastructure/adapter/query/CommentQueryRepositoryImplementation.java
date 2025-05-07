@@ -18,6 +18,7 @@ import java.util.UUID;
 @Component
 @Primary
 public class CommentQueryRepositoryImplementation implements ICommentQueryRepository {
+
     private final ICommentQueryJPARepository jpaRepository;
 
     public CommentQueryRepositoryImplementation(final ICommentQueryJPARepository jpaRepository) {
@@ -34,6 +35,12 @@ public class CommentQueryRepositoryImplementation implements ICommentQueryReposi
     @Override
     public MessagePaginatedResponse findAll(Pageable pageable) {
         Page<CommentEntity> page = jpaRepository.findAll(pageable);
+        return this.result(page);
+    }
+
+    @Override
+    public MessagePaginatedResponse findAllByTask(UUID task, Pageable pageable) {
+        Page<CommentEntity> page = jpaRepository.findAllByTask(task, pageable);
         return this.result(page);
     }
 

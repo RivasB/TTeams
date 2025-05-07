@@ -18,4 +18,6 @@ public interface ICommentDomainService {
 
     MessagePaginatedResponse findAll(Pageable pageable);
 
+    MessagePaginatedResponse findAllByTask(UUID task, Pageable pageable);
+
 }

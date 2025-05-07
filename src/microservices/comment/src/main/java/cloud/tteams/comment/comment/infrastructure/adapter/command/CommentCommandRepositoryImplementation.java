@@ -34,9 +34,10 @@ public class CommentCommandRepositoryImplementation implements ICommentCommandRe
     }
 
     @Override
-    public void delete(UUID commentId) {
+    public Comment delete(UUID commentId) {
         CommentEntity toDelete =
                 readDataJPARepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
-        jpaRepository.delete(toDelete);
+        toDelete.setDeleted(true);
+        return jpaRepository.save(toDelete).toAggregate();
     }
 }
