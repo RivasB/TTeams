@@ -5,8 +5,6 @@ import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.share.core.domain.event.EventType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 

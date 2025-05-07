@@ -7,7 +7,6 @@ import cloud.tteams.share.core.domain.event.message.notification.NotificationPri
 import cloud.tteams.share.core.domain.event.message.notification.NotificationStatus;
 import cloud.tteams.share.core.domain.service.IEventService;
 import cloud.tteams.comment.comment.domain.Comment;
-import io.jsonwebtoken.lang.Maps;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,5 @@
 package cloud.tteams.comment.comment.application.command.update;
 
-import cloud.tteams.comment.comment.domain.Comment;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
