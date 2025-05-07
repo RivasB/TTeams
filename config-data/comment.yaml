@@ -1,10 +1,10 @@
 # [Optional]Aplication server port
 server:
-  port: 8084
+  port: 8087
 
 spring:
   application:
-    name: project
+    name: comment
   jpa:
     database: default
     properties:
@@ -20,14 +20,14 @@ spring:
   # [Required]PostgreSQL Write database data source
   datasource:
     driverClassName: org.postgresql.Driver
-    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_PROJECT}
+    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_COMMENT}
     username: ${POSTGRES_DB_USERNAME}
     password: ${POSTGRES_DB_PASSWORD}
 
   # [Required]PostgreSQL Read database data source
   read-datasource:
     driverClassName: org.postgresql.Driver
-    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_PROJECT}
+    url: ${POSTGRES_DB_URL}/${POSTGRES_DB_COMMENT}
     username: ${POSTGRES_DB_USERNAME}
     password: ${POSTGRES_DB_PASSWORD}
 
@@ -61,7 +61,7 @@ kafka:
     address: ${KAFKA_BOOTSTRAP_ADDRESS}
   # KafkaMessengers
   messenger:
-    project: true
+    comment: true
 
 # Eureka
 eureka:
