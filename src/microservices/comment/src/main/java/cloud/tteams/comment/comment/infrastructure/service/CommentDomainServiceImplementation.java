@@ -47,10 +47,8 @@ public class CommentDomainServiceImplementation implements ICommentDomainService
 
     @Override
     public void update(Comment comment) {
-        Comment toUpdateComment = findById(comment.getId());
-        toUpdateComment.update(comment);
-        commandRepository.update(toUpdateComment);
-        publishEvent(toUpdateComment, EventType.UPDATED);
+        Comment updated = commandRepository.update(comment);
+        publishEvent(updated, EventType.UPDATED);
     }
 
     @Override

@@ -3,17 +3,19 @@ package cloud.tteams.comment.comment.application.query.getall;
 import cloud.tteams.share.core.domain.bus.query.IQuery;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public class GetAllCommentQuery implements IQuery {
 
-    private final String task;
+    private final UUID task;
     private final Pageable pageable;
 
-    public GetAllCommentQuery(String task, Pageable pageable) {
+    public GetAllCommentQuery(UUID task, Pageable pageable) {
         this.task = task;
         this.pageable = pageable;
     }
 
-    public String getTask() {
+    public UUID getTask() {
         return task;
     }
 

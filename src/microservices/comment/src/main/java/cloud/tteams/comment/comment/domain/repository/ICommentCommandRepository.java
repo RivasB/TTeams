@@ -8,7 +8,7 @@ public interface ICommentCommandRepository {
 
     void create(Comment project);
 
-    void update(Comment project);
+    Comment update(Comment project);
 
     Comment delete(UUID projectId);
 }

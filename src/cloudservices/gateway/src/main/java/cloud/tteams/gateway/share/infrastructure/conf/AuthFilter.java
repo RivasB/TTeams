@@ -49,6 +49,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
                     })
                     .bodyToMono(ValidateTokenRequest.class)
                     .map(t -> {
+                        //TODO: extraer y agregar header se sesion de usuario a la llamada
                         return exchange;
                     }).flatMap(chain::filter);
         }));

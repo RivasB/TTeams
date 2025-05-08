@@ -33,7 +33,7 @@ public class UserSessionFilter implements Filter {
             UserContext.setUserSession(userSession);
         }
         else {
-            UserSession userSession = new UserSession(UUID.randomUUID(), "anonymous");
+            UserSession userSession = new UserSession(UUID.randomUUID(), "anonymous/system");
             UserContext.setUserSession(userSession);
         }
         try {

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +25,7 @@ public class CommentEntity extends Auditable {
     @Column(nullable = false)
     private UUID task;
 
-    @Column(nullable = false, columnDefinition = "BARCHART(4000)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(4000)")
     private String body;
 
     @Column(nullable = false)
@@ -59,5 +60,30 @@ public class CommentEntity extends Auditable {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void update(Comment comment){
+        Optional.ofNullable(comment.getBody()).ifPresent(valor ->
+                this.body = valor);
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public UUID getTask() {
+        return task;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

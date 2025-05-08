@@ -6,5 +6,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(Suite.class)
 //@Suite.SuiteClasses({ProjectDomainServiceTest.class})
 @SpringBootTest
-public class ProjectManagementApplicationTests {
+public class CommentApplicationTests {
 }

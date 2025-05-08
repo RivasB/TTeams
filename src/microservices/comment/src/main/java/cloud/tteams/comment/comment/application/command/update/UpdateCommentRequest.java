@@ -11,31 +11,15 @@ public class UpdateCommentRequest {
     private final UUID id;
 
     @NotBlank @NotNull
-    private final String author;
-
-    @NotNull
-    private final UUID task;
-
-    @NotBlank @NotNull
     private final String body;
 
-    public UpdateCommentRequest(UUID id, String author, UUID task, String body) {
+    public UpdateCommentRequest(UUID id, String body) {
         this.id = id;
-        this.author = author;
-        this.task = task;
         this.body = body;
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public UUID getTask() {
-        return task;
     }
 
     public String getBody() {

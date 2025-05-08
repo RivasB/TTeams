@@ -45,31 +45,32 @@ public class ProjectCommandRepositoryImplementation implements IProjectCommandRe
         ProjectEntity entityToUpdate =
                 readDataJPARepository.findById(project.getId().getValue()).orElseThrow(ProjectNotFoundException::new);
         Project toUpdateProject = entityToUpdate.toAggregate();
-        if (project.getStartDate() != null) {
-            if (project.getEstimatedEndDate() != null){
+        if (project.getStartDate().getValue() != null) {
+            if (project.getEstimatedEndDate().getValue() != null){
                 RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(project.getStartDate(), project.getEstimatedEndDate()));
             }
             else {
                 RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(project.getStartDate(), toUpdateProject.getEstimatedEndDate()));
             }
-        } else if (project.getEstimatedEndDate() != null) {
+        } else if (project.getEstimatedEndDate().getValue() != null) {
             RulesChecker.checkRule(new ProjectStartDateMustBeBeforeEstimatedEndDate(toUpdateProject.getStartDate(), project.getEstimatedEndDate()));
         }
-        Field[] fields = project.getClass().getDeclaredFields();
+        ProjectEntity newEntity = ProjectEntity.toUpdate(project);
+        Field[] fields = entityToUpdate.getClass().getDeclaredFields();
         try  {
             for (Field attrib : fields) {
                 attrib.setAccessible(true);
-                Object value = attrib.get(project);
-                Object valueToUpdate = attrib.get(toUpdateProject);
+                Object value = attrib.get(newEntity);
+                Object valueToUpdate = attrib.get(entityToUpdate);
                 if (value != null && !value.equals(valueToUpdate)
                         && attrib.getType().isAssignableFrom(value.getClass())) {
-                    attrib.set(toUpdateProject, value);
+                    attrib.set(entityToUpdate, value);
                 }
             }
         } catch (IllegalAccessException e){
             logService.error(e.getMessage(), project, e);
         }
-        jpaRepository.save(new ProjectEntity(toUpdateProject));
+        jpaRepository.save(entityToUpdate);
         return toUpdateProject;
     }
 

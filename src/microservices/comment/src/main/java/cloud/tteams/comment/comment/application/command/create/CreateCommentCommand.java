@@ -12,21 +12,18 @@ public class CreateCommentCommand implements ICommand {
 
     private final UUID id;
 
-    private final String author;
-
     private final UUID task;
 
     private final String body;
 
     public CreateCommentCommand(CreateCommentRequest request) {
-        this.task = request.getTask();
         this.id = UUID.randomUUID();
-        this.author = request.getAuthor();
+        this.task = request.getTask();
         this.body = request.getBody();
     }
 
     public Comment toAggregate(){
-        return new Comment(this.id, this.author, this.task, this.body);
+        return new Comment(this.id, null, this.task, this.body);
     }
 
     @Override

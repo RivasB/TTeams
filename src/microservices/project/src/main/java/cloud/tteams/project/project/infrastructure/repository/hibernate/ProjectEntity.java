@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -51,6 +52,17 @@ public class ProjectEntity {
     @Column
     private boolean deleted = false;
 
+    public ProjectEntity(UUID id, String name, String description, LocalDate startDate, LocalDate estimatedEndDate, ProjectStatus status, ProjectPriority priority, List<String> tags) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.estimatedEndDate = estimatedEndDate;
+        this.status = status;
+        this.priority = priority;
+        this.tags = tags;
+    }
+
     public void setAsDeleted(){
         this.deleted = true;
     }
@@ -67,6 +79,17 @@ public class ProjectEntity {
         this.status = Objects.requireNonNull(project.getStatus(), "Project status cannot be null");
         this.priority = project.getPriority();
         this.tags = project.getTags() != null ? project.getTags().value().stream().toList() : List.of();
+    }
+
+    public static ProjectEntity toUpdate(Project project) {
+        return new ProjectEntity(project.getId().value(),
+        project.getName().value(),
+        project.getDescription().value(),
+        project.getStartDate().value(),
+        project.getEstimatedEndDate().value(),
+        project.getStatus(),
+        project.getPriority(),
+        project.getTags().value() != null ? project.getTags().value().stream().toList(): null);
     }
 
     public Project toAggregate() {

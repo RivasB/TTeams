@@ -12,33 +12,19 @@ public class UpdateCommentCommand implements ICommand {
 
     private final UUID id;
 
-    private final String author;
-
-    private final UUID task;
-
     private final String body;
 
     public UpdateCommentCommand(UpdateCommentRequest request) {
         this.id = request.getId();
-        this.author = request.getAuthor();
-        this.task = request.getTask();
         this.body = request.getBody();
     }
 
     public Comment toAggregate(){
-        return new Comment(this.id, this.author, this.task, this.body);
+        return new Comment(this.id, null, null, this.body);
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public UUID getTask() {
-        return task;
     }
 
     public String getBody() {

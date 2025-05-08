@@ -7,23 +7,15 @@ import java.util.UUID;
 
 public class CreateCommentRequest{
 
-    @NotBlank @NotNull
-    private final String author;
-
     @NotNull
     private final UUID task;
 
     @NotBlank @NotNull
     private final String body;
 
-    public CreateCommentRequest(String author, UUID task, String body) {
-        this.author = author;
+    public CreateCommentRequest(UUID task, String body) {
         this.task = task;
         this.body = body;
-    }
-
-    public String getAuthor() {
-        return author;
     }
 
     public UUID getTask() {

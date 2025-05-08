@@ -3,21 +3,20 @@ package cloud.tteams.comment.comment.domain;
 
 import cloud.tteams.comment.comment.domain.rules.AuthorValidation;
 import cloud.tteams.comment.comment.domain.rules.BodyMinAndMaxExtension;
-import cloud.tteams.share.core.domain.AggregateRoot;
 import cloud.tteams.share.core.domain.rules.RulesChecker;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Comment extends AggregateRoot<Comment> {
+public class Comment {
     private final UUID id;
 
-    private final String author;
+    private String author;
 
     private final UUID task;
 
-    private String body;
+    private final String body;
 
     private LocalDateTime createdAt;
 
@@ -37,17 +36,6 @@ public class Comment extends AggregateRoot<Comment> {
         this.author = author;
         this.task = task;
         this.body = body;
-    }
-
-    @Override
-    public void update(Comment comment){
-        Optional.ofNullable(comment.getAuthor()).ifPresent(valor ->
-                RulesChecker.checkRule(new AuthorValidation(this.author, valor)));
-        Optional.ofNullable(comment.getBody()).ifPresent(valor ->
-        {
-            RulesChecker.checkRule(new BodyMinAndMaxExtension(valor));
-            this.body = valor;
-        });
     }
 
     public UUID getId() {
@@ -72,5 +60,9 @@ public class Comment extends AggregateRoot<Comment> {
 
     public UUID getTask() {
         return task;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

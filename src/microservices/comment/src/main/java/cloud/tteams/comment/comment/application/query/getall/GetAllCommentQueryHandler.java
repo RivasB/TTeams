@@ -5,8 +5,6 @@ import cloud.tteams.share.core.application.query.MessagePaginatedResponse;
 import cloud.tteams.share.core.domain.bus.query.IQueryHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class GetAllCommentQueryHandler implements IQueryHandler<GetAllCommentQuery, MessagePaginatedResponse> {
 
@@ -18,14 +16,8 @@ public class GetAllCommentQueryHandler implements IQueryHandler<GetAllCommentQue
 
     @Override
     public MessagePaginatedResponse handle(GetAllCommentQuery query) {
-        if ( !query.getTask().isEmpty() || !query.getTask().isBlank() || query.getTask() != null) {
-            try {
-                UUID taskId = UUID.fromString(query.getTask());
-                return commentDomainService.findAllByTask(taskId, query.getPageable());
-            }
-            catch (Exception e) {
-                throw new IllegalArgumentException("Invalid task ID format: " + query.getTask(), e);
-            }
+        if (query.getTask() != null) {
+            return commentDomainService.findAllByTask(query.getTask(), query.getPageable());
         }
         else {
             return commentDomainService.findAll(query.getPageable());
