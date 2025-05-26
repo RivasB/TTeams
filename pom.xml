@@ -40,7 +40,7 @@
 		<module>src/microservices/comment</module>
 		<module>src/microservices/log</module>
 		<module>src/microservices/notification</module>
-		<module>src/microservices/sprint</module>
+		<module>src/microservices/task</module>
 		<module>src/microservices/team</module>
 		<module>src/packages/share</module>
 	</modules>

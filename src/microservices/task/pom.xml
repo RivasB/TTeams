@@ -10,10 +10,10 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>cloud.tteams</groupId>
-    <artifactId>team</artifactId>
+    <artifactId>task</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>team</name>
-    <description>Station microservice for TTeams</description>
+    <name>task</name>
+    <description>Task microservice for TTeams</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -41,11 +41,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
