@@ -41,4 +41,48 @@ public class CreateTaskCommand implements ICommand {
     public ICommandMessage getMessage() {
         return new CommandMessage(this.id, "CREATED");
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public UUID getProject() {
+        return project;
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public Collection<String> getTags() {
+        return tags;
+    }
+
+    public UUID getAssignedUser() {
+        return assignedUser;
+    }
+
+    public UUID getParentTask() {
+        return parentTask;
+    }
+
+    public UUID getSprint() {
+        return sprint;
+    }
+
+    public Integer getEstimatedEffort() {
+        return estimatedEffort;
+    }
 }

@@ -1,8 +1,8 @@
 package cloud.tteams.task.task.application.command.update;
 
-import cloud.tteams.task.task.application.query.TaskReferenceResponse;
 import cloud.tteams.task.task.domain.valueobject.TaskPriority;
 import cloud.tteams.task.task.domain.valueobject.TaskType;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -10,20 +10,21 @@ import java.util.UUID;
 
 public class UpdateTaskRequest {
 
+    @NotNull(message = "Task id can not be null on update")
     private final UUID id;
     private final String name;
     private final String description;
     private final LocalDate estimatedEndDate;
     private final UUID project;
     private final UUID reportingUser;
-    private final TaskReferenceResponse parentTask;
-    private final TaskReferenceResponse blockedBy;
+    private final UUID parentTask;
+    private final UUID blockedBy;
     private final Integer effort;
     private final TaskType type;
     private final TaskPriority priority;
     private final Collection<String> tags;
 
-    public UpdateTaskRequest(UUID id, String name, String description, LocalDate estimatedEndDate, UUID project, UUID reportingUser, TaskReferenceResponse parentTask, TaskReferenceResponse blockedBy, Integer effort, TaskType type, TaskPriority priority, Collection<String> tags) {
+    public UpdateTaskRequest(UUID id, String name, String description, LocalDate estimatedEndDate, UUID project, UUID reportingUser, UUID parentTask, UUID blockedBy, Integer effort, TaskType type, TaskPriority priority, Collection<String> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,12 +63,12 @@ public class UpdateTaskRequest {
         return reportingUser;
     }
 
-    public TaskReferenceResponse getParentTask() {
-        return parentTask;
+    public UUID getBlockedBy() {
+        return blockedBy;
     }
 
-    public TaskReferenceResponse getBlockedBy() {
-        return blockedBy;
+    public UUID getParentTask() {
+        return parentTask;
     }
 
     public Integer getEffort() {

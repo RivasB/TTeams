@@ -105,23 +105,23 @@ package cloud.tteams.task.task.infrastructure.repository.hibernate;
         }
 
         public TaskEntity(Task task) {
-            this.id = task.getId().value();
-            this.name = task.getName().value();
-            this.description = task.getDescription().value();
-            this.createdDate = task.getCreatedDate().value();
-            this.startDate = task.getStartDate().value();
-            this.estimatedEndDate = task.getEstimatedEndDate().value();
-            this.completionDate = task.getCompletionDate().value();
-            this.loggedTime = task.getLoggedTime().value();
-            this.project = task.getProject().value();
-            this.assignedUser = task.getAssignedUser().value();
-            this.reportingUser = task.getReportingUser().value();
-            this.sprint = task.getSprint() != null ? task.getSprint().value() : null;
-            this.effort = task.getEffort() != null ? task.getEffort().value() : null;
-            this.type = task.getType();
-            this.status = task.getStatus();
-            this.priority = task.getPriority();
-            this.tags = (List<String>) task.getTags().getValue();
+           this.id = task.getId().value();
+           this.name = task.getName().value();
+           this.description = task.getDescription() != null ? task.getDescription().value() : null;
+           this.createdDate = task.getCreatedDate() != null ? task.getCreatedDate().value() : null;
+           this.startDate = task.getStartDate() != null ? task.getStartDate().value() : null;
+           this.estimatedEndDate = task.getEstimatedEndDate() != null ? task.getEstimatedEndDate().value() : null;
+           this.completionDate = task.getCompletionDate() != null ? task.getCompletionDate().value() : null;
+           this.loggedTime = task.getLoggedTime() != null ? task.getLoggedTime().value() : null;
+           this.project = task.getProject().value();
+           this.assignedUser = task.getAssignedUser() != null ? task.getAssignedUser().value() : null;
+           this.reportingUser = task.getReportingUser() != null ? task.getReportingUser().value() : null;
+           this.sprint = task.getSprint() != null ? task.getSprint().value() : null;
+           this.effort = task.getEffort() != null ? task.getEffort().value() : 0;
+           this.type = task.getType() != null ? task.getType() : null;
+           this.status = task.getStatus() != null ? task.getStatus() : null;
+           this.priority = task.getPriority() != null ? task.getPriority() : null;
+           this.tags = task.getTags() != null ? (List<String>) task.getTags().getValue() : null;
         }
 
         public void update(Task task) {
@@ -132,27 +132,19 @@ package cloud.tteams.task.task.infrastructure.repository.hibernate;
                 if (task.getCompletionDate() != null) this.completionDate = task.getCompletionDate().value();
                 if (task.getLoggedTime() != null) this.loggedTime = task.getLoggedTime().value();
                 if (task.getProject() != null) this.project = task.getProject().value();
-                if (task.getAssignedUser() != null) this.assignedUser = task.getAssignedUser().value();
+                if (task.getAssignedUser() != null) assignUser(task.getAssignedUser().value());
                 if (task.getReportingUser() != null) this.reportingUser = task.getReportingUser().value();
-                if (task.getSprint() != null) this.sprint = task.getSprint().value();
-                if (task.getEffort() != null) this.effort = task.getEffort().value();
+                if (task.getSprint() != null) setOrChangeSprint(task.getSprint().value());
+                if (task.getEffort() != null) setEffort(task.getEffort().value());
                 if (task.getType() != null) this.type = task.getType();
-                if (task.getStatus() != null) this.status = task.getStatus();
+                if (task.getStatus() != null) changeStatus(task.getStatus());
                 if (task.getPriority() != null) this.priority = task.getPriority();
                 if (task.getTags() != null) this.tags = (List<String>) task.getTags().getValue();
             }
 
             public Task toAggregate() {
-                TaskReference parentTask = this.parentTask != null ?
-                        new TaskReference(
-                                new TaskId(this.parentTask.id),
-                                new TaskName(this.parentTask.name)
-                        ) : null;
-                TaskReference blockedBy = this.blockedBy != null ?
-                        new TaskReference(
-                                new TaskId(this.blockedBy.id),
-                                new TaskName(this.blockedBy.name)
-                        ) : null;
+                Task parentTask = this.parentTask != null ? this.parentTask.toAggregate() : null;
+                Task blockedBy = this.blockedBy != null ? this.blockedBy.toAggregate() : null;
                 return new Task(
                     new TaskId(this.id),
                     new TaskName(this.name),

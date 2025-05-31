@@ -32,17 +32,23 @@
 	</dependencies>
 
 	<modules>
+
+		<!-- orchestration services -->
 		<module>src/cloudservices/config</module>
 		<module>src/cloudservices/registry</module>
 		<module>src/cloudservices/gateway</module>
+
+		<!-- business services -->
 		<module>src/microservices/identity</module>
 		<module>src/microservices/project</module>
 		<module>src/microservices/comment</module>
 		<module>src/microservices/log</module>
 		<module>src/microservices/notification</module>
 		<module>src/microservices/task</module>
-		<module>src/microservices/team</module>
+
+		<!-- core packages -->
 		<module>src/packages/share</module>
+
 	</modules>
 
 	<build>

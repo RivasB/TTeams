@@ -26,9 +26,9 @@ public class Task {
 
     private final TaskReportingUser reportingUser;
 
-    private final TaskReference parentTask;
+    private final Task parentTask;
 
-    private final TaskReference blockedBy;
+    private final Task blockedBy;
 
     private final TaskSprint sprint;
 
@@ -42,7 +42,8 @@ public class Task {
 
     private final TaskTags tags;
 
-    public Task(TaskId id, TaskName name, TaskDescription description, TaskCreatedDate createdDate, TaskStartDate startDate, TaskEstimatedEndDate estimatedEndDate, TaskCompletionDate completionDate, TaskLoggedTime loggedTime, TaskProject project, TaskAssignedUser assignedUser, TaskReportingUser reportingUser, TaskReference parentTask, TaskReference blockedBy, TaskSprint sprint, TaskEstimatedEffort effort, TaskType type, TaskStatus status, TaskPriority priority, TaskTags tags) {
+
+    public Task(TaskId id, TaskName name, TaskDescription description, TaskCreatedDate createdDate, TaskStartDate startDate, TaskEstimatedEndDate estimatedEndDate, TaskCompletionDate completionDate, TaskLoggedTime loggedTime, TaskProject project, TaskAssignedUser assignedUser, TaskReportingUser reportingUser, Task parentTask, Task blockedBy, TaskSprint sprint, TaskEstimatedEffort effort, TaskType type, TaskStatus status, TaskPriority priority, TaskTags tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -72,36 +73,12 @@ public class Task {
         return name;
     }
 
-    public TaskLoggedTime getLoggedTime() {
-        return loggedTime;
-    }
-
-    public TaskProject getProject() {
-        return project;
-    }
-
-    public TaskType getType() {
-        return type;
-    }
-
-    public TaskSprint getSprint() {
-        return sprint;
-    }
-
-    public TaskCompletionDate getCompletionDate() {
-        return completionDate;
-    }
-
-    public TaskEstimatedEffort getEffort() {
-        return effort;
+    public TaskDescription getDescription() {
+        return description;
     }
 
     public TaskCreatedDate getCreatedDate() {
         return createdDate;
-    }
-
-    public TaskDescription getDescription() {
-        return description;
     }
 
     public TaskStartDate getStartDate() {
@@ -112,28 +89,52 @@ public class Task {
         return estimatedEndDate;
     }
 
-    public TaskStatus getStatus() {
-        return status;
+    public TaskCompletionDate getCompletionDate() {
+        return completionDate;
     }
 
-    public TaskPriority getPriority() {
-        return priority;
+    public TaskLoggedTime getLoggedTime() {
+        return loggedTime;
+    }
+
+    public TaskProject getProject() {
+        return project;
+    }
+
+    public TaskAssignedUser getAssignedUser() {
+        return assignedUser;
     }
 
     public TaskReportingUser getReportingUser() {
         return reportingUser;
     }
 
-    public TaskReference getParentTask() {
+    public Task getParentTask() {
         return parentTask;
     }
 
-    public TaskReference getBlockedBy() {
+    public Task getBlockedBy() {
         return blockedBy;
     }
 
-    public TaskAssignedUser getAssignedUser() {
-        return assignedUser;
+    public TaskSprint getSprint() {
+        return sprint;
+    }
+
+    public TaskEstimatedEffort getEffort() {
+        return effort;
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
     }
 
     public TaskTags getTags() {
