@@ -22,6 +22,8 @@ springdoc:
         url: /notification/v3/api-docs
       - name: Servicio Comentarios
         url: /comment/v3/api-docs
+      - name: Servicio Task
+        url: /task/v3/api-docs
 
 # Spring Cloud Gateway configuration
 spring:
@@ -104,6 +106,15 @@ spring:
             - RewritePath=/comment(?<segment>/?.*), /$\{segment}
             - AuthFilter
 
+        # Task API routes (Ruta principal para la API de tareas)
+        - id: task-service
+          uri: lb://task
+          predicates:
+            - Path=/task/api/**
+          filters:
+            - RewritePath=/task(?<segment>/?.*), /$\{segment}
+            - AuthFilter
+
         # === RUTAS PARA SWAGGER/OPENAPI DOCS ===
         # Estas rutas son necesarias porque los paths /v3/api-docs no son capturados por las rutas de API (/identity/api/**, /project/api/**)
         # Permiten que Swagger UI (a través de "springdoc.swagger-ui.urls") solicite las definiciones de cada micro-servicio.
@@ -147,6 +158,14 @@ spring:
             - Path=/comment/v3/api-docs/**
           filters:
             - RewritePath=/comment(?<segment>/?.*), /$\{segment}
+
+        # Ruta para obtener la documentación OpenAPI del servicio 'task'
+        - id: task-api-docs
+          uri: lb://task
+          predicates:
+            - Path=/task/v3/api-docs/**
+          filters:
+            - RewritePath=/task(?<segment>/?.*), /$\{segment}
 
 # Eureka client configuration
 eureka:
