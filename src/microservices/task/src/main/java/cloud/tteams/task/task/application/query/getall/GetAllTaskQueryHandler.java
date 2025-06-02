@@ -16,7 +16,7 @@ public class GetAllTaskQueryHandler implements IQueryHandler<GetAllTaskQuery, Me
 
     @Override
     public MessagePaginatedResponse handle(GetAllTaskQuery query) {
-        if (query.getFilters().isEmpty()) {
+        if (query.getFilters() == null || query.getFilters().isEmpty()) {
             return taskDomainService.findAll(query.getPageable());
         }
         else {

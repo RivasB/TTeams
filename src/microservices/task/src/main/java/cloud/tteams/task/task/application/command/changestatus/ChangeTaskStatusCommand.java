@@ -1,5 +1,6 @@
 package cloud.tteams.task.task.application.command.changestatus;
 
+import cloud.tteams.share.core.application.command.CommandMessage;
 import cloud.tteams.share.core.domain.bus.command.ICommand;
 import cloud.tteams.share.core.domain.bus.command.ICommandMessage;
 import cloud.tteams.task.task.domain.valueobject.TaskStatus;
@@ -18,7 +19,7 @@ public class ChangeTaskStatusCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return null;
+        return new CommandMessage(this.id, "CHANGE_TASK_STATUS");
     }
 
     public TaskStatus getStatus() {
