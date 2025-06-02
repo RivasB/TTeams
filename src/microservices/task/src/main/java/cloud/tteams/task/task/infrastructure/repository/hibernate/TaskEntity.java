@@ -82,28 +82,6 @@ package cloud.tteams.task.task.infrastructure.repository.hibernate;
         protected TaskEntity() {
         }
 
-        public TaskEntity(Task task, TaskEntity parentTask, TaskEntity blockedBy) {
-            this.id = task.getId().value();
-            this.name = task.getName().value();
-            this.description = task.getDescription().value();
-            this.createdDate = task.getCreatedDate().value();
-            this.startDate = task.getStartDate().value();
-            this.estimatedEndDate = task.getEstimatedEndDate().value();
-            this.completionDate = task.getCompletionDate().value();
-            this.loggedTime = task.getLoggedTime().value();
-            this.project = task.getProject().value();
-            this.assignedUser = task.getAssignedUser().value();
-            this.reportingUser = task.getReportingUser().value();
-            this.parentTask = parentTask;
-            this.blockedBy = blockedBy;
-            this.sprint = task.getSprint() != null ? task.getSprint().value() : null;
-            this.effort = task.getEffort() != null ? task.getEffort().value() : null;
-            this.type = task.getType();
-            this.status = task.getStatus();
-            this.priority = task.getPriority();
-            this.tags = (List<String>) task.getTags().getValue();
-        }
-
         public TaskEntity(Task task) {
            this.id = task.getId().value();
            this.name = task.getName().value();
@@ -212,5 +190,86 @@ package cloud.tteams.task.task.infrastructure.repository.hibernate;
             this.effort = effort;
         }
 
+        public void logTime(Integer time) {
+            if (time == null || time <= 0) {
+                throw new IllegalArgumentException("Time must be a non-negative integer");
+            }
+            this.loggedTime = this.loggedTime == null ? time : this.loggedTime + time;
+        }
 
+        public UUID getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public LocalDate getCreatedDate() {
+            return createdDate;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEstimatedEndDate() {
+            return estimatedEndDate;
+        }
+
+        public LocalDate getCompletionDate() {
+            return completionDate;
+        }
+
+        public Integer getLoggedTime() {
+            return loggedTime;
+        }
+
+        public UUID getProject() {
+            return project;
+        }
+
+        public UUID getAssignedUser() {
+            return assignedUser;
+        }
+
+        public UUID getReportingUser() {
+            return reportingUser;
+        }
+
+        public TaskEntity getParentTask() {
+            return parentTask;
+        }
+
+        public TaskEntity getBlockedBy() {
+            return blockedBy;
+        }
+
+        public UUID getSprint() {
+            return sprint;
+        }
+
+        public Integer getEffort() {
+            return effort;
+        }
+
+        public TaskType getType() {
+            return type;
+        }
+
+        public TaskStatus getStatus() {
+            return status;
+        }
+
+        public TaskPriority getPriority() {
+            return priority;
+        }
+
+        public List<String> getTags() {
+            return tags;
+        }
     }

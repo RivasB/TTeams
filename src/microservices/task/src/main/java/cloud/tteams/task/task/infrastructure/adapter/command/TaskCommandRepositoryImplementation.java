@@ -2,8 +2,7 @@ package cloud.tteams.task.task.infrastructure.adapter.command;
 
 import cloud.tteams.task.task.domain.Task;
 import cloud.tteams.task.task.domain.repository.ITaskCommandRepository;
-import cloud.tteams.task.task.domain.valueobject.TaskAssignedUser;
-import cloud.tteams.task.task.domain.valueobject.TaskId;
+import cloud.tteams.task.task.domain.valueobject.*;
 import cloud.tteams.task.task.infrastructure.adapter.query.ITaskQueryJPARepository;
 import cloud.tteams.task.task.infrastructure.exception.TaskNotFoundException;
 import cloud.tteams.task.task.infrastructure.repository.hibernate.TaskEntity;
@@ -46,6 +45,34 @@ public class TaskCommandRepositoryImplementation implements ITaskCommandReposito
         TaskEntity toAssign = getExistingTask(id);
         toAssign.assignUser(user.value());
         jpaRepository.save(toAssign);
+    }
+
+    @Override
+    public void changeStatus(TaskId id, TaskStatus status) {
+        TaskEntity toChange = getExistingTask(id);
+        toChange.changeStatus(status);
+        jpaRepository.save(toChange);
+    }
+
+    @Override
+    public void logTime(TaskId id, TaskLoggedTime time) {
+        TaskEntity toLog = getExistingTask(id);
+        toLog.logTime(time.getValue());
+        jpaRepository.save(toLog);
+    }
+
+    @Override
+    public void setEffort(TaskId id, TaskEstimatedEffort effort) {
+        TaskEntity toSet = getExistingTask(id);
+        toSet.logTime(effort.value());
+        jpaRepository.save(toSet);
+    }
+
+    @Override
+    public void setOrChangeSprint(TaskId id, TaskSprint sprint) {
+        TaskEntity toSet = getExistingTask(id);
+        toSet.setOrChangeSprint(sprint.value());
+        jpaRepository.save(toSet);
     }
 
     private TaskEntity getExistingTask(TaskId taskId) {

@@ -5,13 +5,15 @@ import cloud.tteams.task.task.domain.Task;
 import cloud.tteams.task.task.domain.valueobject.*;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
+
 public interface ITaskDomainService {
 
     void create(Task task);
 
     void update(Task task);
 
-    void delete(TaskId taskId);
+    void delete(TaskId id);
 
     void assign(TaskId id, TaskAssignedUser user);
 
@@ -21,10 +23,12 @@ public interface ITaskDomainService {
 
     void setEffort(TaskId id, TaskEstimatedEffort effort);
 
-    void setOrChangeSprint(TaskId taskId, TaskSprint sprint);
+    void setOrChangeSprint(TaskId id, TaskSprint sprint);
 
     Task findById(TaskId id);
 
     MessagePaginatedResponse findAll(Pageable pageable);
+
+    MessagePaginatedResponse findAllFiltered(Map<String, Object> filters, Pageable pageable);
 
 }

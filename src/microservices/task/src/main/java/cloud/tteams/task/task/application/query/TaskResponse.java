@@ -1,5 +1,6 @@
 package cloud.tteams.task.task.application.query;
 
+import cloud.tteams.share.core.domain.bus.query.IResponse;
 import cloud.tteams.task.task.domain.Task;
 import cloud.tteams.task.task.domain.valueobject.TaskPriority;
 import cloud.tteams.task.task.domain.valueobject.TaskStatus;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.UUID;
 
-public class TaskResponse {
+public class TaskResponse implements IResponse {
 
     private final UUID id;
     private final String name;
@@ -32,25 +33,25 @@ public class TaskResponse {
     private final Collection<String> tags;
 
     public TaskResponse(Task task) {
-        this.id = task.getId().value();
-        this.name = task.getName().value();
-        this.description = task.getDescription().value();
-        this.createdDate = task.getCreatedDate().value();
-        this.startDate = task.getStartDate().value();
-        this.estimatedEndDate = task.getEstimatedEndDate().value();
-        this.completionDate = task.getCompletionDate().value() != null ? task.getCompletionDate().value() : null;
-        this.loggedTime = task.getLoggedTime().value();
-        this.project = task.getProject().value();
-        this.assignedUser = task.getAssignedUser().value();
-        this.reportingUser = task.getReportingUser().value();
+        this.id = task.getId() != null ? task.getId().value() : null;
+        this.name = task.getName() != null ? task.getName().value() : null;
+        this.description = task.getDescription() != null ? task.getDescription().value() : null;
+        this.createdDate = task.getCreatedDate() != null ? task.getCreatedDate().value() : null;
+        this.startDate = task.getStartDate() != null ? task.getStartDate().value() : null;
+        this.estimatedEndDate = task.getEstimatedEndDate() != null ? task.getEstimatedEndDate().value() : null;
+        this.completionDate = task.getCompletionDate() != null && task.getCompletionDate().value() != null ? task.getCompletionDate().value() : null;
+        this.loggedTime = task.getLoggedTime() != null ? task.getLoggedTime().value() : null;
+        this.project = task.getProject() != null ? task.getProject().value() : null;
+        this.assignedUser = task.getAssignedUser() != null ? task.getAssignedUser().value() : null;
+        this.reportingUser = task.getReportingUser() != null ? task.getReportingUser().value() : null;
         this.parentTask = task.getParentTask() != null ? new TaskReferenceResponse(task.getParentTask()) : null;
         this.blockedBy = task.getBlockedBy() != null ? new TaskReferenceResponse(task.getBlockedBy()) : null;
         this.sprint = task.getSprint() != null ? task.getSprint().value() : null;
         this.effort = task.getEffort() != null ? task.getEffort().value() : null;
-        this.type = task.getType();
-        this.status = task.getStatus();
-        this.priority = task.getPriority();
-        this.tags = task.getTags().getValue();
+        this.type = task.getType() != null ? task.getType() : null;
+        this.status = task.getStatus() != null ? task.getStatus() : null;
+        this.priority = task.getPriority() != null ? task.getPriority() : null;
+        this.tags = task.getTags() != null ? task.getTags().getValue() : null;
     }
 
     public UUID getId() {
@@ -129,5 +130,4 @@ public class TaskResponse {
         return tags;
     }
 
-    // Getters for all fields can be added here if needed
 }
